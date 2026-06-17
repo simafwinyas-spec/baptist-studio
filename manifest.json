@@ -1,0 +1,27 @@
+{
+  "name": "Baptist Studio",
+  "short_name": "Baptist Studio",
+  "description": "Where every Baptist church gathers — read the Word, follow your church, give, and stay connected.",
+  "start_url": "/app.html",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0B0910",
+  "theme_color": "#0B0910",
+  "categories": ["lifestyle", "religion"],
+  "icons": [
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='114' fill='%230B0910'/%3E%3Cellipse cx='256' cy='256' rx='190' ry='158' stroke='%23E0392E' stroke-width='18' fill='none' transform='rotate(-22 256 256)'/%3E%3Cellipse cx='256' cy='256' rx='180' ry='175' stroke='%23B82A21' stroke-width='14' fill='none' transform='rotate(12 256 256)'/%3E%3Ctext x='256' y='330' text-anchor='middle' font-family='Georgia' font-size='210' font-weight='bold' fill='%23E0392E'%3EB%3C/text%3E%3C/svg%3E",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    { "name": "Bible", "url": "/bible.html", "description": "Open the Bible reader" },
+    { "name": "Prayer Wall", "url": "/prayer.html", "description": "Community prayer requests" },
+    { "name": "Find a Church", "url": "/directory.html", "description": "Browse the church directory" },
+    { "name": "Give", "url": "/give.html", "description": "Make a contribution" }
+  ],
+  "screenshots": []
+}

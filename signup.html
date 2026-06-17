@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Create Account — Baptist Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --red:#E0392E;--red-b:#FF5447;--red-d:#8E1F18;
+  --ink:#0B0910;--ink2:#110F18;--sur:#1A1626;--sur2:#221E30;--sur3:#2A263A;
+  --line:rgba(246,239,230,.07);--line2:rgba(246,239,230,.13);--line3:rgba(246,239,230,.22);
+  --cr:#F6EFE6;--cr2:rgba(246,239,230,.65);--cr3:rgba(246,239,230,.35);--cr4:rgba(246,239,230,.1);
+  --gold:#C9A55C;--goldf:rgba(201,165,92,.14);--goldb:rgba(201,165,92,.28);
+  --green:#3fcf6d;--greenf:rgba(63,207,109,.13);--greenb:rgba(63,207,109,.28);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:"Plus Jakarta Sans",sans-serif;background:var(--ink);color:var(--cr);-webkit-font-smoothing:antialiased;overflow:hidden}
+h1,h2,h3,.serif{font-family:"Cormorant Garamond",serif;font-weight:600;line-height:1.1}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:var(--sur3);border-radius:10px}
+
+/* ── LAYOUT ─────────────────────────── */
+.shell{display:grid;grid-template-columns:420px 1fr;height:100vh}
+
+/* ── LEFT PANEL ─────────────────────── */
+.left{position:relative;overflow:hidden;background:var(--ink2);display:flex;flex-direction:column;padding:36px 40px}
+.left::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 30% 20%,rgba(224,57,46,.22),transparent 55%),radial-gradient(ellipse at 70% 80%,rgba(201,165,92,.08),transparent 50%)}
+.l-rings{position:absolute;top:50%;left:50%;width:600px;height:600px;transform:translate(-50%,-50%);opacity:.12;pointer-events:none}
+.l-rings svg{width:100%;height:100%;animation:spin 80s linear infinite}
+.l-logo{position:relative;z-index:2;display:flex;align-items:center;gap:10px}
+.l-logo svg{width:32px;height:32px}
+.l-logo span{font-family:"Cormorant Garamond";font-size:1.2rem;font-weight:600}
+.l-main{flex:1;display:flex;flex-direction:column;justify-content:center;position:relative;z-index:2;padding:24px 0}
+.l-badge{display:inline-flex;align-items:center;gap:7px;background:var(--goldf);border:1px solid var(--goldb);border-radius:100px;padding:6px 14px;font-size:.7rem;font-weight:700;letter-spacing:.12em;color:var(--gold);text-transform:uppercase;margin-bottom:20px}
+.l-main h2{font-size:2.4rem;color:var(--cr);margin-bottom:14px}
+.l-main h2 em{font-style:italic;color:var(--red)}
+.l-main p{font-size:.92rem;color:var(--cr2);line-height:1.72;margin-bottom:28px}
+.l-features{display:flex;flex-direction:column;gap:14px;margin-bottom:32px}
+.l-feat{display:flex;align-items:center;gap:12px}
+.l-feat-ic{width:36px;height:36px;border-radius:10px;background:rgba(224,57,46,.12);border:1px solid rgba(224,57,46,.2);display:grid;place-items:center;font-size:1rem;flex:none}
+.l-feat-tx b{display:block;font-size:.86rem;color:var(--cr);font-weight:700}
+.l-feat-tx span{font-size:.75rem;color:var(--cr3)}
+.l-social{display:flex;gap:20px}
+.l-soc{text-align:center}
+.l-soc b{display:block;font-family:"Cormorant Garamond";font-size:1.6rem;color:var(--cr);font-weight:600;line-height:1}
+.l-soc span{font-size:.62rem;color:var(--cr3);font-weight:500}
+.l-footer{position:relative;z-index:2;margin-top:auto;font-size:.82rem;color:var(--cr3)}
+.l-footer a{color:var(--gold);font-weight:700;text-decoration:none}
+.l-footer a:hover{text-decoration:underline}
+
+/* ── RIGHT PANEL ────────────────────── */
+.right{overflow-y:auto;display:flex;flex-direction:column;background:var(--ink)}
+.r-inner{flex:1;display:flex;flex-direction:column;max-width:500px;margin:0 auto;width:100%;padding:40px 40px}
+.r-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:40px}
+.r-top-sign{font-size:.84rem;color:var(--cr3)}
+.r-top-sign a{color:var(--gold);font-weight:700;text-decoration:none}
+.r-top-sign a:hover{text-decoration:underline}
+.r-head{margin-bottom:28px}
+.r-head h3{font-size:1.8rem;color:var(--cr);margin-bottom:6px}
+.r-head p{font-size:.88rem;color:var(--cr3);line-height:1.6}
+
+/* STEPS */
+.steps{display:flex;gap:8px;margin-bottom:32px}
+.step-pill{flex:1;height:4px;border-radius:100px;background:var(--sur3);overflow:hidden;position:relative}
+.step-pill::after{content:"";position:absolute;left:0;top:0;bottom:0;width:0;background:var(--red);border-radius:100px;transition:width .5s cubic-bezier(.4,0,.2,1)}
+.step-pill.done::after{width:100%}
+.step-pill.active::after{width:100%}
+.step-labels{display:flex;justify-content:space-between;margin-top:8px;margin-bottom:28px}
+.sl{font-size:.68rem;font-weight:700;letter-spacing:.06em;color:var(--cr3);text-transform:uppercase;transition:color .3s}
+.sl.on{color:var(--red)}
+
+/* FORM PAGES */
+.form-page{display:none;animation:fadeUp .35s ease both}
+.form-page.on{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+
+/* FIELDS */
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.field{margin-bottom:18px}
+.field label{display:block;font-size:.76rem;font-weight:700;color:var(--cr2);margin-bottom:7px;letter-spacing:.04em}
+.field label .req{color:var(--red)}
+.field input,.field select,.field textarea{width:100%;background:var(--sur);border:1.5px solid var(--line2);border-radius:10px;padding:12px 14px;color:var(--cr);font-size:.92rem;font-family:inherit;outline:none;transition:border-color .2s,box-shadow .2s}
+.field input::placeholder,.field textarea::placeholder{color:var(--cr3)}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:rgba(224,57,46,.5);box-shadow:0 0 0 4px rgba(224,57,46,.08)}
+.field input.err,.field select.err{border-color:var(--red);background:rgba(224,57,46,.04)}
+.field .err-msg{font-size:.72rem;color:var(--red);margin-top:5px}
+.field select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23F6EFE6' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;cursor:pointer}
+.field select option{background:var(--sur)}
+.pw-wrap{position:relative}
+.pw-wrap input{padding-right:44px}
+.pw-eye{position:absolute;right:13px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--cr3);font-size:1rem;cursor:pointer;padding:4px;transition:color .2s}
+.pw-eye:hover{color:var(--cr2)}
+
+/* PASSWORD STRENGTH */
+.pw-strength{margin-top:8px}
+.pw-bars{display:flex;gap:4px;margin-bottom:4px}
+.pw-bar{flex:1;height:3px;border-radius:100px;background:var(--sur3);transition:background .3s}
+.pw-bar.w{background:#E0392E}
+.pw-bar.m{background:#f59e0b}
+.pw-bar.s{background:#3fcf6d}
+.pw-label{font-size:.68rem;color:var(--cr3)}
+
+/* CHURCH SEARCH */
+.church-search-wrap{position:relative;margin-bottom:14px}
+.cs-input{width:100%;background:var(--sur);border:1.5px solid var(--line2);border-radius:10px;padding:12px 14px 12px 40px;color:var(--cr);font-size:.92rem;font-family:inherit;outline:none;transition:border-color .2s,box-shadow .2s}
+.cs-input:focus{border-color:rgba(224,57,46,.5);box-shadow:0 0 0 4px rgba(224,57,46,.08)}
+.cs-icon{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--cr3);font-size:.9rem;pointer-events:none}
+.church-results{display:flex;flex-direction:column;gap:8px;max-height:280px;overflow-y:auto;padding-right:2px}
+.cr-card{display:flex;align-items:center;gap:12px;background:var(--sur);border:1.5px solid var(--line2);border-radius:12px;padding:12px 14px;cursor:pointer;transition:border-color .25s,background .25s}
+.cr-card:hover{border-color:rgba(224,57,46,.3);background:var(--sur2)}
+.cr-card.sel{border-color:var(--green);background:var(--greenf)}
+.cr-badge{width:40px;height:40px;border-radius:11px;display:grid;place-items:center;font-family:"Cormorant Garamond";font-weight:700;font-size:1.3rem;color:#fff;flex:none}
+.cr-info b{display:block;font-size:.86rem;color:var(--cr);font-weight:700}
+.cr-info small{font-size:.68rem;color:var(--cr3)}
+.cr-check{margin-left:auto;width:22px;height:22px;border-radius:50%;border:2px solid var(--line3);display:grid;place-items:center;font-size:.7rem;transition:all .2s;flex:none}
+.cr-card.sel .cr-check{background:var(--green);border-color:var(--green);color:#fff}
+.cr-selected-count{font-size:.78rem;color:var(--cr3);margin-top:10px;text-align:center}
+.cr-selected-count b{color:var(--green)}
+.cr-skip{display:block;text-align:center;font-size:.8rem;color:var(--cr3);margin-top:14px;cursor:pointer;padding:8px;border-radius:8px;transition:color .2s,background .2s}
+.cr-skip:hover{color:var(--cr2);background:var(--sur)}
+
+/* PREFERENCES */
+.pref-section{margin-bottom:24px}
+.pref-label{font-size:.76rem;font-weight:700;color:var(--cr2);letter-spacing:.04em;margin-bottom:12px;display:block}
+.pref-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.pref-item{display:flex;align-items:center;gap:10px;background:var(--sur);border:1.5px solid var(--line2);border-radius:10px;padding:11px 13px;cursor:pointer;transition:border-color .2s,background .2s}
+.pref-item.on{border-color:rgba(224,57,46,.35);background:rgba(224,57,46,.06)}
+.pref-item .pi-ic{font-size:1.1rem}
+.pref-item .pi-tx{font-size:.8rem;color:var(--cr2)}
+.pref-item.on .pi-tx{color:var(--cr)}
+.pref-check{width:18px;height:18px;border-radius:4px;border:1.5px solid var(--line3);margin-left:auto;display:grid;place-items:center;font-size:.65rem;transition:all .2s;flex:none}
+.pref-item.on .pref-check{background:var(--red);border-color:var(--red);color:#fff}
+.goal-items{display:flex;flex-direction:column;gap:8px}
+.goal-item{display:flex;align-items:center;gap:12px;background:var(--sur);border:1.5px solid var(--line2);border-radius:10px;padding:13px 14px;cursor:pointer;transition:all .2s}
+.goal-item:hover,.goal-item.on{border-color:rgba(201,165,92,.35);background:rgba(201,165,92,.05)}
+.goal-item.on .gi-radio{background:var(--gold);border-color:var(--gold)}
+.gi-radio{width:18px;height:18px;border-radius:50%;border:2px solid var(--line3);flex:none;transition:all .2s}
+.gi-info b{display:block;font-size:.84rem;color:var(--cr);font-weight:600}
+.gi-info small{font-size:.7rem;color:var(--cr3)}
+
+/* ACTION BUTTONS */
+.form-actions{display:flex;gap:12px;margin-top:28px}
+.btn-back{flex:none;padding:13px 20px;border-radius:100px;background:var(--sur);border:1.5px solid var(--line2);color:var(--cr2);font-weight:700;font-size:.9rem;transition:all .2s}
+.btn-back:hover{color:var(--cr);border-color:var(--line3)}
+.btn-next{flex:1;padding:14px;border-radius:100px;background:var(--red);color:#fff;border:none;font-weight:700;font-size:.95rem;box-shadow:0 6px 20px rgba(224,57,46,.35);transition:all .25s cubic-bezier(.34,1.56,.64,1)}
+.btn-next:hover{transform:scale(1.02);box-shadow:0 10px 28px rgba(224,57,46,.5)}
+.btn-next:disabled{opacity:.5;transform:none;box-shadow:none;cursor:not-allowed}
+.btn-load{display:flex;align-items:center;justify-content:center;gap:9px}
+.btn-spinner{width:18px;height:18px;border-radius:50%;border:2.5px solid rgba(255,255,255,.3);border-top-color:#fff;animation:spin .7s linear infinite;display:none}
+.btn-spinner.on{display:block}
+
+/* DIVIDER */
+.or-divider{display:flex;align-items:center;gap:12px;margin:20px 0;color:var(--cr3);font-size:.78rem;font-weight:600}
+.or-divider::before,.or-divider::after{content:"";flex:1;height:1px;background:var(--line2)}
+
+/* SOCIAL SIGN */
+.social-btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:12px;border-radius:100px;background:var(--sur);border:1.5px solid var(--line2);color:var(--cr2);font-weight:700;font-size:.9rem;transition:all .2s;margin-bottom:10px}
+.social-btn:hover{border-color:var(--line3);color:var(--cr);background:var(--sur2)}
+
+/* SUCCESS */
+.success-page{display:none;text-align:center;padding:20px 0;animation:fadeUp .5s ease both}
+.success-page.on{display:block}
+.success-ring{width:100px;height:100px;margin:0 auto 24px;position:relative}
+.sr-svg{width:100%;height:100%;animation:spin 8s linear infinite}
+.sr-check{position:absolute;inset:0;display:grid;place-items:center;font-size:2.5rem}
+.success-page h3{font-size:2.1rem;color:var(--cr);margin-bottom:10px}
+.success-page p{font-size:.9rem;color:var(--cr2);max-width:30em;margin:0 auto 28px;line-height:1.72}
+.success-churches{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:28px}
+.sc-badge{display:flex;align-items:center;gap:6px;background:var(--greenf);border:1px solid var(--greenb);border-radius:100px;padding:5px 12px;font-size:.76rem;color:var(--green);font-weight:700}
+.btn-profile{display:block;background:var(--red);color:#fff;padding:14px 36px;border-radius:100px;font-weight:700;font-size:.95rem;text-decoration:none;box-shadow:0 8px 24px rgba(224,57,46,.4);transition:all .25s;margin:0 auto 14px;width:fit-content}
+.btn-profile:hover{transform:translateY(-2px);box-shadow:0 14px 32px rgba(224,57,46,.55)}
+.btn-dir-link{font-size:.82rem;color:var(--cr3);cursor:pointer}
+.btn-dir-link:hover{color:var(--cr2)}
+
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* RESPONSIVE */
+@media(max-width:760px){
+  body{overflow:auto}
+  .shell{grid-template-columns:1fr;height:auto}
+  .left{display:none}
+  .right{min-height:100vh}
+  .r-inner{padding:28px 20px}
+  .field-row{grid-template-columns:1fr}
+  .pref-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="shell">
+  <!-- LEFT PANEL -->
+  <div class="left">
+    <div class="l-rings" aria-hidden="true">
+      <svg viewBox="0 0 600 600" fill="none">
+        <ellipse cx="300" cy="300" rx="260" ry="210" stroke="#E0392E" stroke-width="1.8" opacity=".7" transform="rotate(-20 300 300)"/>
+        <ellipse cx="300" cy="300" rx="240" ry="270" stroke="#E0392E" stroke-width="1.2" opacity=".5" transform="rotate(15 300 300)"/>
+        <ellipse cx="300" cy="300" rx="290" ry="190" stroke="#FF5447" stroke-width=".8" opacity=".3" transform="rotate(42 300 300)"/>
+      </svg>
+    </div>
+    <a href="baptist-studio.html" class="l-logo">
+      <svg viewBox="0 0 60 60" fill="none">
+        <ellipse cx="30" cy="30" rx="24" ry="20" stroke="#E0392E" stroke-width="2.2" transform="rotate(-22 30 30)" opacity=".92"/>
+        <ellipse cx="30" cy="30" rx="23" ry="22" stroke="#B82A21" stroke-width="1.8" transform="rotate(12 30 30)" opacity=".75"/>
+        <text x="30" y="41" text-anchor="middle" font-family="Georgia,serif" font-size="27" font-weight="bold" fill="#E0392E">B</text>
+      </svg>
+      <span>Baptist Studio</span>
+    </a>
+    <div class="l-main">
+      <div class="l-badge">For members</div>
+      <h2>Your faith journey<br>in <em>one place.</em></h2>
+      <p>Create your free account and stay connected to the churches, sermons, events and community that matter to you.</p>
+      <div class="l-features">
+        <div class="l-feat">
+          <div class="l-feat-ic">⛪</div>
+          <div class="l-feat-tx"><b>Follow your church</b><span>Get events, announcements &amp; updates</span></div>
+        </div>
+        <div class="l-feat">
+          <div class="l-feat-ic">📖</div>
+          <div class="l-feat-tx"><b>Bible reader</b><span>Highlights &amp; bookmarks saved across devices</span></div>
+        </div>
+        <div class="l-feat">
+          <div class="l-feat-ic">🙏</div>
+          <div class="l-feat-tx"><b>Prayer wall</b><span>Share and receive prayer from your community</span></div>
+        </div>
+        <div class="l-feat">
+          <div class="l-feat-ic">💝</div>
+          <div class="l-feat-tx"><b>Give online</b><span>Tithe and offering from anywhere, securely</span></div>
+        </div>
+      </div>
+      <div class="l-social">
+        <div class="l-soc"><b>28k+</b><span>Members</span></div>
+        <div class="l-soc"><b>120+</b><span>Churches</span></div>
+        <div class="l-soc"><b>9</b><span>Provinces</span></div>
+      </div>
+    </div>
+    <div class="l-footer">Already have an account? <a href="login.html">Sign in to your dashboard →</a></div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="right">
+    <div class="r-inner">
+      <div class="r-top">
+        <a href="baptist-studio.html" style="font-size:.86rem;color:var(--cr3);text-decoration:none;display:flex;align-items:center;gap:6px">← Back</a>
+        <div class="r-top-sign">Already a member? <a href="login.html">Sign in</a></div>
+      </div>
+
+      <!-- STEPS INDICATOR -->
+      <div class="steps">
+        <div class="step-pill active" id="pill1"></div>
+        <div class="step-pill" id="pill2"></div>
+        <div class="step-pill" id="pill3"></div>
+      </div>
+      <div class="step-labels">
+        <span class="sl on" id="sl1">Account</span>
+        <span class="sl" id="sl2">Your church</span>
+        <span class="sl" id="sl3">Preferences</span>
+      </div>
+
+      <!-- STEP 1: ACCOUNT -->
+      <div class="form-page on" id="page1">
+        <div class="r-head">
+          <h3>Create your account</h3>
+          <p>Free for all congregation members — no credit card needed.</p>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>First name <span class="req">*</span></label>
+            <input type="text" id="fn" placeholder="Joseph">
+          </div>
+          <div class="field">
+            <label>Last name <span class="req">*</span></label>
+            <input type="text" id="ln" placeholder="Sikalumba">
+          </div>
+        </div>
+        <div class="field">
+          <label>Email address <span class="req">*</span></label>
+          <input type="email" id="email" placeholder="joseph@example.com">
+        </div>
+        <div class="field">
+          <label>Phone number <span style="font-size:.68rem;font-weight:400;color:var(--cr3)">(optional)</span></label>
+          <input type="tel" id="phone" placeholder="+260 97 …">
+        </div>
+        <div class="field">
+          <label>Password <span class="req">*</span></label>
+          <div class="pw-wrap">
+            <input type="password" id="pw" placeholder="Minimum 8 characters" oninput="checkStrength(this.value)">
+            <button class="pw-eye" onclick="togglePw('pw',this)" type="button">👁</button>
+          </div>
+          <div class="pw-strength">
+            <div class="pw-bars">
+              <div class="pw-bar" id="pb1"></div>
+              <div class="pw-bar" id="pb2"></div>
+              <div class="pw-bar" id="pb3"></div>
+              <div class="pw-bar" id="pb4"></div>
+            </div>
+            <span class="pw-label" id="pwLbl">Enter a password</span>
+          </div>
+        </div>
+        <div class="field">
+          <label>Confirm password <span class="req">*</span></label>
+          <div class="pw-wrap">
+            <input type="password" id="pw2" placeholder="Repeat password">
+            <button class="pw-eye" onclick="togglePw('pw2',this)" type="button">👁</button>
+          </div>
+        </div>
+        <div class="or-divider">or sign up with</div>
+        <button class="social-btn" onclick="googleSignup()">
+          <svg width="18" height="18" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+          Continue with Google
+        </button>
+        <div class="form-actions" style="margin-top:8px">
+          <button class="btn-next btn-load" onclick="nextStep(1)">
+            <span id="s1txt">Continue →</span>
+            <span class="btn-spinner" id="s1spin"></span>
+          </button>
+        </div>
+        <p style="font-size:.72rem;color:var(--cr3);text-align:center;margin-top:14px;line-height:1.7">By creating an account you agree to our <a href="#" style="color:var(--gold)">Terms of Service</a> and <a href="#" style="color:var(--gold)">Privacy Policy</a>.</p>
+      </div>
+
+      <!-- STEP 2: YOUR CHURCH -->
+      <div class="form-page" id="page2">
+        <div class="r-head">
+          <h3>Find your church</h3>
+          <p>Search for the Baptist churches you attend or want to follow. You can add more later.</p>
+        </div>
+        <div class="church-search-wrap">
+          <span class="cs-icon">🔍</span>
+          <input class="cs-input" type="text" id="churchQ" placeholder="Search by church name or city…" oninput="filterChurches(this.value)">
+        </div>
+        <div class="church-results" id="churchResults"></div>
+        <div class="cr-selected-count" id="selCount"></div>
+        <span class="cr-skip" onclick="nextStep(2)">Skip — I'll choose my church later</span>
+        <div class="form-actions">
+          <button class="btn-back" onclick="prevStep(2)">← Back</button>
+          <button class="btn-next btn-load" onclick="nextStep(2)">
+            <span id="s2txt">Continue →</span>
+            <span class="btn-spinner" id="s2spin"></span>
+          </button>
+        </div>
+      </div>
+
+      <!-- STEP 3: PREFERENCES -->
+      <div class="form-page" id="page3">
+        <div class="r-head">
+          <h3>Set your preferences</h3>
+          <p>Personalise what you receive so every notification feels relevant.</p>
+        </div>
+        <div class="pref-section">
+          <span class="pref-label">Notify me about</span>
+          <div class="pref-grid">
+            <div class="pref-item on" onclick="togglePref(this)"><span class="pi-ic">📅</span><span class="pi-tx">Events</span><div class="pref-check">✓</div></div>
+            <div class="pref-item on" onclick="togglePref(this)"><span class="pi-ic">📢</span><span class="pi-tx">Announcements</span><div class="pref-check">✓</div></div>
+            <div class="pref-item on" onclick="togglePref(this)"><span class="pi-ic">🎵</span><span class="pi-tx">New sermons</span><div class="pref-check">✓</div></div>
+            <div class="pref-item" onclick="togglePref(this)"><span class="pi-ic">🙏</span><span class="pi-tx">Prayer requests</span><div class="pref-check"></div></div>
+            <div class="pref-item" onclick="togglePref(this)"><span class="pi-ic">💝</span><span class="pi-tx">Giving reminders</span><div class="pref-check"></div></div>
+            <div class="pref-item on" onclick="togglePref(this)"><span class="pi-ic">📖</span><span class="pi-tx">Daily verse</span><div class="pref-check">✓</div></div>
+          </div>
+        </div>
+        <div class="pref-section">
+          <span class="pref-label">Bible reading goal</span>
+          <div class="goal-items">
+            <div class="goal-item" onclick="pickGoal(this)">
+              <div class="gi-radio"></div>
+              <div class="gi-info"><b>Just browsing</b><small>No goal — I'll read when I feel led</small></div>
+            </div>
+            <div class="goal-item on" onclick="pickGoal(this)">
+              <div class="gi-radio"></div>
+              <div class="gi-info"><b>Occasional reader</b><small>A few times a week</small></div>
+            </div>
+            <div class="goal-item" onclick="pickGoal(this)">
+              <div class="gi-radio"></div>
+              <div class="gi-info"><b>Regular study</b><small>At least 5 days a week</small></div>
+            </div>
+            <div class="goal-item" onclick="pickGoal(this)">
+              <div class="gi-radio"></div>
+              <div class="gi-info"><b>Daily devotions</b><small>Every morning — hold me accountable!</small></div>
+            </div>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button class="btn-back" onclick="prevStep(3)">← Back</button>
+          <button class="btn-next btn-load" onclick="submitForm()">
+            <span id="s3txt">Create my account →</span>
+            <span class="btn-spinner" id="s3spin"></span>
+          </button>
+        </div>
+      </div>
+
+      <!-- SUCCESS -->
+      <div class="success-page" id="successPage">
+        <div class="success-ring">
+          <svg class="sr-svg" viewBox="0 0 100 100" fill="none">
+            <ellipse cx="50" cy="50" rx="42" ry="36" stroke="#3fcf6d" stroke-width="2" transform="rotate(-20 50 50)" opacity=".8"/>
+            <ellipse cx="50" cy="50" rx="38" ry="44" stroke="#3fcf6d" stroke-width="1.4" transform="rotate(15 50 50)" opacity=".5"/>
+          </svg>
+          <div class="sr-check">✓</div>
+        </div>
+        <h3 id="welcomeName">Welcome, Joseph!</h3>
+        <p>Your Baptist Studio account is ready. You're now connected to your church community.</p>
+        <div class="success-churches" id="successChurches"></div>
+        <a href="profile.html" class="btn-profile">Go to my profile →</a>
+        <div class="btn-dir-link" onclick="window.location='directory.html'">Or explore churches in the directory</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════
+   CHURCH DATA
+═══════════════════════════════════════ */
+const CHURCHES = [
+  {id:1,name:"Lusaka Baptist Church",city:"Kabulonga, Lusaka",badge:"L",color:"linear-gradient(145deg,#E0392E,#8E1F18)",members:1240,verified:true},
+  {id:2,name:"Grace Baptist Church",city:"Chelston, Lusaka",badge:"G",color:"linear-gradient(145deg,#4f8ef7,#2460cc)",members:860,verified:true},
+  {id:3,name:"Emmanuel Baptist Church",city:"Matero, Lusaka",badge:"E",color:"linear-gradient(145deg,#3fcf6d,#1a7a3a)",members:420,verified:true},
+  {id:4,name:"Northside Baptist Church",city:"Northmead, Lusaka",badge:"N",color:"linear-gradient(145deg,#C9A55C,#8a5c1a)",members:310,verified:false},
+  {id:5,name:"Kitwe Baptist Church",city:"Kitwe, Copperbelt",badge:"K",color:"linear-gradient(145deg,#a855f7,#6622cc)",members:680,verified:true},
+  {id:6,name:"Ndola Grace Baptist",city:"Ndola, Copperbelt",badge:"N",color:"linear-gradient(145deg,#20c997,#0a6b4a)",members:290,verified:false},
+  {id:7,name:"Livingstone Baptist Church",city:"Livingstone, Southern",badge:"L",color:"linear-gradient(145deg,#f59e0b,#92600a)",members:510,verified:true},
+  {id:8,name:"Chipata Community Baptist",city:"Chipata, Eastern",badge:"C",color:"linear-gradient(145deg,#ec4899,#9c1b5c)",members:180,verified:false},
+];
+let selected = new Set();
+
+/* ═══════════════════════════════════════
+   STEP NAV
+═══════════════════════════════════════ */
+let curStep = 1;
+
+function goStep(n) {
+  document.querySelectorAll('.form-page').forEach(p => p.classList.remove('on'));
+  document.getElementById('page' + n).classList.add('on');
+  [1,2,3].forEach(i => {
+    document.getElementById('pill'+i).className = 'step-pill' + (i < n ? ' done' : i === n ? ' active' : '');
+    document.getElementById('sl'+i).className = 'sl' + (i <= n ? ' on' : '');
+  });
+  curStep = n;
+  document.querySelector('.right').scrollTo(0,0);
+}
+
+function prevStep(from) { goStep(from - 1); }
+
+function nextStep(from) {
+  if (from === 1) {
+    if (!validateStep1()) return;
+    showSpinner('s1spin','s1txt');
+    setTimeout(() => { hideSpinner('s1spin','s1txt','Continue →'); goStep(2); renderChurches(''); }, 800);
+  } else if (from === 2) {
+    goStep(3);
+  }
+}
+
+function submitForm() {
+  showSpinner('s3spin','s3txt');
+  setTimeout(() => {
+    hideSpinner('s3spin','s3txt','Create my account →');
+    const fn = document.getElementById('fn').value.trim() || 'Friend';
+    document.getElementById('welcomeName').textContent = 'Welcome, ' + fn + '!';
+    const sc = document.getElementById('successChurches');
+    sc.innerHTML = '';
+    selected.forEach(id => {
+      const c = CHURCHES.find(x => x.id === id);
+      if (c) sc.innerHTML += `<span class="sc-badge"><span style="width:18px;height:18px;border-radius:5px;background:${c.color};display:grid;place-items:center;font-size:.65rem;color:#fff;font-weight:700">${c.badge}</span>${c.name.split(' ').slice(0,2).join(' ')}</span>`;
+    });
+    document.querySelectorAll('.form-page').forEach(p => p.classList.remove('on'));
+    document.querySelectorAll('.steps,.step-labels').forEach(el => el.style.display='none');
+    document.getElementById('successPage').classList.add('on');
+    [1,2,3].forEach(i => { document.getElementById('pill'+i).className = 'step-pill done'; });
+    localStorage.setItem('bs_member', JSON.stringify({name: fn, email: document.getElementById('email').value}));
+  }, 1800);
+}
+
+/* ═══════════════════════════════════════
+   VALIDATE STEP 1
+═══════════════════════════════════════ */
+function validateStep1() {
+  let ok = true;
+  const required = [{id:'fn',msg:'First name required'},{id:'ln',msg:'Last name required'},{id:'email',msg:'Email required'}];
+  required.forEach(f => {
+    const el = document.getElementById(f.id);
+    const em = el.nextElementSibling;
+    if (!el.value.trim()) {
+      el.classList.add('err');
+      if (!em || !em.classList.contains('err-msg')) {
+        const d = document.createElement('div'); d.className='err-msg'; d.textContent=f.msg;
+        el.parentNode.insertBefore(d, el.nextSibling);
+      }
+      ok = false;
+    } else {
+      el.classList.remove('err');
+      if (em && em.classList.contains('err-msg')) em.remove();
+    }
+  });
+  const pw = document.getElementById('pw').value;
+  const pw2 = document.getElementById('pw2').value;
+  if (pw.length < 8) { markErr('pw','Minimum 8 characters'); ok = false; }
+  else clearErr('pw');
+  if (pw !== pw2) { markErr('pw2','Passwords do not match'); ok = false; }
+  else clearErr('pw2');
+  return ok;
+}
+function markErr(id, msg) {
+  const el = document.getElementById(id);
+  const wrap = el.closest('.pw-wrap') || el;
+  el.classList.add('err');
+  let em = wrap.parentNode.querySelector('.err-msg');
+  if (!em) { em = document.createElement('div'); em.className='err-msg'; wrap.parentNode.appendChild(em); }
+  em.textContent = msg;
+}
+function clearErr(id) {
+  const el = document.getElementById(id);
+  el.classList.remove('err');
+  const wrap = el.closest('.pw-wrap') || el;
+  const em = wrap.parentNode.querySelector('.err-msg');
+  if (em) em.remove();
+}
+['fn','ln','email'].forEach(id => document.getElementById(id).addEventListener('input', function(){ this.classList.remove('err'); const em = this.nextElementSibling; if (em && em.classList.contains('err-msg')) em.remove(); }));
+
+/* ═══════════════════════════════════════
+   PASSWORD STRENGTH
+═══════════════════════════════════════ */
+function checkStrength(v) {
+  let score = 0;
+  if (v.length >= 8) score++;
+  if (/[A-Z]/.test(v)) score++;
+  if (/[0-9]/.test(v)) score++;
+  if (/[^A-Za-z0-9]/.test(v)) score++;
+  const cls = score <= 1 ? 'w' : score === 2 ? 'm' : 's';
+  const lbl = ['','Weak','Fair','Good','Strong'][score] || '';
+  for (let i=1;i<=4;i++) {
+    const b = document.getElementById('pb'+i);
+    b.className = 'pw-bar ' + (i <= score ? cls : '');
+  }
+  document.getElementById('pwLbl').textContent = lbl ? lbl + ' password' : 'Enter a password';
+  document.getElementById('pwLbl').style.color = cls==='w'?'#E0392E':cls==='m'?'#f59e0b':'#3fcf6d';
+}
+
+/* ═══════════════════════════════════════
+   PASSWORD TOGGLE
+═══════════════════════════════════════ */
+function togglePw(id, btn) {
+  const inp = document.getElementById(id);
+  inp.type = inp.type === 'password' ? 'text' : 'password';
+  btn.textContent = inp.type === 'password' ? '👁' : '🙈';
+}
+
+/* ═══════════════════════════════════════
+   CHURCH SEARCH
+═══════════════════════════════════════ */
+function renderChurches(q) {
+  const filtered = q ? CHURCHES.filter(c => c.name.toLowerCase().includes(q.toLowerCase()) || c.city.toLowerCase().includes(q.toLowerCase())) : CHURCHES;
+  const container = document.getElementById('churchResults');
+  container.innerHTML = filtered.length ? filtered.map(c => `
+    <div class="cr-card ${selected.has(c.id)?'sel':''}" onclick="toggleChurch(${c.id},this)">
+      <div class="cr-badge" style="background:${c.color}">${c.badge}</div>
+      <div class="cr-info">
+        <b>${c.name}</b>
+        <small>${c.city} · ${c.members.toLocaleString()} members${c.verified?' · ✓ Verified':''}</small>
+      </div>
+      <div class="cr-check">${selected.has(c.id)?'✓':''}</div>
+    </div>`).join('') : `<div style="text-align:center;padding:32px;color:var(--cr3);font-size:.86rem">No churches found for "${q}"</div>`;
+  updateSelCount();
+}
+function filterChurches(q) { renderChurches(q); }
+function toggleChurch(id, card) {
+  if (selected.has(id)) { selected.delete(id); card.classList.remove('sel'); card.querySelector('.cr-check').textContent=''; }
+  else { selected.add(id); card.classList.add('sel'); card.querySelector('.cr-check').textContent='✓'; }
+  updateSelCount();
+}
+function updateSelCount() {
+  const el = document.getElementById('selCount');
+  el.innerHTML = selected.size ? `<b>${selected.size}</b> church${selected.size>1?'es':''} selected — you\'ll receive their updates` : '';
+}
+
+/* ═══════════════════════════════════════
+   PREFERENCES
+═══════════════════════════════════════ */
+function togglePref(el) {
+  el.classList.toggle('on');
+  el.querySelector('.pref-check').textContent = el.classList.contains('on') ? '✓' : '';
+}
+function pickGoal(el) {
+  document.querySelectorAll('.goal-item').forEach(g => g.classList.remove('on'));
+  el.classList.add('on');
+}
+
+/* SPINNER */
+function showSpinner(sid, tid) { document.getElementById(sid).classList.add('on'); document.getElementById(tid).style.display='none'; }
+function hideSpinner(sid, tid, txt) { document.getElementById(sid).classList.remove('on'); const t = document.getElementById(tid); t.style.display=''; t.textContent=txt; }
+
+function googleSignup() {
+  const btn = event.currentTarget;
+  btn.textContent = 'Connecting…'; btn.disabled=true;
+  setTimeout(()=>{ btn.textContent='Continue with Google'; btn.disabled=false; nextStep(1); },1200);
+}
+</script>
+</body>
+</html>

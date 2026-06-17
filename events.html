@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0B0910">
+<link rel="manifest" href="manifest.json">
+<title>Events — Baptist Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --red:#E0392E;--red-b:#FF5447;--red-d:#8E1F18;
+  --ink:#0B0910;--ink2:#110F18;
+  --sur:#1A1626;--sur2:#221E30;--sur3:#2A263A;
+  --line:rgba(246,239,230,.07);--line2:rgba(246,239,230,.13);--line3:rgba(246,239,230,.22);
+  --cr:#F6EFE6;--cr2:rgba(246,239,230,.65);--cr3:rgba(246,239,230,.35);--cr4:rgba(246,239,230,.1);
+  --gold:#C9A55C;--goldf:rgba(201,165,92,.14);--goldb:rgba(201,165,92,.28);
+  --green:#3fcf6d;--greenf:rgba(63,207,109,.13);--greenb:rgba(63,207,109,.28);
+  --blue:#4f8ef7;--bluef:rgba(79,142,247,.13);--blueb:rgba(79,142,247,.28);
+  --purple:#a855f7;--purplef:rgba(168,85,247,.13);--purpleb:rgba(168,85,247,.28);
+  --mw:1100px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:"Plus Jakarta Sans",sans-serif;background:var(--ink);color:var(--cr);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+h1,h2,h3,.serif{font-family:"Cormorant Garamond",serif;font-weight:600;line-height:1.1}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer}
+.wrap{max-width:var(--mw);margin:0 auto;padding:0 24px}
+::-webkit-scrollbar{width:4px;height:4px}::-webkit-scrollbar-thumb{background:var(--sur3);border-radius:10px}
+
+/* ── NAV ──────────────────────────────── */
+.nav{position:fixed;top:0;left:0;right:0;z-index:60;height:58px;display:flex;align-items:center;gap:14px;padding:0 24px;background:rgba(11,9,16,.93);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
+.nav-logo{display:flex;align-items:center;gap:10px}
+.nav-logo svg{width:30px;height:30px}
+.nav-logo span{font-family:"Cormorant Garamond";font-size:1.15rem;font-weight:600}
+.nav-search{flex:1;max-width:360px;display:flex;align-items:center;gap:9px;background:var(--sur);border:1px solid var(--line2);border-radius:10px;padding:8px 13px}
+.nav-search input{background:none;border:none;outline:none;color:var(--cr);font-size:.86rem;font-family:inherit;width:100%}
+.nav-search input::placeholder{color:var(--cr3)}
+.nav-right{display:flex;align-items:center;gap:8px;margin-left:auto}
+.nbtn{padding:8px 16px;border-radius:100px;font-size:.84rem;font-weight:700;border:none;transition:all .2s}
+.nbtn-ghost{background:var(--sur);border:1px solid var(--line2);color:var(--cr2)}
+.nbtn-ghost:hover{color:var(--cr);border-color:var(--line3)}
+.nbtn-red{background:var(--red);color:#fff;box-shadow:0 4px 14px rgba(224,57,46,.3)}
+.nbtn-red:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(224,57,46,.45)}
+
+/* ── HERO ─────────────────────────────── */
+.hero{padding:88px 0 40px;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 60% 0%,rgba(224,57,46,.1),transparent 55%),radial-gradient(ellipse at 20% 100%,rgba(201,165,92,.06),transparent 50%)}
+.hero-inner{position:relative;z-index:2;display:flex;align-items:flex-start;justify-content:space-between;gap:24px;flex-wrap:wrap}
+.hero-left{}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:.66rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+.hero-eyebrow::before{content:"";width:20px;height:1px;background:var(--gold);opacity:.7}
+.hero h1{font-size:clamp(2rem,4.5vw,3.2rem);color:var(--cr);margin-bottom:10px}
+.hero h1 em{font-style:italic;color:var(--red)}
+.hero p{font-size:.96rem;color:var(--cr2);max-width:38em;line-height:1.72}
+
+/* WEEK STRIP */
+.week-strip{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding-bottom:4px;margin-top:32px}
+.week-strip::-webkit-scrollbar{display:none}
+.week-day{flex:none;display:flex;flex-direction:column;align-items:center;gap:5px;padding:10px 14px;border-radius:14px;background:var(--sur);border:1.5px solid var(--line2);cursor:pointer;transition:all .2s;min-width:58px}
+.week-day:hover{border-color:var(--line3)}
+.week-day.on{background:rgba(224,57,46,.1);border-color:rgba(224,57,46,.35)}
+.week-day.today{border-color:var(--red)}
+.wd-name{font-size:.6rem;font-weight:700;color:var(--cr3);letter-spacing:.06em}
+.wd-num{font-family:"Cormorant Garamond";font-size:1.35rem;color:var(--cr);font-weight:600;line-height:1}
+.wd-dot{width:5px;height:5px;border-radius:50%;background:var(--red);opacity:0}
+.week-day.has-event .wd-dot{opacity:1}
+.week-day.today .wd-name{color:var(--red)}
+.week-day.today .wd-num{color:var(--red)}
+
+/* ── FILTER BAR ───────────────────────── */
+.filter-bar{position:sticky;top:58px;z-index:50;background:rgba(11,9,16,.95);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.filter-inner{max-width:var(--mw);margin:0 auto;padding:0 24px;height:50px;display:flex;align-items:center;gap:8px}
+.type-tabs{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;flex:1}
+.type-tabs::-webkit-scrollbar{display:none}
+.tt{padding:6px 14px;border-radius:100px;font-size:.78rem;font-weight:700;background:none;border:none;color:var(--cr3);cursor:pointer;transition:all .2s;white-space:nowrap}
+.tt:hover{color:var(--cr2)}
+.tt.on{background:var(--sur);border:1px solid var(--line2);color:var(--cr)}
+.filter-right{display:flex;gap:8px;flex:none}
+.fsel{background:var(--sur);border:1px solid var(--line2);border-radius:8px;padding:7px 12px;font-size:.78rem;color:var(--cr2);outline:none;cursor:pointer;appearance:none;font-family:inherit;padding-right:26px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='11' viewBox='0 0 24 24' fill='none' stroke='%23F6EFE6' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 8px center}
+.fsel option{background:var(--sur)}
+
+/* ── MAIN LAYOUT ──────────────────────── */
+.main{padding:28px 0 80px}
+.main-grid{display:grid;grid-template-columns:1fr 290px;gap:28px;align-items:start}
+
+/* ── EVENTS LIST ──────────────────────── */
+.date-group{margin-bottom:28px}
+.dg-header{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.dg-date{font-family:"Cormorant Garamond";font-size:1.5rem;color:var(--cr);font-weight:600}
+.dg-label{font-size:.72rem;font-weight:700;color:var(--cr3);letter-spacing:.08em}
+.dg-line{flex:1;height:1px;background:var(--line)}
+
+/* EVENT CARD */
+.ev-card{background:var(--sur);border:1px solid var(--line2);border-radius:16px;padding:0;overflow:hidden;margin-bottom:12px;transition:border-color .25s,transform .2s,box-shadow .2s;cursor:pointer;display:flex}
+.ev-card:hover{border-color:rgba(224,57,46,.3);transform:translateY(-2px);box-shadow:0 12px 32px rgba(0,0,0,.35)}
+.ev-type-bar{width:4px;flex:none;border-radius:0}
+.ev-body{padding:14px 16px;flex:1;display:flex;gap:14px}
+.ev-time-col{display:flex;flex-direction:column;align-items:center;min-width:46px}
+.ev-date-box{background:rgba(224,57,46,.1);border:1px solid rgba(224,57,46,.2);border-radius:8px;padding:6px 8px;text-align:center;margin-bottom:6px}
+.ev-date-box b{display:block;font-size:.82rem;color:var(--red);font-weight:800;line-height:1}
+.ev-date-box small{font-size:.5rem;color:var(--cr3);text-transform:uppercase;letter-spacing:.06em}
+.ev-time-txt{font-size:.62rem;color:var(--cr3);font-weight:600;text-align:center;line-height:1.4}
+.ev-content{flex:1;min-width:0}
+.ev-meta{display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap}
+.ev-church-badge{width:20px;height:20px;border-radius:5px;display:grid;place-items:center;font-size:.62rem;font-weight:700;color:#fff;flex:none}
+.ev-church-name{font-size:.7rem;color:var(--cr2);font-weight:600}
+.ev-type-chip{font-size:.58rem;font-weight:700;padding:2px 8px;border-radius:100px}
+.ev-live{font-size:.58rem;font-weight:700;padding:2px 8px;border-radius:100px;background:var(--red);color:#fff;animation:pulse-bg 2s ease-in-out infinite}
+@keyframes pulse-bg{0%,100%{opacity:1}50%{opacity:.7}}
+.ev-title{font-size:.96rem;color:var(--cr);font-weight:700;margin-bottom:4px;line-height:1.35}
+.ev-detail{font-size:.74rem;color:var(--cr3);margin-bottom:10px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.ev-actions{display:flex;gap:8px;flex-wrap:wrap}
+.ev-btn{padding:7px 14px;border-radius:100px;font-size:.72rem;font-weight:700;transition:all .2s}
+.ev-rsvp{background:var(--red);color:#fff;border:none;box-shadow:0 3px 10px rgba(224,57,46,.3)}
+.ev-rsvp:hover{transform:scale(1.03);box-shadow:0 6px 16px rgba(224,57,46,.45)}
+.ev-rsvp.on{background:var(--greenf);border:1px solid var(--greenb);color:var(--green);box-shadow:none}
+.ev-cal{background:var(--sur2);border:1px solid var(--line2);color:var(--cr2)}
+.ev-cal:hover{color:var(--cr);border-color:var(--line3)}
+.ev-share{background:none;border:1px solid var(--line2);color:var(--cr3)}
+.ev-share:hover{color:var(--cr2);border-color:var(--line3)}
+
+/* TYPE COLORS */
+.bar-service{background:var(--red)}
+.bar-youth{background:var(--blue)}
+.bar-conference{background:var(--gold)}
+.bar-prayer{background:var(--purple)}
+.bar-outreach{background:var(--green)}
+.bar-assoc{background:var(--gold)}
+.chip-service{background:rgba(224,57,46,.12);color:var(--red)}
+.chip-youth{background:var(--bluef);color:var(--blue)}
+.chip-conference{background:var(--goldf);color:var(--gold)}
+.chip-prayer{background:var(--purplef);color:var(--purple)}
+.chip-outreach{background:var(--greenf);color:var(--green)}
+.chip-assoc{background:var(--goldf);color:var(--gold)}
+
+/* EMPTY */
+.empty{text-align:center;padding:64px 24px}
+.empty .ic{font-size:2.5rem;opacity:.35;margin-bottom:14px}
+.empty p{font-size:.9rem;color:var(--cr3)}
+
+/* ── SIDEBAR ──────────────────────────── */
+.side-col{position:sticky;top:108px;display:flex;flex-direction:column;gap:16px}
+.sp{background:var(--sur);border:1px solid var(--line2);border-radius:14px;overflow:hidden}
+.sp-head{padding:13px 16px;border-bottom:1px solid var(--line);font-size:.88rem;font-weight:700;color:var(--cr);display:flex;align-items:center;justify-content:space-between}
+.sp-head a{font-size:.72rem;color:var(--gold);font-weight:600}
+.sp-body{padding:12px 16px}
+.sp-item{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--line)}
+.sp-item:last-child{border-bottom:none}
+.sp-ic{width:32px;height:32px;border-radius:8px;display:grid;place-items:center;font-size:.9rem;flex:none}
+.sp-info b{display:block;font-size:.78rem;color:var(--cr);font-weight:700;line-height:1.3}
+.sp-info small{font-size:.62rem;color:var(--cr3)}
+.type-legend{display:flex;flex-direction:column;gap:8px}
+.tl-row{display:flex;align-items:center;gap:8px}
+.tl-dot{width:10px;height:10px;border-radius:50%;flex:none}
+.tl-label{font-size:.78rem;color:var(--cr2)}
+.tl-count{font-size:.7rem;color:var(--cr3);margin-left:auto}
+.submit-cta{background:linear-gradient(160deg,rgba(224,57,46,.1),rgba(11,9,16,0));border:1px solid rgba(224,57,46,.2);border-radius:14px;padding:18px 16px;text-align:center}
+.sc-title{font-family:"Cormorant Garamond";font-size:1.2rem;color:var(--cr);margin-bottom:7px}
+.sc-p{font-size:.78rem;color:var(--cr2);line-height:1.65;margin-bottom:14px}
+.sc-btn{display:block;background:var(--red);color:#fff;padding:10px;border-radius:100px;font-weight:700;font-size:.84rem;transition:all .2s;box-shadow:0 4px 14px rgba(224,57,46,.3)}
+.sc-btn:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(224,57,46,.45)}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.on{display:flex}
+.modal{background:var(--ink2);border:1px solid var(--line2);border-radius:20px;max-width:520px;width:100%;max-height:90vh;overflow-y:auto;animation:modalIn .3s cubic-bezier(.34,1.56,.64,1)}
+@keyframes modalIn{from{opacity:0;transform:scale(.92) translateY(16px)}to{opacity:1;transform:none}}
+.modal-head{display:flex;align-items:flex-start;justify-content:space-between;padding:22px 22px 0}
+.modal-close{width:32px;height:32px;border-radius:50%;background:var(--sur);border:1px solid var(--line2);display:grid;place-items:center;color:var(--cr3);font-size:.9rem;flex:none;transition:all .2s}
+.modal-close:hover{color:var(--cr);border-color:var(--line3)}
+.modal-body{padding:16px 22px 22px}
+.modal-type{font-size:.66rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--cr3);margin-bottom:10px}
+.modal-title{font-family:"Cormorant Garamond";font-size:1.9rem;color:var(--cr);margin-bottom:6px}
+.modal-church{display:flex;align-items:center;gap:8px;margin-bottom:16px}
+.modal-info-row{display:flex;align-items:flex-start;gap:10px;padding:11px 0;border-bottom:1px solid var(--line);font-size:.84rem;color:var(--cr2)}
+.modal-info-row:last-of-type{border-bottom:none}
+.mir-ic{width:18px;flex:none;text-align:center;margin-top:1px}
+.modal-desc{font-size:.88rem;color:var(--cr2);line-height:1.72;margin-bottom:16px}
+.modal-actions{display:flex;gap:10px;flex-wrap:wrap}
+.ma-btn{padding:11px 20px;border-radius:100px;font-weight:700;font-size:.86rem;border:none;transition:all .2s}
+.ma-primary{background:var(--red);color:#fff;box-shadow:0 4px 14px rgba(224,57,46,.3);flex:1}
+.ma-primary:hover{transform:scale(1.02);box-shadow:0 8px 20px rgba(224,57,46,.45)}
+.ma-sec{background:var(--sur);border:1px solid var(--line2);color:var(--cr2)}
+.ma-sec:hover{color:var(--cr);border-color:var(--line3)}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--sur2);border:1px solid var(--line2);border-radius:12px;padding:11px 18px;z-index:300;box-shadow:0 12px 32px rgba(0,0,0,.5);transform:translateY(16px);opacity:0;transition:all .3s cubic-bezier(.22,1,.36,1);pointer-events:none;font-size:.84rem;color:var(--cr)}
+.toast.on{transform:none;opacity:1}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(14px);transition:opacity .5s,transform .5s cubic-bezier(.2,.8,.3,1)}
+.reveal.in{opacity:1;transform:none}
+
+@media(max-width:860px){.main-grid{grid-template-columns:1fr}.side-col{display:none}}
+@media(max-width:580px){.ev-body{flex-direction:column;gap:8px}.ev-time-col{flex-direction:row;align-items:center;min-width:auto;gap:10px}}
+@media(max-width:480px){.wrap{padding:0 16px}.filter-right{display:none}}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="baptist-studio.html" class="nav-logo">
+    <svg viewBox="0 0 60 60" fill="none">
+      <ellipse cx="30" cy="30" rx="24" ry="20" stroke="#E0392E" stroke-width="2.2" transform="rotate(-22 30 30)" opacity=".92"/>
+      <ellipse cx="30" cy="30" rx="23" ry="22" stroke="#B82A21" stroke-width="1.8" transform="rotate(12 30 30)" opacity=".75"/>
+      <text x="30" y="41" text-anchor="middle" font-family="Georgia,serif" font-size="27" font-weight="bold" fill="#E0392E">B</text>
+    </svg>
+    <span>Baptist Studio</span>
+  </a>
+  <div class="nav-search">
+    <span style="color:var(--cr3);font-size:.85rem">🔍</span>
+    <input type="text" id="navSearch" placeholder="Search events…" oninput="handleSearch(this.value)">
+  </div>
+  <div class="nav-right">
+    <a href="directory.html" class="nbtn nbtn-ghost" style="display:none;display:block">Churches</a>
+    <a href="login.html" class="nbtn nbtn-ghost">Sign in</a>
+    <a href="register.html" class="nbtn nbtn-red">Add your church</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-inner">
+      <div class="hero-left">
+        <div class="hero-eyebrow">Baptist church events</div>
+        <h1>What's happening<br>across <em>Baptist Zambia.</em></h1>
+        <p>Services, youth meetings, conferences, outreach and prayer nights — from every Baptist church on the platform.</p>
+      </div>
+    </div>
+    <!-- Week strip -->
+    <div class="week-strip" id="weekStrip"></div>
+  </div>
+</section>
+
+<!-- FILTER BAR -->
+<div class="filter-bar">
+  <div class="filter-inner">
+    <div class="type-tabs">
+      <button class="tt on" data-type="all" onclick="setType('all',this)">All events</button>
+      <button class="tt" data-type="service" onclick="setType('service',this)">🏛 Services</button>
+      <button class="tt" data-type="youth" onclick="setType('youth',this)">⚡ Youth</button>
+      <button class="tt" data-type="conference" onclick="setType('conference',this)">🎤 Conferences</button>
+      <button class="tt" data-type="prayer" onclick="setType('prayer',this)">🙏 Prayer</button>
+      <button class="tt" data-type="outreach" onclick="setType('outreach',this)">🤝 Outreach</button>
+    </div>
+    <div class="filter-right">
+      <select class="fsel" onchange="setChurchFilter(this.value)">
+        <option value="all">All churches</option>
+        <option value="LBC">Lusaka Baptist</option>
+        <option value="GBC">Grace Baptist</option>
+        <option value="EBC">Emmanuel Baptist</option>
+        <option value="KBC">Kitwe Baptist</option>
+        <option value="ZBA">ZBA</option>
+      </select>
+      <select class="fsel" onchange="setRegionFilter(this.value)">
+        <option value="all">All regions</option>
+        <option value="Lusaka">Lusaka</option>
+        <option value="Copperbelt">Copperbelt</option>
+        <option value="Southern">Southern</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="wrap">
+    <div class="main-grid">
+      <div>
+        <div id="eventsList"></div>
+      </div>
+      <!-- SIDEBAR -->
+      <aside class="side-col">
+        <div class="sp">
+          <div class="sp-head">Event types</div>
+          <div class="sp-body">
+            <div class="type-legend">
+              <div class="tl-row"><div class="tl-dot" style="background:var(--red)"></div><span class="tl-label">Church service</span><span class="tl-count" id="cnt-service">0</span></div>
+              <div class="tl-row"><div class="tl-dot" style="background:var(--blue)"></div><span class="tl-label">Youth</span><span class="tl-count" id="cnt-youth">0</span></div>
+              <div class="tl-row"><div class="tl-dot" style="background:var(--gold)"></div><span class="tl-label">Conference</span><span class="tl-count" id="cnt-conference">0</span></div>
+              <div class="tl-row"><div class="tl-dot" style="background:var(--purple)"></div><span class="tl-label">Prayer night</span><span class="tl-count" id="cnt-prayer">0</span></div>
+              <div class="tl-row"><div class="tl-dot" style="background:var(--green)"></div><span class="tl-label">Outreach</span><span class="tl-count" id="cnt-outreach">0</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="sp">
+          <div class="sp-head">Featured <a href="#">See all</a></div>
+          <div class="sp-body">
+            <div class="sp-item">
+              <div class="sp-ic" style="background:var(--goldf)">🎤</div>
+              <div class="sp-info"><b>ZBA Youth Conference 2026</b><small>Jun 28–30 · Lusaka</small></div>
+            </div>
+            <div class="sp-item">
+              <div class="sp-ic" style="background:rgba(224,57,46,.1)">🏛</div>
+              <div class="sp-info"><b>Sunday Service</b><small>Jun 22 · Multiple churches</small></div>
+            </div>
+            <div class="sp-item">
+              <div class="sp-ic" style="background:var(--purplef)">🙏</div>
+              <div class="sp-info"><b>All-night Prayer</b><small>Jun 30 · Grace Baptist</small></div>
+            </div>
+          </div>
+        </div>
+        <div class="submit-cta">
+          <div class="sc-title">Hosting an event?</div>
+          <p class="sc-p">Register your church to add events, manage RSVPs, and notify your members.</p>
+          <a href="register.html" class="sc-btn">Register your church →</a>
+        </div>
+      </aside>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" id="modal" onclick="event.stopPropagation()">
+    <div class="modal-head">
+      <div></div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+/* ═══════════════════════════════════════
+   DATA
+═══════════════════════════════════════ */
+const EVENTS = [
+  {id:1,title:"Sunday Morning Service",type:"service",church:"Lusaka Baptist Church",churchKey:"LBC",churchBadge:"L",churchColor:"linear-gradient(145deg,#E0392E,#8E1F18)",region:"Lusaka",date:"2026-06-17",time:"9:00 AM",endTime:"11:00 AM",loc:"Kabulonga Community Hall, Lusaka",desc:"Join us for our regular Sunday worship service. Come expecting to encounter the living God. This Sunday we continue our series on the Sermon on the Mount.",live:true},
+  {id:2,title:"Sunday Morning Service",type:"service",church:"Lusaka Baptist Church",churchKey:"LBC",churchBadge:"L",churchColor:"linear-gradient(145deg,#E0392E,#8E1F18)",region:"Lusaka",date:"2026-06-17",time:"11:30 AM",endTime:"1:00 PM",loc:"Kabulonga Community Hall, Lusaka",desc:"Second morning service for those who could not make the 9:00 AM session. All are welcome.",live:false},
+  {id:3,title:"Wednesday Bible Study",type:"prayer",church:"Emmanuel Baptist Church",churchKey:"EBC",churchBadge:"E",churchColor:"linear-gradient(145deg,#3fcf6d,#1a7a3a)",region:"Lusaka",date:"2026-06-18",time:"6:30 PM",endTime:"8:00 PM",loc:"Matero, Lusaka",desc:"Mid-week Bible study and fellowship. We are studying the book of Romans — all are welcome to join.",live:false},
+  {id:4,title:"Choir Practice",type:"service",church:"Lusaka Baptist Church",churchKey:"LBC",churchBadge:"L",churchColor:"linear-gradient(145deg,#E0392E,#8E1F18)",region:"Lusaka",date:"2026-06-18",time:"5:00 PM",endTime:"7:00 PM",loc:"LBC Choir Room, Kabulonga",desc:"Weekly choir rehearsal. All choir members are expected. Visitors who love to sing are welcome.",live:false},
+  {id:5,title:"Women's Ministry Meeting",type:"service",church:"Lusaka Baptist Church",churchKey:"LBC",churchBadge:"L",churchColor:"linear-gradient(145deg,#E0392E,#8E1F18)",region:"Lusaka",date:"2026-06-19",time:"10:00 AM",endTime:"12:00 PM",loc:"LBC Hall, Kabulonga",desc:"Monthly women's meeting. This month's theme: 'Proverbs 31 Woman — Strength and Dignity.'",live:false},
+  {id:6,title:"Men's Fellowship Breakfast",type:"service",church:"Lusaka Baptist Church",churchKey:"LBC",churchBadge:"L",churchColor:"linear-gradient(145deg,#E0392E,#8E1F18)",region:"Lusaka",date:"2026-06-21",time:"7:00 AM",endTime:"9:30 AM",loc:"LBC Grounds, Kabulonga",desc:"Monthly men's fellowship breakfast. Come for food, fellowship, and the Word. Speaker: Elder James Phiri.",live:false},
+  {id:7,title:"Sunday Service — 'Walk by Faith'",type:"service",church:"Lusaka Baptist Church",churchKey:"LBC",churchBadge:"L",churchColor:"linear-gradient(145deg,#E0392E,#8E1F18)",region:"Lusaka",date:"2026-06-22",time:"9:00 AM",endTime:"11:30 AM",loc:"Kabulonga Community Hall, Lusaka",desc:"Preacher: Pastor David Banda. Scripture: 2 Corinthians 5:7. Come expecting God to move.",live:false},
+  {id:8,title:"Sunday Service",type:"service",church:"Grace Baptist Church",churchKey:"GBC",churchBadge:"G",churchColor:"linear-gradient(145deg,#4f8ef7,#2460cc)",region:"Lusaka",date:"2026-06-22",time:"10:00 AM",endTime:"12:00 PM",loc:"Chelston, Lusaka",desc:"Regular Sunday service at Grace Baptist. Preacher: Pastor Grace Mwanza.",live:false},
+  {id:9,title:"Sunday Service",type:"service",church:"Kitwe Baptist Church",churchKey:"KBC",churchBadge:"K",churchColor:"linear-gradient(145deg,#a855f7,#6622cc)",region:"Copperbelt",date:"2026-06-22",time:"10:30 AM",endTime:"12:30 PM",loc:"Kitwe, Copperbelt",desc:"Regular Sunday service. All are welcome.",live:false},
+  {id:10,title:"Community Outreach — Matero",type:"outreach",church:"Emmanuel Baptist Church",churchKey:"EBC",churchBadge:"E",churchColor:"linear-gradient(145deg,#3fcf6d,#1a7a3a)",region:"Lusaka",date:"2026-06-25",time:"9:00 AM",endTime:"2:00 PM",loc:"Matero, Lusaka",desc:"Monthly community outreach: food distribution, medical check-ups, and evangelism in the Matero compound.",live:false},
+  {id:11,title:"ZBA Youth Conference 2026",type:"conference",church:"ZBA",churchKey:"ZBA",churchBadge:"Z",churchColor:"linear-gradient(145deg,#C9A55C,#8a5c1a)",region:"Lusaka",date:"2026-06-28",time:"8:00 AM",endTime:"10:00 PM",loc:"Lusaka Showgrounds, Lusaka",desc:"Theme: 'Generation Chosen.' Three days of worship, teaching, workshops, and fellowship for young Baptists across Zambia. Speakers: Multiple pastors from ZBA churches. Registration required.",live:false},
+  {id:12,title:"Baptism Service",type:"service",church:"Livingstone Baptist Church",churchKey:"LivBC",churchBadge:"L",churchColor:"linear-gradient(145deg,#f59e0b,#92600a)",region:"Southern",date:"2026-06-29",time:"3:00 PM",endTime:"5:00 PM",loc:"Livingstone, Southern Province",desc:"Special baptism service. Fifteen new believers will be baptized. All are welcome to witness and celebrate.",live:false},
+  {id:13,title:"All-Night Prayer Meeting",type:"prayer",church:"Grace Baptist Church",churchKey:"GBC",churchBadge:"G",churchColor:"linear-gradient(145deg,#4f8ef7,#2460cc)",region:"Lusaka",date:"2026-06-30",time:"10:00 PM",endTime:"4:00 AM",loc:"Grace Baptist Church, Chelston",desc:"Monthly all-night prayer and worship. Come expecting a breakthrough. We will pray for the nation, families, and church. Come at any hour.",live:false},
+  {id:14,title:"ZBA Association Meeting",type:"conference",church:"ZBA",churchKey:"ZBA",churchBadge:"Z",churchColor:"linear-gradient(145deg,#C9A55C,#8a5c1a)",region:"Lusaka",date:"2026-07-05",time:"9:00 AM",endTime:"5:00 PM",loc:"Holiday Inn, Lusaka",desc:"Annual Zambia Baptist Association meeting for all member church leaders and delegates.",live:false},
+];
+
+/* ═══════════════════════════════════════
+   STATE
+═══════════════════════════════════════ */
+let curType = 'all', curChurch = 'all', curRegion = 'all', searchQ = '';
+let rsvpd = new Set(JSON.parse(localStorage.getItem('bs_rsvp')||'[]'));
+
+/* ═══════════════════════════════════════
+   WEEK STRIP
+═══════════════════════════════════════ */
+function buildWeekStrip() {
+  const today = new Date(2026, 5, 17); // Jun 17
+  const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const strip = document.getElementById('weekStrip');
+  // Show 14 days from today
+  for (let i = 0; i < 14; i++) {
+    const d = new Date(today);
+    d.setDate(today.getDate() + i);
+    const dateStr = d.toISOString().slice(0,10);
+    const hasEvent = EVENTS.some(e => e.date === dateStr);
+    const isToday = i === 0;
+    const el = document.createElement('div');
+    el.className = 'week-day' + (isToday?' today on':'') + (hasEvent?' has-event':'');
+    el.onclick = () => { document.querySelectorAll('.week-day').forEach(w=>w.classList.remove('on')); el.classList.add('on'); scrollToDate(dateStr); };
+    el.innerHTML = `<div class="wd-name">${days[d.getDay()]}</div><div class="wd-num">${d.getDate()}</div><div class="wd-dot"></div>`;
+    strip.appendChild(el);
+  }
+}
+
+function scrollToDate(dateStr) {
+  const el = document.getElementById('dg-'+dateStr);
+  if (el) el.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+/* ═══════════════════════════════════════
+   RENDER
+═══════════════════════════════════════ */
+function getFiltered() {
+  return EVENTS.filter(e => {
+    if (curType !== 'all' && e.type !== curType) return false;
+    if (curChurch !== 'all' && e.churchKey !== curChurch) return false;
+    if (curRegion !== 'all' && e.region !== curRegion) return false;
+    if (searchQ && !e.title.toLowerCase().includes(searchQ) && !e.church.toLowerCase().includes(searchQ) && !e.loc.toLowerCase().includes(searchQ)) return false;
+    return true;
+  });
+}
+
+function render() {
+  const filtered = getFiltered();
+  const list = document.getElementById('eventsList');
+
+  // Update counts
+  ['service','youth','conference','prayer','outreach'].forEach(t => {
+    document.getElementById('cnt-'+t).textContent = EVENTS.filter(e=>e.type===t).length;
+  });
+
+  if (!filtered.length) {
+    list.innerHTML = `<div class="empty"><div class="ic">📅</div><p>No events match your filter.<br>Try a different type or region.</p></div>`;
+    return;
+  }
+
+  // Group by date
+  const groups = {};
+  filtered.forEach(e => {
+    if (!groups[e.date]) groups[e.date] = [];
+    groups[e.date].push(e);
+  });
+
+  const MONTH_NAMES = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const DAY_NAMES = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const today = new Date(2026, 5, 17);
+
+  list.innerHTML = Object.keys(groups).sort().map(date => {
+    const d = new Date(date + 'T00:00:00');
+    const diff = Math.round((d - today) / 86400000);
+    const dayLabel = diff === 0 ? 'Today' : diff === 1 ? 'Tomorrow' : DAY_NAMES[d.getDay()];
+    const dateLabel = `${MONTH_NAMES[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`;
+    return `<div class="date-group reveal" id="dg-${date}">
+      <div class="dg-header">
+        <div>
+          <div class="dg-date">${dayLabel}</div>
+          <div class="dg-label">${dateLabel} · ${groups[date].length} event${groups[date].length!==1?'s':''}</div>
+        </div>
+        <div class="dg-line"></div>
+      </div>
+      ${groups[date].map(e => eventCard(e)).join('')}
+    </div>`;
+  }).join('');
+
+  // Reveal animation
+  setTimeout(() => {
+    document.querySelectorAll('.reveal:not(.in)').forEach((el,i) => {
+      setTimeout(() => el.classList.add('in'), i*60);
+    });
+  }, 20);
+}
+
+function eventCard(e) {
+  const d = new Date(e.date + 'T00:00:00');
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const isRsvp = rsvpd.has(e.id);
+  return `<div class="ev-card" onclick="openModal(${e.id})">
+    <div class="ev-type-bar bar-${e.type}"></div>
+    <div class="ev-body">
+      <div class="ev-time-col">
+        <div class="ev-date-box"><b>${d.getDate()}</b><small>${months[d.getMonth()]}</small></div>
+        <div class="ev-time-txt">${e.time}<br>${e.endTime}</div>
+      </div>
+      <div class="ev-content">
+        <div class="ev-meta">
+          <div class="ev-church-badge" style="background:${e.churchColor}">${e.churchBadge}</div>
+          <span class="ev-church-name">${e.church}</span>
+          <span class="ev-type-chip chip-${e.type}">${capitalize(e.type)}</span>
+          ${e.live ? '<span class="ev-live">● LIVE</span>' : ''}
+        </div>
+        <div class="ev-title">${e.title}</div>
+        <div class="ev-detail">
+          <span>📍 ${e.loc.split(',')[0]}</span>
+          <span>🕐 ${e.time}</span>
+        </div>
+        <div class="ev-actions" onclick="event.stopPropagation()">
+          <button class="ev-btn ev-rsvp ${isRsvp?'on':''}" onclick="toggleRsvp(${e.id},this)">${isRsvp?'✓ Going':'RSVP going'}</button>
+          <button class="ev-btn ev-cal" onclick="event.stopPropagation();showToast('📅 Added to your calendar')">+ Calendar</button>
+          <button class="ev-btn ev-share" onclick="event.stopPropagation();showToast('🔗 Event link copied!')">↗ Share</button>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ═══════════════════════════════════════
+   MODAL
+═══════════════════════════════════════ */
+function openModal(id) {
+  const e = EVENTS.find(x=>x.id===id);
+  if (!e) return;
+  const d = new Date(e.date + 'T00:00:00');
+  const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const isRsvp = rsvpd.has(e.id);
+  document.getElementById('modalBody').innerHTML = `
+    <div class="modal-type">${capitalize(e.type)}</div>
+    <div class="modal-title">${e.title}</div>
+    <div class="modal-church">
+      <div style="width:28px;height:28px;border-radius:8px;background:${e.churchColor};display:grid;place-items:center;font-size:.9rem;font-weight:700;color:#fff;font-family:'Cormorant Garamond'">${e.churchBadge}</div>
+      <span style="font-size:.86rem;color:var(--cr2);font-weight:600">${e.church}</span>
+      ${e.live?'<span style="background:var(--red);color:#fff;font-size:.6rem;font-weight:700;padding:3px 8px;border-radius:100px">● LIVE NOW</span>':''}
+    </div>
+    <div class="modal-info-row"><span class="mir-ic">📅</span><span>${days[d.getDay()]}, ${months[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}</span></div>
+    <div class="modal-info-row"><span class="mir-ic">🕐</span><span>${e.time} – ${e.endTime}</span></div>
+    <div class="modal-info-row"><span class="mir-ic">📍</span><span>${e.loc}</span></div>
+    <div style="height:14px"></div>
+    <div class="modal-desc">${e.desc}</div>
+    <div class="modal-actions">
+      <button class="ma-btn ma-primary" id="modalRsvpBtn" onclick="toggleRsvp(${e.id},this,true)">${isRsvp?'✓ You\'re going':'RSVP — I\'m going'}</button>
+      <button class="ma-btn ma-sec" onclick="showToast('📅 Added to your calendar')">+ Calendar</button>
+      <button class="ma-btn ma-sec" onclick="showToast('🔗 Event link copied!')">↗ Share</button>
+    </div>`;
+  document.getElementById('modalOverlay').classList.add('on');
+}
+function closeModal(e) {
+  if (!e || e.target === document.getElementById('modalOverlay')) {
+    document.getElementById('modalOverlay').classList.remove('on');
+  }
+}
+
+/* ═══════════════════════════════════════
+   RSVP
+═══════════════════════════════════════ */
+function toggleRsvp(id, btn, inModal) {
+  if (rsvpd.has(id)) {
+    rsvpd.delete(id); btn.classList.remove('on'); btn.textContent = inModal ? 'RSVP — I\'m going' : 'RSVP going'; showToast('RSVP cancelled');
+  } else {
+    rsvpd.add(id); btn.classList.add('on'); btn.textContent = inModal ? '✓ You\'re going' : '✓ Going'; showToast('✓ RSVP confirmed! See you there.');
+  }
+  localStorage.setItem('bs_rsvp', JSON.stringify([...rsvpd]));
+  // sync card button if called from modal
+  if (inModal) {
+    const cardBtn = document.querySelector(`[onclick="toggleRsvp(${id},this)"]`);
+    if (cardBtn) { cardBtn.classList.toggle('on', rsvpd.has(id)); cardBtn.textContent = rsvpd.has(id)?'✓ Going':'RSVP going'; }
+  }
+}
+
+/* ═══════════════════════════════════════
+   FILTERS
+═══════════════════════════════════════ */
+function setType(t, el) { curType = t; document.querySelectorAll('.tt').forEach(b=>b.classList.remove('on')); el.classList.add('on'); render(); }
+function setChurchFilter(v) { curChurch = v; render(); }
+function setRegionFilter(v) { curRegion = v; render(); }
+function handleSearch(q) { searchQ = q.trim().toLowerCase(); render(); }
+function capitalize(s) { return s[0].toUpperCase()+s.slice(1); }
+
+/* TOAST */
+let tt;
+function showToast(msg) {
+  const t = document.getElementById('toast'); t.textContent=msg; t.classList.add('on');
+  clearTimeout(tt); tt = setTimeout(()=>t.classList.remove('on'),2800);
+}
+
+/* ═══════════════════════════════════════
+   INIT
+═══════════════════════════════════════ */
+buildWeekStrip();
+render();
+</script>
+</body>
+</html>

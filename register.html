@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Register Your Church — Baptist Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --red:#E0392E;--red-b:#FF5447;--red-d:#8E1F18;
+  --ink:#0E0C14;--ink2:#141218;
+  --sur:#1C1828;--sur2:#252133;
+  --line:rgba(246,239,230,.08);--line2:rgba(246,239,230,.18);
+  --cr:#F6EFE6;--cr2:rgba(246,239,230,.65);--cr3:rgba(246,239,230,.35);
+  --gold:#C9A55C;--goldf:rgba(201,165,92,.14);
+  --green:#3fcf6d;--greenf:rgba(63,207,109,.14);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{height:100%}
+body{font-family:"Plus Jakarta Sans",sans-serif;background:var(--ink);color:var(--cr);min-height:100vh;display:flex;flex-direction:column;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+h1,h2,h3,.serif{font-family:"Cormorant Garamond",serif;font-weight:600;line-height:1.1}
+a{color:inherit;text-decoration:none}
+
+/* LAYOUT */
+.layout{display:grid;grid-template-columns:420px 1fr;min-height:100vh}
+
+/* LEFT PANEL */
+.left{background:linear-gradient(170deg,#160411,#0a0814);position:relative;display:flex;flex-direction:column;padding:40px 44px;overflow:hidden}
+.left::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 30% 20%,rgba(224,57,46,.18),transparent 60%),radial-gradient(ellipse at 70% 80%,rgba(142,31,24,.15),transparent 60%)}
+.left-rings{position:absolute;bottom:-120px;right:-120px;width:500px;height:500px;opacity:.2;pointer-events:none}
+.left-rings svg{width:100%;height:100%;animation:spin 60s linear infinite}
+.logo{display:flex;align-items:center;gap:13px;position:relative;z-index:2}
+.logo-mark{width:44px;height:44px;position:relative;flex:none}
+.logo-mark svg{position:absolute;inset:0;width:100%;height:100%}
+.logo-name{font-family:"Cormorant Garamond",serif;font-size:1.35rem;font-weight:600;line-height:1.1}
+.logo-name small{display:block;font-family:"Plus Jakarta Sans";font-size:.52rem;letter-spacing:.38em;text-transform:uppercase;color:var(--gold);margin-top:3px;font-weight:600}
+.left-body{flex:1;display:flex;flex-direction:column;justify-content:center;position:relative;z-index:2;padding:40px 0}
+.left-body h2{font-size:2.6rem;color:var(--cr);margin-bottom:18px;line-height:1.1}
+.left-body h2 em{font-style:italic;color:var(--red)}
+.left-body p{color:var(--cr2);font-size:1rem;line-height:1.75;max-width:28em;margin-bottom:36px}
+.left-perks{display:flex;flex-direction:column;gap:16px}
+.perk{display:flex;align-items:flex-start;gap:14px}
+.perk-ic{width:36px;height:36px;border-radius:10px;background:var(--goldf);border:1px solid rgba(201,165,92,.2);display:grid;place-items:center;font-size:1.05rem;flex:none}
+.perk-txt b{display:block;font-size:.94rem;color:var(--cr);margin-bottom:2px}
+.perk-txt span{font-size:.82rem;color:var(--cr2)}
+.left-footer{position:relative;z-index:2;font-size:.8rem;color:var(--cr3)}
+.left-footer a{color:var(--gold);transition:color .2s}
+.left-footer a:hover{color:var(--cr)}
+
+/* RIGHT PANEL */
+.right{background:var(--ink2);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 40px;position:relative}
+.right::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 80% 10%,rgba(224,57,46,.06),transparent 50%)}
+
+/* FORM CARD */
+.card{width:100%;max-width:560px;position:relative;z-index:2}
+
+/* PROGRESS */
+.progress-wrap{margin-bottom:40px}
+.step-pills{display:flex;align-items:center;gap:0;margin-bottom:16px}
+.sp{display:flex;align-items:center;gap:0;flex:1}
+.sp:last-child{flex:none}
+.step-dot{width:34px;height:34px;border-radius:50%;border:2px solid var(--line2);display:grid;place-items:center;font-size:.72rem;font-weight:700;color:var(--cr3);transition:all .4s cubic-bezier(.34,1.56,.64,1);flex-shrink:0;position:relative;z-index:1;background:var(--ink2)}
+.step-dot.done{background:var(--red);border-color:var(--red);color:#fff;box-shadow:0 0 0 4px rgba(224,57,46,.2)}
+.step-dot.active{background:transparent;border-color:var(--red);color:var(--red);box-shadow:0 0 0 4px rgba(224,57,46,.15)}
+.step-dot.done svg{display:block}
+.step-line{flex:1;height:2px;background:var(--line2);transition:background .5s ease;position:relative;overflow:hidden}
+.step-line.done{background:var(--red)}
+.step-line::after{content:"";position:absolute;inset:0;background:var(--red);transform:scaleX(0);transform-origin:left;transition:transform .5s ease}
+.step-line.anim::after{transform:scaleX(1)}
+.progress-labels{display:flex;justify-content:space-between}
+.pl{font-size:.68rem;font-weight:600;letter-spacing:.06em;color:var(--cr3);text-transform:uppercase;transition:color .3s;text-align:center;flex:1}
+.pl:last-child{text-align:right}
+.pl:first-child{text-align:left}
+.pl.active,.pl.done{color:var(--cr2)}
+.pl.active{color:var(--cr)}
+
+/* STEPS */
+.step{display:none;animation:stepIn .4s cubic-bezier(.22,1,.36,1) forwards}
+.step.active{display:block}
+.step-title{font-size:2rem;color:var(--cr);margin-bottom:6px}
+.step-sub{font-size:.95rem;color:var(--cr2);margin-bottom:32px;line-height:1.6}
+
+/* INPUTS */
+.field{margin-bottom:22px}
+.field label{display:block;font-size:.78rem;font-weight:700;color:var(--cr2);letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px}
+.field label span{color:var(--red);margin-left:2px}
+.inp,.sel,.ta{
+  width:100%;background:var(--sur);border:1.5px solid var(--line2);
+  border-radius:12px;padding:14px 16px;
+  font-family:"Plus Jakarta Sans";font-size:.97rem;color:var(--cr);
+  outline:none;transition:border-color .25s,box-shadow .25s,background .25s;
+  appearance:none;
+}
+.inp::placeholder,.ta::placeholder{color:var(--cr3)}
+.inp:focus,.sel:focus,.ta:focus{border-color:var(--red);box-shadow:0 0 0 4px rgba(224,57,46,.12);background:rgba(28,24,40,.8)}
+.inp.err,.sel.err,.ta.err{border-color:rgba(224,57,46,.7);box-shadow:0 0 0 4px rgba(224,57,46,.1)}
+.inp.ok{border-color:rgba(63,207,109,.5)}
+.ta{resize:vertical;min-height:100px;line-height:1.6}
+.sel{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23F6EFE6' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:42px}
+.sel option{background:#1C1828;color:var(--cr)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.err-msg{font-size:.74rem;color:var(--red);margin-top:6px;display:none}
+.field.has-err .err-msg{display:block}
+
+/* LOGO UPLOAD */
+.upload-area{border:2px dashed var(--line2);border-radius:16px;padding:32px;text-align:center;cursor:pointer;transition:border-color .3s,background .3s;position:relative}
+.upload-area:hover,.upload-area.drag{border-color:rgba(224,57,46,.5);background:rgba(224,57,46,.04)}
+.upload-area input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.up-ic{font-size:2rem;margin-bottom:12px;display:block}
+.up-txt b{display:block;color:var(--cr);font-size:.95rem;margin-bottom:4px}
+.up-txt span{font-size:.8rem;color:var(--cr3)}
+.logo-preview{width:90px;height:90px;border-radius:22px;margin:0 auto 14px;background:var(--sur2);display:none;overflow:hidden;border:2px solid var(--line2)}
+.logo-preview img{width:100%;height:100%;object-fit:cover}
+.logo-preview.show{display:block}
+
+/* DAYS / TIMES */
+.days-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.day-btn{padding:8px 16px;border-radius:100px;background:var(--sur);border:1.5px solid var(--line2);color:var(--cr2);font-size:.8rem;font-weight:600;cursor:pointer;transition:all .2s;user-select:none}
+.day-btn.on{background:rgba(224,57,46,.16);border-color:var(--red);color:var(--cr)}
+
+/* REVIEW */
+.review-card{background:var(--sur);border:1px solid var(--line2);border-radius:16px;overflow:hidden;margin-bottom:16px}
+.rc-head{padding:14px 18px;background:var(--sur2);display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line)}
+.rc-head b{font-family:"Cormorant Garamond";font-size:1.1rem;color:var(--cr)}
+.rc-edit{font-size:.72rem;color:var(--red);font-weight:700;cursor:pointer;padding:4px 10px;border-radius:100px;transition:background .2s}
+.rc-edit:hover{background:rgba(224,57,46,.12)}
+.rc-body{padding:16px 18px;display:flex;flex-direction:column;gap:10px}
+.rc-row{display:flex;gap:12px;align-items:flex-start}
+.rc-label{font-size:.72rem;color:var(--cr3);font-weight:600;text-transform:uppercase;letter-spacing:.06em;min-width:110px;padding-top:2px}
+.rc-val{font-size:.9rem;color:var(--cr);line-height:1.5}
+.church-logo-preview{width:56px;height:56px;border-radius:14px;background:linear-gradient(145deg,var(--red),var(--red-d));display:grid;place-items:center;font-family:"Cormorant Garamond";font-weight:700;font-size:1.8rem;color:#fff;margin-right:14px;flex:none}
+
+/* TERMS */
+.check-row{display:flex;align-items:flex-start;gap:12px;cursor:pointer}
+.check-row input{width:18px;height:18px;margin-top:2px;accent-color:var(--red);cursor:pointer;flex:none}
+.check-row span{font-size:.88rem;color:var(--cr2);line-height:1.55}
+.check-row span a{color:var(--gold);text-decoration:underline;text-underline-offset:3px}
+
+/* BUTTONS */
+.btn-row{display:flex;gap:12px;margin-top:32px}
+.btn{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:.95rem;padding:14px 28px;border-radius:100px;border:none;cursor:pointer;font-family:"Plus Jakarta Sans";transition:transform .3s cubic-bezier(.34,1.56,.64,1),box-shadow .3s,background .25s;white-space:nowrap}
+.btn-primary{background:var(--red);color:#fff;box-shadow:0 12px 32px rgba(224,57,46,.4);flex:1;justify-content:center}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 18px 40px rgba(224,57,46,.55)}
+.btn-primary:active{transform:scale(.97)}
+.btn-secondary{background:transparent;color:var(--cr2);border:1.5px solid var(--line2)}
+.btn-secondary:hover{color:var(--cr);border-color:var(--line2);background:rgba(246,239,230,.04)}
+.btn-primary.loading{pointer-events:none;opacity:.8}
+.btn-primary.loading::after{content:"";width:16px;height:16px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite}
+
+/* SUCCESS */
+#success{display:none;text-align:center;padding:20px 0}
+#success.show{display:block;animation:stepIn .5s cubic-bezier(.22,1,.36,1)}
+.success-ring{width:100px;height:100px;border-radius:50%;background:var(--greenf);border:2px solid rgba(63,207,109,.3);display:grid;place-items:center;margin:0 auto 28px;font-size:2.4rem;animation:popIn .6s cubic-bezier(.34,1.56,.64,1) .2s both}
+#success h2{font-size:2.4rem;color:var(--cr);margin-bottom:14px}
+#success h2 em{font-style:italic;color:var(--green)}
+#success p{color:var(--cr2);font-size:1rem;line-height:1.72;margin-bottom:32px}
+.next-steps{text-align:left;background:var(--sur);border:1px solid var(--line2);border-radius:16px;padding:22px 24px;margin-bottom:32px}
+.next-steps h4{font-family:"Cormorant Garamond";font-size:1.25rem;color:var(--cr);margin-bottom:16px}
+.ns{display:flex;align-items:center;gap:12px;margin-bottom:12px;font-size:.9rem;color:var(--cr2)}
+.ns:last-child{margin-bottom:0}
+.ns-ic{width:32px;height:32px;border-radius:9px;background:var(--goldf);display:grid;place-items:center;font-size:.9rem;flex:none}
+.dash-btn{display:flex;align-items:center;justify-content:center;gap:10px;background:var(--red);color:#fff;padding:15px 30px;border-radius:100px;font-weight:700;font-size:.97rem;box-shadow:0 12px 32px rgba(224,57,46,.4);transition:transform .3s cubic-bezier(.34,1.56,.64,1),box-shadow .3s;cursor:pointer}
+.dash-btn:hover{transform:translateY(-3px);box-shadow:0 20px 44px rgba(224,57,46,.55)}
+
+/* MISC */
+.hint{font-size:.78rem;color:var(--cr3);margin-top:6px}
+.char-count{font-size:.72rem;color:var(--cr3);text-align:right;margin-top:4px}
+.divider{height:1px;background:var(--line);margin:24px 0}
+
+/* ANIMATIONS */
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes stepIn{from{opacity:0;transform:translateX(24px)}to{opacity:1;transform:none}}
+@keyframes popIn{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:scale(1)}}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .layout{grid-template-columns:1fr}
+  .left{display:none}
+  .right{padding:40px 24px;justify-content:flex-start;padding-top:60px}
+}
+@media(max-width:500px){
+  .row2{grid-template-columns:1fr}
+  .btn-row{flex-direction:column}
+  .btn-secondary{text-align:center;justify-content:center}
+}
+</style>
+</head>
+<body>
+
+<div class="layout">
+  <!-- LEFT PANEL -->
+  <aside class="left">
+    <div class="left-rings" aria-hidden="true">
+      <svg viewBox="0 0 500 500" fill="none">
+        <ellipse cx="250" cy="250" rx="200" ry="170" stroke="#E0392E" stroke-width="1.5" opacity=".6" transform="rotate(-18 250 250)"/>
+        <ellipse cx="250" cy="250" rx="190" ry="210" stroke="#E0392E" stroke-width="1" opacity=".4" transform="rotate(14 250 250)"/>
+        <ellipse cx="250" cy="250" rx="215" ry="155" stroke="#FF5447" stroke-width=".8" opacity=".3" transform="rotate(36 250 250)"/>
+      </svg>
+    </div>
+    <a href="baptist-studio.html" class="logo">
+      <div class="logo-mark">
+        <svg viewBox="0 0 60 60" fill="none">
+          <ellipse cx="30" cy="30" rx="24" ry="20" stroke="#E0392E" stroke-width="2.2" transform="rotate(-22 30 30)" opacity=".92"/>
+          <ellipse cx="30" cy="30" rx="23" ry="22" stroke="#B82A21" stroke-width="1.8" transform="rotate(12 30 30)" opacity=".75"/>
+          <ellipse cx="30" cy="30" rx="25" ry="18" stroke="#E0392E" stroke-width="1.4" transform="rotate(38 30 30)" opacity=".55"/>
+          <text x="30" y="41" text-anchor="middle" font-family="Georgia,serif" font-size="27" font-weight="bold" fill="#E0392E">B</text>
+        </svg>
+      </div>
+      <div class="logo-name">Baptist Studio<small>Faith · Community</small></div>
+    </a>
+    <div class="left-body">
+      <h2>Your church,<br><em>on one platform.</em></h2>
+      <p>Join the growing community of Baptist churches reaching their members where they are. Free to register, free for every member.</p>
+      <div class="left-perks">
+        <div class="perk"><div class="perk-ic">⚡</div><div class="perk-txt"><b>Set up in minutes</b><span>No developer or technical knowledge needed</span></div></div>
+        <div class="perk"><div class="perk-ic">📅</div><div class="perk-txt"><b>Post events instantly</b><span>Members get notified the moment you publish</span></div></div>
+        <div class="perk"><div class="perk-ic">🤲</div><div class="perk-txt"><b>Receive tithes &amp; offerings</b><span>Mobile money and card, fully secure</span></div></div>
+        <div class="perk"><div class="perk-ic">🔒</div><div class="perk-txt"><b>Verified church badge</b><span>Members know they're following the real church</span></div></div>
+      </div>
+    </div>
+    <div class="left-footer">
+      Already registered? <a href="login.html">Sign in to your dashboard →</a>
+    </div>
+  </aside>
+
+  <!-- RIGHT PANEL -->
+  <main class="right">
+    <div class="card">
+
+      <!-- PROGRESS -->
+      <div class="progress-wrap" id="progressWrap">
+        <div class="step-pills">
+          <div class="step-dot active" id="dot1">1</div>
+          <div class="step-line" id="line1"></div>
+          <div class="step-dot" id="dot2">2</div>
+          <div class="step-line" id="line2"></div>
+          <div class="step-dot" id="dot3">3</div>
+          <div class="step-line" id="line3"></div>
+          <div class="step-dot" id="dot4">4</div>
+        </div>
+        <div class="progress-labels">
+          <span class="pl active" id="lbl1">Church</span>
+          <span class="pl" id="lbl2">Leader</span>
+          <span class="pl" id="lbl3">Profile</span>
+          <span class="pl" id="lbl4">Review</span>
+        </div>
+      </div>
+
+      <!-- STEP 1: CHURCH INFO -->
+      <div class="step active" id="step1">
+        <h2 class="step-title">Church information</h2>
+        <p class="step-sub">Tell us about your church so members can find and follow you.</p>
+
+        <div class="field" id="f-name">
+          <label>Church name <span>*</span></label>
+          <input class="inp" id="churchName" type="text" placeholder="e.g. Lusaka Baptist Church" autocomplete="organization">
+          <div class="err-msg">Please enter your church name</div>
+        </div>
+        <div class="row2">
+          <div class="field" id="f-city">
+            <label>City / Town <span>*</span></label>
+            <input class="inp" id="city" type="text" placeholder="e.g. Lusaka">
+            <div class="err-msg">Required</div>
+          </div>
+          <div class="field" id="f-country">
+            <label>Country <span>*</span></label>
+            <select class="sel" id="country">
+              <option value="">Select country</option>
+              <option value="ZM" selected>Zambia</option>
+              <option value="ZW">Zimbabwe</option>
+              <option value="MW">Malawi</option>
+              <option value="TZ">Tanzania</option>
+              <option value="KE">Kenya</option>
+              <option value="UG">Uganda</option>
+              <option value="ZA">South Africa</option>
+              <option value="MZ">Mozambique</option>
+              <option value="GB">United Kingdom</option>
+              <option value="US">United States</option>
+              <option value="CA">Canada</option>
+              <option value="AU">Australia</option>
+              <option value="other">Other</option>
+            </select>
+            <div class="err-msg">Required</div>
+          </div>
+        </div>
+        <div class="field" id="f-assoc">
+          <label>Baptist association / convention</label>
+          <select class="sel" id="assoc">
+            <option value="">Select association (if applicable)</option>
+            <option value="zba">Zambia Baptist Association (ZBA)</option>
+            <option value="ebn">Evangelical Baptist Network</option>
+            <option value="sbc">Southern Baptist Convention (SBC)</option>
+            <option value="bwai">Baptist World Alliance International</option>
+            <option value="nbcz">National Baptist Convention of Zambia</option>
+            <option value="independent">Independent (no association)</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="field" id="f-founded">
+          <label>Year founded</label>
+          <input class="inp" id="founded" type="number" placeholder="e.g. 1987" min="1800" max="2026">
+        </div>
+
+        <div class="btn-row">
+          <button class="btn btn-primary" onclick="next(1)">Continue <span>→</span></button>
+        </div>
+      </div>
+
+      <!-- STEP 2: LEADER INFO -->
+      <div class="step" id="step2">
+        <h2 class="step-title">Leader details</h2>
+        <p class="step-sub">The primary contact for this church account. You can add more administrators later.</p>
+
+        <div class="row2">
+          <div class="field" id="f-fname">
+            <label>First name <span>*</span></label>
+            <input class="inp" id="fname" type="text" placeholder="First name" autocomplete="given-name">
+            <div class="err-msg">Required</div>
+          </div>
+          <div class="field" id="f-lname">
+            <label>Last name <span>*</span></label>
+            <input class="inp" id="lname" type="text" placeholder="Last name" autocomplete="family-name">
+            <div class="err-msg">Required</div>
+          </div>
+        </div>
+        <div class="field" id="f-role">
+          <label>Your role <span>*</span></label>
+          <select class="sel" id="role">
+            <option value="">Select your role</option>
+            <option value="pastor">Senior Pastor</option>
+            <option value="assoc-pastor">Associate Pastor</option>
+            <option value="deacon">Deacon / Elder</option>
+            <option value="admin">Church Administrator</option>
+            <option value="secretary">Church Secretary</option>
+            <option value="other">Other</option>
+          </select>
+          <div class="err-msg">Please select your role</div>
+        </div>
+        <div class="field" id="f-email">
+          <label>Email address <span>*</span></label>
+          <input class="inp" id="email" type="email" placeholder="you@church.org" autocomplete="email">
+          <div class="err-msg">Please enter a valid email</div>
+        </div>
+        <div class="field" id="f-phone">
+          <label>Phone number <span>*</span></label>
+          <input class="inp" id="phone" type="tel" placeholder="+260 97X XXX XXX" autocomplete="tel">
+          <div class="err-msg">Please enter a phone number</div>
+        </div>
+        <div class="field">
+          <label>Password <span>*</span></label>
+          <input class="inp" id="password" type="password" placeholder="At least 8 characters" autocomplete="new-password">
+          <div class="hint">Used to log in to your church dashboard.</div>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn btn-secondary" onclick="back(2)">← Back</button>
+          <button class="btn btn-primary" onclick="next(2)">Continue <span>→</span></button>
+        </div>
+      </div>
+
+      <!-- STEP 3: CHURCH PROFILE -->
+      <div class="step" id="step3">
+        <h2 class="step-title">Church profile</h2>
+        <p class="step-sub">Help members know who you are. You can update all of this later from your dashboard.</p>
+
+        <div class="field">
+          <label>Church logo</label>
+          <div class="upload-area" id="uploadArea">
+            <input type="file" id="logoFile" accept="image/*" onchange="previewLogo(this)">
+            <div class="logo-preview" id="logoPreview"><img id="logoImg" src="" alt=""></div>
+            <span class="up-ic">📷</span>
+            <div class="up-txt"><b>Upload your church logo</b><span>PNG or JPG · recommended 500×500px · max 5MB</span></div>
+          </div>
+        </div>
+
+        <div class="field" id="f-tagline">
+          <label>Tagline / motto</label>
+          <input class="inp" id="tagline" type="text" placeholder="e.g. Rooted in faith, reaching the world" maxlength="80" oninput="cnt(this,'tCount')">
+          <div class="char-count"><span id="tCount">0</span>/80</div>
+        </div>
+
+        <div class="field">
+          <label>Regular service days</label>
+          <div class="days-row" id="daysRow">
+            <div class="day-btn" data-day="Sun" onclick="toggleDay(this)">Sunday</div>
+            <div class="day-btn" data-day="Mon" onclick="toggleDay(this)">Monday</div>
+            <div class="day-btn" data-day="Tue" onclick="toggleDay(this)">Tuesday</div>
+            <div class="day-btn" data-day="Wed" onclick="toggleDay(this)">Wednesday</div>
+            <div class="day-btn" data-day="Thu" onclick="toggleDay(this)">Thursday</div>
+            <div class="day-btn" data-day="Fri" onclick="toggleDay(this)">Friday</div>
+            <div class="day-btn" data-day="Sat" onclick="toggleDay(this)">Saturday</div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Service time(s)</label>
+          <input class="inp" id="times" type="text" placeholder="e.g. 09:00 AM &amp; 18:00 PM">
+        </div>
+
+        <div class="field">
+          <label>About your church</label>
+          <textarea class="ta" id="about" placeholder="A short description of your church, its vision, and community…" maxlength="400" oninput="cnt(this,'aCount')"></textarea>
+          <div class="char-count"><span id="aCount">0</span>/400</div>
+        </div>
+
+        <div class="field">
+          <label>Website (optional)</label>
+          <input class="inp" id="website" type="url" placeholder="https://yourchurch.org">
+        </div>
+
+        <div class="btn-row">
+          <button class="btn btn-secondary" onclick="back(3)">← Back</button>
+          <button class="btn btn-primary" onclick="next(3)">Review &amp; submit <span>→</span></button>
+        </div>
+      </div>
+
+      <!-- STEP 4: REVIEW -->
+      <div class="step" id="step4">
+        <h2 class="step-title">Review &amp; confirm</h2>
+        <p class="step-sub">Everything look right? You can edit any section before submitting.</p>
+
+        <div class="review-card">
+          <div class="rc-head"><b>Church information</b><span class="rc-edit" onclick="goTo(1)">Edit</span></div>
+          <div class="rc-body">
+            <div style="display:flex;align-items:center;margin-bottom:4px">
+              <div class="church-logo-preview" id="reviewBadge">L</div>
+              <div>
+                <div style="font-size:1.1rem;font-family:'Cormorant Garamond';color:var(--cr);font-weight:600" id="reviewName">–</div>
+                <div style="font-size:.82rem;color:var(--cr2)" id="reviewLocation">–</div>
+              </div>
+            </div>
+            <div class="rc-row"><span class="rc-label">Association</span><span class="rc-val" id="reviewAssoc">–</span></div>
+            <div class="rc-row"><span class="rc-label">Founded</span><span class="rc-val" id="reviewFounded">–</span></div>
+          </div>
+        </div>
+
+        <div class="review-card">
+          <div class="rc-head"><b>Leader details</b><span class="rc-edit" onclick="goTo(2)">Edit</span></div>
+          <div class="rc-body">
+            <div class="rc-row"><span class="rc-label">Name</span><span class="rc-val" id="reviewLeader">–</span></div>
+            <div class="rc-row"><span class="rc-label">Role</span><span class="rc-val" id="reviewRole">–</span></div>
+            <div class="rc-row"><span class="rc-label">Email</span><span class="rc-val" id="reviewEmail">–</span></div>
+            <div class="rc-row"><span class="rc-label">Phone</span><span class="rc-val" id="reviewPhone">–</span></div>
+          </div>
+        </div>
+
+        <div class="review-card">
+          <div class="rc-head"><b>Church profile</b><span class="rc-edit" onclick="goTo(3)">Edit</span></div>
+          <div class="rc-body">
+            <div class="rc-row"><span class="rc-label">Tagline</span><span class="rc-val" id="reviewTagline">–</span></div>
+            <div class="rc-row"><span class="rc-label">Services</span><span class="rc-val" id="reviewServices">–</span></div>
+            <div class="rc-row"><span class="rc-label">About</span><span class="rc-val" id="reviewAbout" style="font-size:.85rem">–</span></div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <label class="check-row" style="margin-bottom:12px">
+          <input type="checkbox" id="terms">
+          <span>I agree to the Baptist Studio <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>, and confirm I am authorised to register this church.</span>
+        </label>
+
+        <div class="btn-row">
+          <button class="btn btn-secondary" onclick="back(4)">← Back</button>
+          <button class="btn btn-primary" id="submitBtn" onclick="submit()">Register church ✓</button>
+        </div>
+      </div>
+
+      <!-- SUCCESS -->
+      <div id="success">
+        <div class="success-ring">✓</div>
+        <h2>You're <em>registered!</em></h2>
+        <p>Welcome to Baptist Studio. Your church page is under review — we'll verify and publish it within 24 hours. Check your email for next steps.</p>
+        <div class="next-steps">
+          <h4>What happens next</h4>
+          <div class="ns"><div class="ns-ic">📧</div><span>Confirmation email sent to your address</span></div>
+          <div class="ns"><div class="ns-ic">🔍</div><span>Our team verifies your church details (up to 24 hrs)</span></div>
+          <div class="ns"><div class="ns-ic">✅</div><span>Your church page goes live and members can follow you</span></div>
+          <div class="ns"><div class="ns-ic">📣</div><span>Start posting events, sermons &amp; announcements</span></div>
+        </div>
+        <div class="dash-btn" onclick="window.location.href='dashboard.html'">Go to your dashboard →</div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<script>
+let cur = 1;
+const total = 4;
+
+/* PROGRESS UPDATE */
+function updateProgress(step) {
+  for (let i = 1; i <= total; i++) {
+    const dot = document.getElementById('dot' + i);
+    const lbl = document.getElementById('lbl' + i);
+    dot.className = 'step-dot';
+    lbl.className = 'pl';
+    if (i < step) { dot.classList.add('done'); dot.innerHTML = '✓'; lbl.classList.add('done'); }
+    else if (i === step) { dot.classList.add('active'); dot.innerHTML = i; lbl.classList.add('active'); }
+    else { dot.innerHTML = i; }
+  }
+  for (let i = 1; i <= total - 1; i++) {
+    const line = document.getElementById('line' + i);
+    line.className = 'step-line';
+    if (i < step) line.classList.add('done');
+  }
+}
+
+/* NAVIGATE */
+function showStep(n) {
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.getElementById('step' + n).classList.add('active');
+  cur = n;
+  updateProgress(n);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function goTo(n) { showStep(n); }
+
+/* VALIDATION */
+function require(id, fid) {
+  const el = document.getElementById(id);
+  const f = document.getElementById(fid || ('f-' + id));
+  const v = el ? el.value.trim() : '';
+  if (!v) { if (f) f.classList.add('has-err'); return false; }
+  if (f) f.classList.remove('has-err');
+  return true;
+}
+function requireEmail(id, fid) {
+  const el = document.getElementById(id);
+  const f = document.getElementById(fid || ('f-' + id));
+  const v = el ? el.value.trim() : '';
+  const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+  if (!ok) { if (f) f.classList.add('has-err'); return false; }
+  if (f) f.classList.remove('has-err');
+  return true;
+}
+
+function next(from) {
+  let ok = true;
+  if (from === 1) {
+    ok = require('churchName', 'f-name') & require('city', 'f-city') & require('country', 'f-country');
+  } else if (from === 2) {
+    ok = require('fname', 'f-fname') & require('lname', 'f-lname') & require('role', 'f-role') & requireEmail('email', 'f-email') & require('phone', 'f-phone');
+    if (ok) {
+      const pw = document.getElementById('password').value;
+      if (pw.length < 8) {
+        document.getElementById('password').classList.add('err');
+        ok = false;
+      } else {
+        document.getElementById('password').classList.remove('err');
+      }
+    }
+  } else if (from === 3) {
+    buildReview();
+  }
+  if (!ok) {
+    const firstErr = document.querySelector('.has-err .inp, .has-err .sel');
+    if (firstErr) firstErr.focus();
+    return;
+  }
+  if (from === 3) buildReview();
+  showStep(from + 1);
+}
+
+function back(from) { showStep(from - 1); }
+
+/* BUILD REVIEW */
+function buildReview() {
+  const name = document.getElementById('churchName').value.trim();
+  const city = document.getElementById('city').value.trim();
+  const country = document.getElementById('country');
+  const countryTxt = country.options[country.selectedIndex]?.text || '';
+  const assoc = document.getElementById('assoc');
+  const assocTxt = assoc.options[assoc.selectedIndex]?.text || '–';
+  const founded = document.getElementById('founded').value;
+  const fname = document.getElementById('fname').value.trim();
+  const lname = document.getElementById('lname').value.trim();
+  const roleEl = document.getElementById('role');
+  const roleTxt = roleEl.options[roleEl.selectedIndex]?.text || '–';
+  const email = document.getElementById('email').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  const tagline = document.getElementById('tagline').value.trim();
+  const times = document.getElementById('times').value.trim();
+  const about = document.getElementById('about').value.trim();
+
+  const selectedDays = [...document.querySelectorAll('.day-btn.on')].map(d => d.dataset.day).join(', ');
+
+  document.getElementById('reviewName').textContent = name || '–';
+  document.getElementById('reviewLocation').textContent = [city, countryTxt].filter(Boolean).join(', ') || '–';
+  document.getElementById('reviewBadge').textContent = name ? name[0].toUpperCase() : '?';
+  document.getElementById('reviewAssoc').textContent = assocTxt || '–';
+  document.getElementById('reviewFounded').textContent = founded || '–';
+  document.getElementById('reviewLeader').textContent = [fname, lname].join(' ') || '–';
+  document.getElementById('reviewRole').textContent = roleTxt;
+  document.getElementById('reviewEmail').textContent = email || '–';
+  document.getElementById('reviewPhone').textContent = phone || '–';
+  document.getElementById('reviewTagline').textContent = tagline || '–';
+  document.getElementById('reviewServices').textContent = [selectedDays, times].filter(Boolean).join(' · ') || '–';
+  document.getElementById('reviewAbout').textContent = about ? (about.length > 120 ? about.slice(0, 120) + '…' : about) : '–';
+}
+
+/* SUBMIT */
+function submit() {
+  if (!document.getElementById('terms').checked) {
+    document.getElementById('terms').style.outline = '2px solid var(--red)';
+    setTimeout(() => document.getElementById('terms').style.outline = '', 2000);
+    return;
+  }
+  const btn = document.getElementById('submitBtn');
+  btn.classList.add('loading');
+  btn.textContent = 'Registering…';
+  setTimeout(() => {
+    document.querySelector('.progress-wrap').style.display = 'none';
+    document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+    const s = document.getElementById('success');
+    s.classList.add('show');
+    s.style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, 2200);
+}
+
+/* LOGO PREVIEW */
+function previewLogo(input) {
+  if (!input.files[0]) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const prev = document.getElementById('logoPreview');
+    const img = document.getElementById('logoImg');
+    img.src = e.target.result;
+    prev.classList.add('show');
+    document.querySelector('.up-ic').style.display = 'none';
+  };
+  reader.readAsDataURL(input.files[0]);
+}
+
+/* DRAG & DROP */
+const ua = document.getElementById('uploadArea');
+ua.addEventListener('dragover', e => { e.preventDefault(); ua.classList.add('drag'); });
+ua.addEventListener('dragleave', () => ua.classList.remove('drag'));
+ua.addEventListener('drop', e => {
+  e.preventDefault(); ua.classList.remove('drag');
+  const f = e.dataTransfer.files[0];
+  if (f && f.type.startsWith('image/')) {
+    document.getElementById('logoFile').files = e.dataTransfer.files;
+    previewLogo(document.getElementById('logoFile'));
+  }
+});
+
+/* CHAR COUNT */
+function cnt(el, spanId) {
+  document.getElementById(spanId).textContent = el.value.length;
+}
+
+/* DAY TOGGLE */
+function toggleDay(el) { el.classList.toggle('on'); }
+
+/* CLEAR ERR ON INPUT */
+document.querySelectorAll('.inp,.sel,.ta').forEach(el => {
+  el.addEventListener('input', () => {
+    el.closest('.field')?.classList.remove('has-err');
+    el.classList.remove('err');
+  });
+});
+</script>
+</body>
+</html>

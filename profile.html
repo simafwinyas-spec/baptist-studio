@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Profile — Baptist Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --red:#E0392E;--red-b:#FF5447;--red-d:#8E1F18;
+  --ink:#0B0910;--ink2:#110F18;--ink3:#0E0C14;
+  --sur:#1A1626;--sur2:#221E30;--sur3:#2A263A;
+  --line:rgba(246,239,230,.07);--line2:rgba(246,239,230,.13);--line3:rgba(246,239,230,.22);
+  --cr:#F6EFE6;--cr2:rgba(246,239,230,.65);--cr3:rgba(246,239,230,.35);--cr4:rgba(246,239,230,.1);
+  --gold:#C9A55C;--goldf:rgba(201,165,92,.14);--goldb:rgba(201,165,92,.28);
+  --green:#3fcf6d;--greenf:rgba(63,207,109,.13);--greenb:rgba(63,207,109,.28);
+  --blue:#4f8ef7;--bluef:rgba(79,142,247,.13);
+  --sb:240px;--tb:58px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{font-family:"Plus Jakarta Sans",sans-serif;background:var(--ink);color:var(--cr);-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4,.serif{font-family:"Cormorant Garamond",serif;font-weight:600;line-height:1.1}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer}
+::-webkit-scrollbar{width:4px;height:4px}::-webkit-scrollbar-thumb{background:var(--sur3);border-radius:10px}
+
+/* ── SIDEBAR ─────────────────────────── */
+.sidebar{position:fixed;left:0;top:0;bottom:0;width:var(--sb);background:var(--ink2);border-right:1px solid var(--line);display:flex;flex-direction:column;z-index:50;transition:transform .3s}
+.sb-head{padding:18px 20px 14px;border-bottom:1px solid var(--line)}
+.sb-logo{display:flex;align-items:center;gap:9px;margin-bottom:18px}
+.sb-logo svg{width:28px;height:28px}
+.sb-logo span{font-family:"Cormorant Garamond";font-size:1.1rem;font-weight:600}
+.sb-avatar{display:flex;align-items:center;gap:12px}
+.av{width:44px;height:44px;border-radius:50%;background:linear-gradient(145deg,var(--red),var(--red-d));display:grid;place-items:center;font-family:"Cormorant Garamond";font-weight:700;font-size:1.4rem;color:#fff;flex:none}
+.av-info b{display:block;font-size:.88rem;color:var(--cr);font-weight:700;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.av-info small{font-size:.68rem;color:var(--cr3)}
+.sb-nav{flex:1;overflow-y:auto;padding:12px 10px}
+.sb-section{margin-bottom:6px}
+.sb-sec-label{font-size:.6rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--cr3);padding:10px 10px 6px}
+.sbn{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:10px;font-size:.88rem;color:var(--cr2);font-weight:600;transition:all .2s;cursor:pointer;border:none;background:none;width:100%;text-align:left}
+.sbn .ic{width:22px;text-align:center;font-size:1rem;flex:none}
+.sbn:hover{background:var(--sur);color:var(--cr)}
+.sbn.on{background:rgba(224,57,46,.12);color:var(--cr);border-left:2.5px solid var(--red)}
+.sbn .badge{margin-left:auto;min-width:20px;height:20px;border-radius:100px;background:var(--red);color:#fff;font-size:.6rem;font-weight:700;display:grid;place-items:center;padding:0 6px}
+.sb-foot{padding:14px 12px;border-top:1px solid var(--line)}
+.sb-foot-btn{display:flex;align-items:center;gap:9px;width:100%;padding:9px 10px;border-radius:10px;font-size:.86rem;font-weight:600;color:var(--cr3);background:none;border:none;transition:all .2s;text-align:left}
+.sb-foot-btn:hover{background:var(--sur);color:var(--cr)}
+
+/* ── TOP BAR ─────────────────────────── */
+.topbar{position:fixed;top:0;left:var(--sb);right:0;height:var(--tb);background:rgba(11,9,16,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:14px;padding:0 24px;z-index:40;transition:left .3s}
+.tb-hamburger{display:none;background:none;border:none;color:var(--cr2);font-size:1.2rem;cursor:pointer}
+.tb-title{font-family:"Cormorant Garamond";font-size:1.4rem;font-weight:600;color:var(--cr)}
+.tb-right{display:flex;align-items:center;gap:10px;margin-left:auto}
+.tb-notif{position:relative;width:36px;height:36px;border-radius:50%;background:var(--sur);border:1px solid var(--line2);display:grid;place-items:center;font-size:.95rem;cursor:pointer;transition:all .2s}
+.tb-notif:hover{border-color:var(--line3)}
+.tb-notif .dot{position:absolute;top:6px;right:6px;width:7px;height:7px;border-radius:50%;background:var(--red);border:1.5px solid var(--ink)}
+.tb-search{display:flex;align-items:center;gap:8px;background:var(--sur);border:1px solid var(--line2);border-radius:10px;padding:8px 13px;width:220px}
+.tb-search input{background:none;border:none;outline:none;color:var(--cr);font-size:.84rem;font-family:inherit;width:100%}
+.tb-search input::placeholder{color:var(--cr3)}
+
+/* ── MAIN SCROLL ─────────────────────── */
+.main{margin-left:var(--sb);margin-top:var(--tb);height:calc(100vh - var(--tb));overflow-y:auto;transition:margin-left .3s}
+.view{display:none;padding:28px 28px 60px;max-width:960px}
+.view.on{display:block}
+
+/* ── FEED VIEW ───────────────────────── */
+.feed-layout{display:grid;grid-template-columns:1fr 280px;gap:24px;align-items:start}
+.daily-verse{background:linear-gradient(160deg,rgba(201,165,92,.08),rgba(224,57,46,.05));border:1px solid var(--goldb);border-radius:16px;padding:20px 22px;margin-bottom:20px;position:relative;overflow:hidden}
+.dv::before{content:"\201C";position:absolute;top:-10px;left:14px;font-family:"Cormorant Garamond";font-size:7rem;color:var(--gold);opacity:.12;line-height:1;pointer-events:none}
+.dv-label{font-size:.62rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.dv-text{font-family:"Cormorant Garamond";font-size:1.25rem;color:var(--cr);line-height:1.65;margin-bottom:8px;position:relative;z-index:1}
+.dv-ref{font-size:.76rem;color:var(--cr3);font-style:italic}
+.dv-actions{display:flex;gap:8px;margin-top:12px}
+.dv-btn{padding:6px 13px;border-radius:100px;font-size:.72rem;font-weight:700;background:var(--sur2);border:1px solid var(--line2);color:var(--cr3);transition:all .2s}
+.dv-btn:hover{color:var(--cr);border-color:var(--line3)}
+
+/* FEED ITEM */
+.feed-item{display:flex;gap:14px;padding:16px;background:var(--sur);border:1px solid var(--line2);border-radius:14px;margin-bottom:12px;transition:border-color .2s}
+.feed-item:hover{border-color:var(--line3)}
+.fi-icon{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;font-size:1.1rem;flex:none}
+.fi-body{flex:1;min-width:0}
+.fi-meta{display:flex;align-items:center;gap:8px;margin-bottom:5px}
+.fi-church-badge{width:22px;height:22px;border-radius:6px;display:grid;place-items:center;font-size:.7rem;font-weight:700;color:#fff;flex:none}
+.fi-church-name{font-size:.74rem;font-weight:700;color:var(--cr2)}
+.fi-time{font-size:.7rem;color:var(--cr3);margin-left:auto}
+.fi-title{font-size:.92rem;color:var(--cr);font-weight:700;margin-bottom:4px}
+.fi-desc{font-size:.78rem;color:var(--cr3);line-height:1.55}
+.fi-actions{display:flex;gap:8px;margin-top:10px}
+.fi-act{padding:5px 12px;border-radius:100px;font-size:.72rem;font-weight:700;background:var(--sur2);border:1px solid var(--line2);color:var(--cr3);transition:all .2s}
+.fi-act:hover,.fi-act.on{color:var(--cr);border-color:var(--line3)}
+.fi-act.red{background:rgba(224,57,46,.1);border-color:rgba(224,57,46,.3);color:var(--red)}
+
+/* FEED SIDEBAR */
+.feed-side{position:sticky;top:0;display:flex;flex-direction:column;gap:14px}
+.fs-panel{background:var(--sur);border:1px solid var(--line2);border-radius:14px;overflow:hidden}
+.fsp-head{padding:13px 16px;border-bottom:1px solid var(--line);font-size:.84rem;font-weight:700;color:var(--cr);display:flex;align-items:center;justify-content:space-between}
+.fsp-head a{font-size:.72rem;color:var(--gold);font-weight:600}
+.fsp-body{padding:10px 14px}
+.upcoming-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--line)}
+.upcoming-item:last-child{border-bottom:none}
+.ui-date{width:36px;height:40px;background:rgba(224,57,46,.1);border:1px solid rgba(224,57,46,.2);border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;flex:none}
+.ui-date b{font-size:.8rem;color:var(--red);font-weight:800;line-height:1}
+.ui-date small{font-size:.5rem;color:var(--cr3);text-transform:uppercase;letter-spacing:.06em}
+.ui-info b{display:block;font-size:.8rem;color:var(--cr);font-weight:700;line-height:1.3}
+.ui-info small{font-size:.66rem;color:var(--cr3)}
+
+/* ── CHURCHES VIEW ───────────────────── */
+.churches-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.fc-card{background:var(--sur);border:1px solid var(--line2);border-radius:16px;overflow:hidden;transition:border-color .25s,transform .25s}
+.fc-card:hover{border-color:rgba(224,57,46,.3);transform:translateY(-3px)}
+.fc-cover{height:80px;display:flex;align-items:center;justify-content:center;position:relative}
+.fc-badge{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;font-family:"Cormorant Garamond";font-weight:700;font-size:1.7rem;color:#fff;z-index:1}
+.fc-body{padding:14px}
+.fc-name{font-size:.92rem;color:var(--cr);font-weight:700;margin-bottom:3px}
+.fc-loc{font-size:.72rem;color:var(--cr3);margin-bottom:10px}
+.fc-stats{display:flex;gap:14px;margin-bottom:12px}
+.fc-stat b{display:block;font-family:"Cormorant Garamond";font-size:1.2rem;color:var(--cr);font-weight:600;line-height:1}
+.fc-stat span{font-size:.6rem;color:var(--cr3)}
+.fc-actions{display:flex;gap:8px}
+.fc-unfollow{flex:1;padding:8px;border-radius:100px;font-size:.76rem;font-weight:700;background:var(--greenf);border:1.5px solid var(--greenb);color:var(--green);transition:all .2s}
+.fc-unfollow:hover{background:rgba(224,57,46,.1);border-color:rgba(224,57,46,.3);color:var(--red)}
+.fc-view{padding:8px 13px;border-radius:100px;font-size:.76rem;font-weight:700;background:var(--sur2);border:1px solid var(--line2);color:var(--cr2);transition:all .2s}
+.fc-view:hover{color:var(--cr)}
+.discover-cta{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;background:var(--sur2);border:1px dashed var(--line3);border-radius:14px;cursor:pointer;transition:border-color .2s}
+.discover-cta:hover{border-color:rgba(224,57,46,.3)}
+.discover-cta span{font-size:.88rem;color:var(--cr2)}
+.discover-cta b{font-size:.84rem;color:var(--red)}
+
+/* ── BIBLE VIEW ──────────────────────── */
+.bible-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px}
+.bk-card{background:var(--sur);border:1px solid var(--line2);border-radius:14px;padding:16px;display:flex;gap:12px;cursor:pointer;transition:border-color .2s,transform .2s}
+.bk-card:hover{border-color:rgba(201,165,92,.35);transform:translateY(-2px)}
+.bk-ic{width:40px;height:40px;border-radius:10px;background:var(--goldf);display:grid;place-items:center;font-size:1.1rem;flex:none}
+.bk-info b{display:block;font-size:.86rem;color:var(--cr);font-weight:700;margin-bottom:3px}
+.bk-info p{font-size:.72rem;color:var(--cr2);line-height:1.6;margin-bottom:4px}
+.bk-info small{font-size:.64rem;color:var(--cr3)}
+.bk-ref{font-size:.7rem;font-weight:700;color:var(--gold);background:var(--goldf);border:1px solid var(--goldb);border-radius:100px;padding:3px 10px;margin-top:6px;display:inline-block}
+.reading-streak{background:linear-gradient(160deg,rgba(201,165,92,.1),rgba(224,57,46,.05));border:1px solid var(--goldb);border-radius:14px;padding:18px 20px;margin-bottom:20px;display:flex;align-items:center;gap:16px}
+.rs-num{font-family:"Cormorant Garamond";font-size:3.2rem;color:var(--gold);font-weight:600;line-height:1}
+.rs-info b{display:block;font-size:.9rem;color:var(--cr);font-weight:700}
+.rs-info p{font-size:.78rem;color:var(--cr3);line-height:1.55}
+.rs-days{display:flex;gap:5px;margin-top:10px}
+.rs-day{width:28px;height:28px;border-radius:50%;background:var(--sur2);border:1px solid var(--line2);display:grid;place-items:center;font-size:.58rem;font-weight:700;color:var(--cr3)}
+.rs-day.done{background:var(--goldf);border-color:var(--goldb);color:var(--gold)}
+.rs-day.today{background:var(--gold);border-color:var(--gold);color:var(--ink);font-size:.7rem}
+
+/* ── PRAYER VIEW ─────────────────────── */
+.prayer-compose{background:var(--sur);border:1px solid var(--line2);border-radius:14px;padding:18px;margin-bottom:20px}
+.prayer-compose label{display:block;font-size:.76rem;font-weight:700;color:var(--cr2);letter-spacing:.04em;margin-bottom:8px}
+.prayer-compose textarea{width:100%;background:var(--sur2);border:1px solid var(--line2);border-radius:10px;padding:13px;color:var(--cr);font-size:.9rem;font-family:inherit;resize:vertical;min-height:90px;outline:none;transition:border-color .2s}
+.prayer-compose textarea:focus{border-color:rgba(224,57,46,.4)}
+.prayer-compose textarea::placeholder{color:var(--cr3)}
+.pc-footer{display:flex;align-items:center;justify-content:space-between;margin-top:12px}
+.pc-priv{display:flex;align-items:center;gap:7px;font-size:.76rem;color:var(--cr3)}
+.pc-priv input[type=checkbox]{accent-color:var(--red)}
+.pc-submit{padding:9px 20px;border-radius:100px;background:var(--red);color:#fff;border:none;font-weight:700;font-size:.82rem;box-shadow:0 4px 14px rgba(224,57,46,.3);transition:all .2s}
+.pc-submit:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(224,57,46,.45)}
+.pr-card{background:var(--sur);border:1px solid var(--line2);border-radius:14px;padding:16px;margin-bottom:12px}
+.pr-header{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.pr-av{width:32px;height:32px;border-radius:50%;background:var(--sur3);display:grid;place-items:center;font-size:.8rem;font-weight:700;flex:none}
+.pr-info b{font-size:.84rem;color:var(--cr);display:block;font-weight:700;line-height:1.2}
+.pr-info small{font-size:.66rem;color:var(--cr3)}
+.pr-text{font-size:.88rem;color:var(--cr2);line-height:1.68;margin-bottom:12px}
+.pr-actions{display:flex;gap:8px}
+.pray-btn{display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:100px;font-size:.76rem;font-weight:700;background:var(--sur2);border:1px solid var(--line2);color:var(--cr3);transition:all .25s cubic-bezier(.34,1.56,.64,1)}
+.pray-btn:hover,.pray-btn.on{background:var(--goldf);border-color:var(--goldb);color:var(--gold)}
+.pr-chip{display:flex;align-items:center;gap:5px;padding:5px 10px;border-radius:100px;font-size:.68rem;background:var(--sur2);color:var(--cr3);margin-left:auto}
+
+/* ── GIVING VIEW ─────────────────────── */
+.giving-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px}
+.gs-card{background:var(--sur);border:1px solid var(--line2);border-radius:14px;padding:16px;text-align:center}
+.gs-card b{display:block;font-family:"Cormorant Garamond";font-size:1.8rem;color:var(--cr);font-weight:600;line-height:1;margin-bottom:4px}
+.gs-card span{font-size:.7rem;color:var(--cr3)}
+.giving-form{background:var(--sur);border:1px solid var(--line2);border-radius:14px;padding:20px;margin-bottom:24px}
+.gf-title{font-family:"Cormorant Garamond";font-size:1.2rem;color:var(--cr);margin-bottom:16px}
+.amount-btns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.ab{padding:9px 16px;border-radius:100px;font-size:.84rem;font-weight:700;background:var(--sur2);border:1.5px solid var(--line2);color:var(--cr2);transition:all .2s}
+.ab:hover,.ab.on{background:rgba(224,57,46,.1);border-color:rgba(224,57,46,.35);color:var(--cr)}
+.custom-amount{display:flex;align-items:center;gap:0;background:var(--sur2);border:1.5px solid var(--line2);border-radius:10px;overflow:hidden;margin-bottom:14px;transition:border-color .2s}
+.custom-amount:focus-within{border-color:rgba(224,57,46,.4)}
+.ca-pre{padding:12px 13px;font-size:.9rem;font-weight:700;color:var(--cr3);border-right:1px solid var(--line2)}
+.ca-input{flex:1;background:none;border:none;outline:none;padding:12px;color:var(--cr);font-size:.95rem;font-family:inherit}
+.ca-input::placeholder{color:var(--cr3)}
+.desig-sel{width:100%;background:var(--sur2);border:1.5px solid var(--line2);border-radius:10px;padding:12px 14px;color:var(--cr);font-size:.9rem;font-family:inherit;outline:none;appearance:none;margin-bottom:14px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23F6EFE6' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;cursor:pointer}
+.desig-sel option{background:var(--sur)}
+.method-btns{display:flex;gap:8px;margin-bottom:16px}
+.mb{flex:1;padding:11px;border-radius:10px;border:1.5px solid var(--line2);background:var(--sur2);color:var(--cr3);font-size:.78rem;font-weight:700;transition:all .2s;text-align:center}
+.mb:hover,.mb.on{border-color:rgba(224,57,46,.35);background:rgba(224,57,46,.06);color:var(--cr)}
+.give-btn{width:100%;padding:13px;border-radius:100px;background:var(--red);color:#fff;border:none;font-weight:700;font-size:.95rem;box-shadow:0 6px 20px rgba(224,57,46,.35);transition:all .25s}
+.give-btn:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(224,57,46,.5)}
+.txn-table{width:100%;border-collapse:collapse}
+.txn-table th{text-align:left;font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--cr3);padding:10px 14px;border-bottom:1px solid var(--line)}
+.txn-table td{padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:middle}
+.txn-table tr:last-child td{border-bottom:none}
+.txn-table tr:hover td{background:rgba(246,239,230,.02)}
+.txn-av{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font-size:.85rem;flex:none}
+.txn-name{font-size:.86rem;color:var(--cr);font-weight:600}
+.txn-meta{font-size:.7rem;color:var(--cr3)}
+.txn-badge{font-size:.62rem;font-weight:700;padding:3px 8px;border-radius:100px}
+.badge-t{background:var(--goldf);color:var(--gold)}
+.badge-o{background:var(--bluef);color:var(--blue)}
+.badge-b{background:var(--greenf);color:var(--green)}
+.txn-amount{font-weight:700;font-size:.92rem;color:var(--cr);text-align:right}
+
+/* ── SETTINGS VIEW ───────────────────── */
+.settings-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.set-panel{background:var(--sur);border:1px solid var(--line2);border-radius:14px;padding:20px}
+.set-panel.full{grid-column:1/-1}
+.sp-title{font-size:.88rem;font-weight:700;color:var(--cr);margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.sfield{margin-bottom:16px}
+.sfield label{display:block;font-size:.72rem;font-weight:700;color:var(--cr2);letter-spacing:.04em;margin-bottom:6px}
+.sfield input,.sfield select{width:100%;background:var(--sur2);border:1.5px solid var(--line2);border-radius:9px;padding:11px 13px;color:var(--cr);font-size:.88rem;font-family:inherit;outline:none;transition:border-color .2s}
+.sfield input:focus,.sfield select:focus{border-color:rgba(224,57,46,.45)}
+.sfield input::placeholder{color:var(--cr3)}
+.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--line)}
+.toggle-row:last-child{border-bottom:none}
+.tr-info b{display:block;font-size:.84rem;color:var(--cr);font-weight:600}
+.tr-info small{font-size:.7rem;color:var(--cr3)}
+.toggle{width:42px;height:24px;border-radius:100px;position:relative;cursor:pointer;transition:background .3s;border:none;flex:none}
+.toggle.on{background:var(--red)}
+.toggle.off{background:var(--sur3)}
+.toggle::after{content:"";width:18px;height:18px;border-radius:50%;background:#fff;position:absolute;top:3px;transition:left .3s;box-shadow:0 1px 4px rgba(0,0,0,.3)}
+.toggle.on::after{left:21px}
+.toggle.off::after{left:3px}
+.save-btn{padding:11px 28px;border-radius:100px;background:var(--red);color:#fff;border:none;font-weight:700;font-size:.88rem;box-shadow:0 4px 14px rgba(224,57,46,.3);transition:all .2s;margin-top:6px}
+.save-btn:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(224,57,46,.45)}
+.danger-zone{background:rgba(224,57,46,.04);border:1px solid rgba(224,57,46,.15);border-radius:14px;padding:18px 20px}
+.dz-title{font-size:.82rem;font-weight:700;color:var(--red);margin-bottom:10px}
+.dz-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(224,57,46,.1)}
+.dz-row:last-child{border-bottom:none}
+.dz-info b{font-size:.84rem;color:var(--cr)}
+.dz-info small{font-size:.7rem;color:var(--cr3)}
+.dz-btn{padding:7px 16px;border-radius:100px;font-size:.76rem;font-weight:700;background:none;border:1px solid rgba(224,57,46,.35);color:var(--red);transition:all .2s}
+.dz-btn:hover{background:rgba(224,57,46,.1)}
+
+/* SECTION HEADER */
+.sec-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.sec-head h2{font-size:1.5rem;color:var(--cr)}
+.sec-head a,.sec-head button{font-size:.8rem;font-weight:700;color:var(--gold);background:none;border:none;cursor:pointer;padding:6px 14px;border-radius:100px;border:1px solid var(--goldb);transition:all .2s}
+.sec-head a:hover,.sec-head button:hover{background:var(--goldf)}
+
+/* EMPTY */
+.empty-state{text-align:center;padding:48px 20px;color:var(--cr3)}
+.empty-state .es-ic{font-size:2.5rem;margin-bottom:14px;opacity:.4}
+.empty-state p{font-size:.88rem;line-height:1.65}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--sur2);border:1px solid var(--line2);border-radius:12px;padding:12px 18px;display:flex;align-items:center;gap:10px;z-index:200;box-shadow:0 12px 32px rgba(0,0,0,.5);transform:translateY(16px);opacity:0;transition:all .35s cubic-bezier(.22,1,.36,1);pointer-events:none;min-width:220px}
+.toast.show{transform:none;opacity:1}
+.toast b{font-size:.84rem;color:var(--cr)}
+
+/* MOBILE */
+@media(max-width:860px){
+  :root{--sb:0px}
+  .sidebar{transform:translateX(-240px);width:240px}
+  .sidebar.open{transform:none}
+  .topbar{left:0}
+  .tb-hamburger{display:block}
+  .main{margin-left:0}
+  .overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:45;display:none}
+  .overlay.on{display:block}
+  .feed-layout,.settings-grid,.churches-grid,.bible-grid,.giving-stats{grid-template-columns:1fr}
+  .view{padding:20px 16px 60px}
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sb-head">
+    <a href="baptist-studio.html" class="sb-logo">
+      <svg viewBox="0 0 60 60" fill="none">
+        <ellipse cx="30" cy="30" rx="24" ry="20" stroke="#E0392E" stroke-width="2.2" transform="rotate(-22 30 30)" opacity=".92"/>
+        <ellipse cx="30" cy="30" rx="23" ry="22" stroke="#B82A21" stroke-width="1.8" transform="rotate(12 30 30)" opacity=".75"/>
+        <text x="30" y="41" text-anchor="middle" font-family="Georgia,serif" font-size="27" font-weight="bold" fill="#E0392E">B</text>
+      </svg>
+      <span>Baptist Studio</span>
+    </a>
+    <div class="sb-avatar">
+      <div class="av" id="sidebarAv">J</div>
+      <div class="av-info">
+        <b id="sidebarName">Joseph S.</b>
+        <small>Member account</small>
+      </div>
+    </div>
+  </div>
+  <nav class="sb-nav">
+    <div class="sb-section">
+      <div class="sb-sec-label">My account</div>
+      <button class="sbn on" data-v="feed" onclick="goView('feed',this)"><span class="ic">🏠</span>My feed<span class="badge" id="feedBadge">3</span></button>
+      <button class="sbn" data-v="churches" onclick="goView('churches',this)"><span class="ic">⛪</span>Following</button>
+      <button class="sbn" data-v="bible" onclick="goView('bible',this)"><span class="ic">📖</span>Bible</button>
+      <button class="sbn" data-v="prayer" onclick="goView('prayer',this)"><span class="ic">🙏</span>Prayer wall</button>
+    </div>
+    <div class="sb-section">
+      <div class="sb-sec-label">Giving</div>
+      <button class="sbn" data-v="giving" onclick="goView('giving',this)"><span class="ic">💝</span>Give &amp; history</button>
+    </div>
+    <div class="sb-section">
+      <div class="sb-sec-label">Explore</div>
+      <button class="sbn" onclick="window.location='directory.html'"><span class="ic">🗺</span>Church directory</button>
+      <button class="sbn" onclick="window.location='bible.html'"><span class="ic">📜</span>Bible reader</button>
+      <button class="sbn" onclick="window.location='prayer.html'"><span class="ic">🙏</span>Public prayer wall</button>
+      <button class="sbn" onclick="window.location='give.html'"><span class="ic">💳</span>Give online</button>
+    </div>
+    <div class="sb-section">
+      <div class="sb-sec-label">Account</div>
+      <button class="sbn" data-v="settings" onclick="goView('settings',this)"><span class="ic">⚙️</span>Settings</button>
+    </div>
+  </nav>
+  <div class="sb-foot">
+    <button class="sb-foot-btn" onclick="confirmLogout()">← Sign out</button>
+  </div>
+</aside>
+
+<!-- OVERLAY (mobile) -->
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <button class="tb-hamburger" onclick="toggleSidebar()">☰</button>
+  <span class="tb-title" id="tbTitle">My feed</span>
+  <div class="tb-right">
+    <div class="tb-search">
+      <span style="color:var(--cr3);font-size:.85rem">🔍</span>
+      <input type="text" placeholder="Search…">
+    </div>
+    <div class="tb-notif" onclick="showToast('🔔 No new notifications')"><span>🔔</span><span class="dot"></span></div>
+    <div class="av" id="topbarAv" style="width:34px;height:34px;font-size:1.1rem;cursor:pointer" onclick="goView('settings',document.querySelector('[data-v=settings]'))">J</div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<main class="main" id="mainScroll">
+
+  <!-- ── FEED ── -->
+  <div class="view on" id="view-feed">
+    <div class="feed-layout">
+      <div>
+        <div class="daily-verse dv">
+          <div class="dv-label">Today's verse · June 17</div>
+          <div class="dv-text">"I can do all things through Christ which strengtheneth me."</div>
+          <div class="dv-ref">Philippians 4:13 · KJV</div>
+          <div class="dv-actions">
+            <button class="dv-btn" onclick="window.location='bible.html'">📖 Read chapter</button>
+            <button class="dv-btn" onclick="copyVerse()">📋 Copy</button>
+            <button class="dv-btn" onclick="shareVerse()">↗ Share</button>
+          </div>
+        </div>
+
+        <!-- FEED ITEMS -->
+        <div id="feedItems">
+          <div class="feed-item">
+            <div class="fi-icon" style="background:rgba(224,57,46,.1)">📅</div>
+            <div class="fi-body">
+              <div class="fi-meta">
+                <div class="fi-church-badge" style="background:linear-gradient(145deg,#E0392E,#8E1F18)">L</div>
+                <span class="fi-church-name">Lusaka Baptist Church</span>
+                <span class="fi-time">2h ago</span>
+              </div>
+              <div class="fi-title">Sunday Service — "Walk by Faith"</div>
+              <div class="fi-desc">Join us this Sunday at 9:00 AM and 11:30 AM for our regular service. Pastor David Banda will preach from 2 Corinthians 5:7.</div>
+              <div class="fi-actions">
+                <button class="fi-act red">RSVP going</button>
+                <button class="fi-act">Share</button>
+                <button class="fi-act">Add to calendar</button>
+              </div>
+            </div>
+          </div>
+          <div class="feed-item">
+            <div class="fi-icon" style="background:rgba(79,142,247,.1)">🎵</div>
+            <div class="fi-body">
+              <div class="fi-meta">
+                <div class="fi-church-badge" style="background:linear-gradient(145deg,#4f8ef7,#2460cc)">G</div>
+                <span class="fi-church-name">Grace Baptist Church</span>
+                <span class="fi-time">5h ago</span>
+              </div>
+              <div class="fi-title">New sermon: "The God Who Provides"</div>
+              <div class="fi-desc">Pastor Grace Mwanza's message from last Sunday is now available to watch and listen. 42 minutes.</div>
+              <div class="fi-actions">
+                <button class="fi-act red" onclick="window.location='church.html'">▶ Play sermon</button>
+                <button class="fi-act">Save for later</button>
+              </div>
+            </div>
+          </div>
+          <div class="feed-item">
+            <div class="fi-icon" style="background:rgba(201,165,92,.1)">📢</div>
+            <div class="fi-body">
+              <div class="fi-meta">
+                <div class="fi-church-badge" style="background:linear-gradient(145deg,#E0392E,#8E1F18)">L</div>
+                <span class="fi-church-name">Lusaka Baptist Church</span>
+                <span class="fi-time">1d ago</span>
+              </div>
+              <div class="fi-title">Youth conference registration now open</div>
+              <div class="fi-desc">The 2026 ZBA Youth Conference is coming to Lusaka! Register by June 30 — limited spaces. Theme: "Generation Chosen."</div>
+              <div class="fi-actions">
+                <button class="fi-act red">Register now</button>
+                <button class="fi-act">Learn more</button>
+              </div>
+            </div>
+          </div>
+          <div class="feed-item">
+            <div class="fi-icon" style="background:rgba(63,207,109,.1)">🙏</div>
+            <div class="fi-body">
+              <div class="fi-meta">
+                <div class="fi-church-badge" style="background:linear-gradient(145deg,#3fcf6d,#1a7a3a)">E</div>
+                <span class="fi-church-name">Emmanuel Baptist Church</span>
+                <span class="fi-time">2d ago</span>
+              </div>
+              <div class="fi-title">Prayer request: Sister Mwale's healing</div>
+              <div class="fi-desc">"Please pray for Sister Grace Mwale who is recovering from surgery. She is doing well but needs our prayers for a full recovery."</div>
+              <div class="fi-actions">
+                <button class="fi-act" onclick="this.classList.toggle('on');this.textContent=this.classList.contains('on')?'🙏 Praying':'🙏 I\'m praying'">🙏 I'm praying</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FEED SIDEBAR -->
+      <aside class="feed-side">
+        <div class="fs-panel">
+          <div class="fsp-head">Upcoming events <a href="#">See all</a></div>
+          <div class="fsp-body">
+            <div class="upcoming-item">
+              <div class="ui-date"><b>22</b><small>Jun</small></div>
+              <div class="ui-info"><b>Sunday Service</b><small>Lusaka Baptist · 9:00 AM</small></div>
+            </div>
+            <div class="upcoming-item">
+              <div class="ui-date"><b>28</b><small>Jun</small></div>
+              <div class="ui-info"><b>Youth Conference</b><small>ZBA · All day</small></div>
+            </div>
+            <div class="upcoming-item">
+              <div class="ui-date"><b>30</b><small>Jun</small></div>
+              <div class="ui-info"><b>Prayer night</b><small>Grace Baptist · 7:00 PM</small></div>
+            </div>
+          </div>
+        </div>
+        <div class="fs-panel">
+          <div class="fsp-head">Quick give <a href="#" onclick="goView('giving',document.querySelector('[data-v=giving]'));return false">Open giving</a></div>
+          <div class="fsp-body">
+            <div style="font-size:.8rem;color:var(--cr2);line-height:1.65;margin-bottom:12px">Support Lusaka Baptist Church with a tithe or offering.</div>
+            <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:10px">
+              <button class="ab" onclick="setQG(this,50)">K50</button>
+              <button class="ab" onclick="setQG(this,100)">K100</button>
+              <button class="ab" onclick="setQG(this,200)">K200</button>
+            </div>
+            <button class="give-btn" style="font-size:.84rem;padding:10px" onclick="showToast('💝 Opening giving…');goView(\'giving\',document.querySelector(\'[data-v=giving]\'))">Give now →</button>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <!-- ── CHURCHES ── -->
+  <div class="view" id="view-churches">
+    <div class="sec-head">
+      <h2>Following</h2>
+      <a href="directory.html">+ Find more churches</a>
+    </div>
+    <div class="churches-grid" id="churchesGrid">
+      <!-- populated by JS -->
+    </div>
+    <div style="margin-top:16px">
+      <div class="discover-cta" onclick="window.location='directory.html'">
+        <span>Discover more Baptist churches across Zambia</span>
+        <b>Browse directory →</b>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── BIBLE ── -->
+  <div class="view" id="view-bible">
+    <div class="sec-head"><h2>Bible &amp; reading</h2><a href="bible.html">Open reader →</a></div>
+    <div class="reading-streak">
+      <div class="rs-num">5</div>
+      <div>
+        <div class="rs-info"><b>Day streak 🔥</b><p>Keep it up! Read today to extend your streak.</p></div>
+        <div class="rs-days">
+          <div class="rs-day done">Mo</div>
+          <div class="rs-day done">Tu</div>
+          <div class="rs-day done">We</div>
+          <div class="rs-day done">Th</div>
+          <div class="rs-day done">Fr</div>
+          <div class="rs-day today">Sa</div>
+          <div class="rs-day">Su</div>
+        </div>
+      </div>
+    </div>
+    <div class="sec-head" style="margin-bottom:12px"><h2 style="font-size:1.2rem">Bookmarks</h2><button onclick="window.location='bible.html'">View all in reader</button></div>
+    <div class="bible-grid" id="bibleBookmarks">
+      <!-- populated by JS -->
+    </div>
+    <div class="sec-head" style="margin-bottom:12px;margin-top:8px"><h2 style="font-size:1.2rem">Recent highlights</h2></div>
+    <div id="bibleHighlights">
+      <!-- populated by JS -->
+    </div>
+  </div>
+
+  <!-- ── PRAYER ── -->
+  <div class="view" id="view-prayer">
+    <div class="sec-head"><h2>Prayer wall</h2></div>
+    <div class="prayer-compose">
+      <label>Share a prayer request</label>
+      <textarea id="prayerText" placeholder="Type your prayer request… your church community will pray with you."></textarea>
+      <div class="pc-footer">
+        <label class="pc-priv"><input type="checkbox"> Keep anonymous</label>
+        <button class="pc-submit" onclick="submitPrayer()">Share request</button>
+      </div>
+    </div>
+    <div id="prayerList">
+      <!-- populated by JS -->
+    </div>
+  </div>
+
+  <!-- ── GIVING ── -->
+  <div class="view" id="view-giving">
+    <div class="sec-head"><h2>Give &amp; history</h2></div>
+    <div class="giving-stats">
+      <div class="gs-card"><b>K2,400</b><span>Given this year</span></div>
+      <div class="gs-card"><b>12</b><span>Transactions</span></div>
+      <div class="gs-card"><b>K200</b><span>Average monthly</span></div>
+    </div>
+    <div class="giving-form">
+      <div class="gf-title">Make a contribution</div>
+      <div class="amount-btns">
+        <button class="ab" onclick="pickAmt(this,50)">K50</button>
+        <button class="ab on" onclick="pickAmt(this,100)">K100</button>
+        <button class="ab" onclick="pickAmt(this,200)">K200</button>
+        <button class="ab" onclick="pickAmt(this,500)">K500</button>
+        <button class="ab" onclick="pickAmt(this,1000)">K1,000</button>
+      </div>
+      <div class="custom-amount">
+        <span class="ca-pre">K</span>
+        <input class="ca-input" type="number" id="giveAmt" value="100" placeholder="0">
+      </div>
+      <select class="desig-sel">
+        <option>Tithe (10%)</option>
+        <option>Sunday offering</option>
+        <option>Building fund</option>
+        <option>Youth ministry</option>
+        <option>Missions</option>
+      </select>
+      <div class="method-btns">
+        <button class="mb on" onclick="pickMethod(this)">📱 Airtel Money</button>
+        <button class="mb" onclick="pickMethod(this)">📱 MTN Money</button>
+        <button class="mb" onclick="pickMethod(this)">💳 Card</button>
+      </div>
+      <button class="give-btn" onclick="processGiving()">Give K<span id="giveLbl">100</span> now</button>
+    </div>
+    <div class="sec-head" style="margin-bottom:12px"><h2 style="font-size:1.2rem">Recent transactions</h2></div>
+    <div style="background:var(--sur);border:1px solid var(--line2);border-radius:14px;overflow:hidden">
+      <table class="txn-table">
+        <thead><tr><th>Description</th><th>Type</th><th>Method</th><th style="text-align:right">Amount</th></tr></thead>
+        <tbody>
+          <tr><td><div class="txn-name">Lusaka Baptist Church</div><div class="txn-meta">Jun 9, 2026</div></td><td><span class="txn-badge badge-t">Tithe</span></td><td><span style="font-size:.76rem;color:var(--cr3)">Airtel Money</span></td><td class="txn-amount">K200</td></tr>
+          <tr><td><div class="txn-name">Lusaka Baptist Church</div><div class="txn-meta">Jun 2, 2026</div></td><td><span class="txn-badge badge-o">Offering</span></td><td><span style="font-size:.76rem;color:var(--cr3)">MTN Money</span></td><td class="txn-amount">K50</td></tr>
+          <tr><td><div class="txn-name">Grace Baptist Church</div><div class="txn-meta">May 26, 2026</div></td><td><span class="txn-badge badge-b">Building</span></td><td><span style="font-size:.76rem;color:var(--cr3)">Card</span></td><td class="txn-amount">K500</td></tr>
+          <tr><td><div class="txn-name">Lusaka Baptist Church</div><div class="txn-meta">May 19, 2026</div></td><td><span class="txn-badge badge-t">Tithe</span></td><td><span style="font-size:.76rem;color:var(--cr3)">Airtel Money</span></td><td class="txn-amount">K200</td></tr>
+          <tr><td><div class="txn-name">Lusaka Baptist Church</div><div class="txn-meta">May 12, 2026</div></td><td><span class="txn-badge badge-o">Offering</span></td><td><span style="font-size:.76rem;color:var(--cr3)">Airtel Money</span></td><td class="txn-amount">K100</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── SETTINGS ── -->
+  <div class="view" id="view-settings">
+    <div class="sec-head"><h2>Account settings</h2></div>
+    <div class="settings-grid">
+      <div class="set-panel full">
+        <div class="sp-title">👤 Personal information</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+          <div class="sfield"><label>First name</label><input type="text" id="stFn" value="Joseph"></div>
+          <div class="sfield"><label>Last name</label><input type="text" id="stLn" value="Sikalumba"></div>
+        </div>
+        <div class="sfield"><label>Email address</label><input type="email" id="stEmail" value="josephsikalumba403@gmail.com"></div>
+        <div class="sfield"><label>Phone number</label><input type="tel" id="stPhone" placeholder="+260 97 …"></div>
+        <div class="sfield"><label>City</label><input type="text" id="stCity" placeholder="Lusaka"></div>
+        <button class="save-btn" onclick="saveProfile()">Save changes</button>
+      </div>
+      <div class="set-panel">
+        <div class="sp-title">🔔 Notifications</div>
+        <div class="toggle-row">
+          <div class="tr-info"><b>Events &amp; services</b><small>From churches you follow</small></div>
+          <button class="toggle on" onclick="this.classList.toggle('on');this.classList.toggle('off')"></button>
+        </div>
+        <div class="toggle-row">
+          <div class="tr-info"><b>New sermons</b><small>When a new sermon is uploaded</small></div>
+          <button class="toggle on" onclick="this.classList.toggle('on');this.classList.toggle('off')"></button>
+        </div>
+        <div class="toggle-row">
+          <div class="tr-info"><b>Announcements</b><small>Church-wide messages</small></div>
+          <button class="toggle on" onclick="this.classList.toggle('on');this.classList.toggle('off')"></button>
+        </div>
+        <div class="toggle-row">
+          <div class="tr-info"><b>Daily verse</b><small>Scripture reminder each morning</small></div>
+          <button class="toggle on" onclick="this.classList.toggle('on');this.classList.toggle('off')"></button>
+        </div>
+        <div class="toggle-row">
+          <div class="tr-info"><b>Prayer wall</b><small>New requests from your churches</small></div>
+          <button class="toggle off" onclick="this.classList.toggle('on');this.classList.toggle('off')"></button>
+        </div>
+        <div class="toggle-row">
+          <div class="tr-info"><b>Giving reminders</b><small>Monthly tithe reminders</small></div>
+          <button class="toggle off" onclick="this.classList.toggle('on');this.classList.toggle('off')"></button>
+        </div>
+      </div>
+      <div class="set-panel">
+        <div class="sp-title">🔑 Security</div>
+        <div class="sfield"><label>Current password</label><input type="password" placeholder="••••••••"></div>
+        <div class="sfield"><label>New password</label><input type="password" placeholder="Minimum 8 characters"></div>
+        <div class="sfield"><label>Confirm new password</label><input type="password" placeholder="Repeat new password"></div>
+        <button class="save-btn" onclick="showToast('🔑 Password updated successfully')">Update password</button>
+      </div>
+      <div class="set-panel full">
+        <div class="danger-zone">
+          <div class="dz-title">⚠ Danger zone</div>
+          <div class="dz-row">
+            <div class="dz-info"><b>Export my data</b><small>Download all your giving history, bookmarks and prayer requests</small></div>
+            <button class="dz-btn" onclick="showToast('📦 Export will be emailed to you')">Export</button>
+          </div>
+          <div class="dz-row">
+            <div class="dz-info"><b>Sign out of all devices</b><small>This will end all active sessions</small></div>
+            <button class="dz-btn" onclick="confirmLogout()">Sign out all</button>
+          </div>
+          <div class="dz-row">
+            <div class="dz-info"><b>Delete account</b><small>Permanently remove your account and all data</small></div>
+            <button class="dz-btn" onclick="showToast('Please contact support to delete your account')">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- TOAST -->
+<div class="toast" id="toast"><b id="toastMsg"></b></div>
+
+<script>
+/* ═══════════════════════════════════════
+   USER + CHURCHES
+═══════════════════════════════════════ */
+const member = JSON.parse(localStorage.getItem('bs_member')||'{"name":"Joseph S.","email":"josephsikalumba403@gmail.com"}');
+const firstName = (member.name || 'Joseph').split(' ')[0];
+const initial = firstName[0].toUpperCase();
+document.getElementById('sidebarAv').textContent = initial;
+document.getElementById('topbarAv').textContent = initial;
+document.getElementById('sidebarName').textContent = member.name || 'Joseph S.';
+
+const FOLLOWED_CHURCHES = [
+  {id:1,name:"Lusaka Baptist Church",city:"Kabulonga, Lusaka",badge:"L",color:"linear-gradient(145deg,#E0392E,#8E1F18)",cover:"linear-gradient(160deg,#3a0c08,#1a0508)",members:1240,events:8,verified:true,url:"church.html"},
+  {id:2,name:"Grace Baptist Church",city:"Chelston, Lusaka",badge:"G",color:"linear-gradient(145deg,#4f8ef7,#2460cc)",cover:"linear-gradient(160deg,#0d1a38,#060e1e)",members:860,events:5,verified:true,url:null},
+  {id:3,name:"Emmanuel Baptist Church",city:"Matero, Lusaka",badge:"E",color:"linear-gradient(145deg,#3fcf6d,#1a7a3a)",cover:"linear-gradient(160deg,#0d200d,#060e06)",members:420,events:4,verified:true,url:null},
+];
+
+function renderChurches() {
+  document.getElementById('churchesGrid').innerHTML = FOLLOWED_CHURCHES.map(c => `
+    <div class="fc-card">
+      <div class="fc-cover" style="background:${c.cover}">
+        <div class="fc-badge" style="background:${c.color}">${c.badge}</div>
+      </div>
+      <div class="fc-body">
+        <div class="fc-name">${c.name}</div>
+        <div class="fc-loc">📍 ${c.city}</div>
+        <div class="fc-stats">
+          <div class="fc-stat"><b>${c.members>=1000?(c.members/1000).toFixed(1)+'k':c.members}</b><span>Members</span></div>
+          <div class="fc-stat"><b>${c.events}</b><span>Events/mo</span></div>
+        </div>
+        <div class="fc-actions">
+          <button class="fc-unfollow" onclick="unfollowChurch(${c.id},this)">✓ Following</button>
+          <button class="fc-view" onclick="${c.url?`window.location='${c.url}'`:`showToast('⛪ Church profile coming soon')`}">View →</button>
+        </div>
+      </div>
+    </div>`).join('');
+}
+function unfollowChurch(id, btn) {
+  btn.textContent = '+ Follow';
+  btn.classList.remove('fc-unfollow');
+  btn.classList.add('fc-view');
+  btn.style.flex='1';
+  showToast('Unfollowed — you can re-follow from the directory');
+}
+
+/* ═══════════════════════════════════════
+   BIBLE BOOKMARKS
+═══════════════════════════════════════ */
+const DEFAULT_BOOKMARKS = [
+  {book:"Psalm 23",chapter:1,verse:1,text:"The Lord is my shepherd; I shall not want.",color:"gold"},
+  {book:"John 3",chapter:3,verse:16,text:"For God so loved the world, that he gave his only begotten Son…",color:"red"},
+  {book:"Philippians 4",chapter:4,verse:13,text:"I can do all things through Christ which strengtheneth me.",color:"green"},
+  {book:"Romans 8",chapter:8,verse:28,text:"And we know that all things work together for good to them that love God…",color:"blue"},
+];
+const stored = JSON.parse(localStorage.getItem('bs_bookmarks')||'[]');
+const bookmarks = stored.length ? stored : DEFAULT_BOOKMARKS;
+const colorMap = {gold:'var(--gold)',red:'var(--red)',green:'var(--green)',blue:'var(--blue)'};
+const colorBg = {gold:'var(--goldf)',red:'rgba(224,57,46,.1)',green:'var(--greenf)',blue:'var(--bluef)'};
+
+function renderBible() {
+  document.getElementById('bibleBookmarks').innerHTML = bookmarks.slice(0,4).map(b => `
+    <div class="bk-card" onclick="window.location='bible.html'">
+      <div class="bk-ic" style="background:${colorBg[b.color]||'var(--goldf)'}">📖</div>
+      <div class="bk-info">
+        <b>${b.book}</b>
+        <p>"${b.text.substring(0,80)}${b.text.length>80?'…':''}"</p>
+        <span class="bk-ref" style="background:${colorBg[b.color]||'var(--goldf)'};border-color:${colorMap[b.color]||'var(--gold)'};color:${colorMap[b.color]||'var(--gold)'}">Bookmarked</span>
+      </div>
+    </div>`).join('') || '<div class="empty-state"><div class="es-ic">📖</div><p>No bookmarks yet.<br><a href="bible.html" style="color:var(--gold)">Open the Bible reader</a> to start highlighting verses.</p></div>';
+
+  const highlights = JSON.parse(localStorage.getItem('bs_highlights')||'{}');
+  const hlKeys = Object.keys(highlights);
+  document.getElementById('bibleHighlights').innerHTML = hlKeys.length ? hlKeys.slice(0,3).map(k => {
+    const color = highlights[k];
+    return `<div class="feed-item" style="margin-bottom:10px;cursor:pointer" onclick="window.location='bible.html'">
+      <div style="width:8px;height:8px;border-radius:50%;background:${colorMap[color]||'var(--gold)'};margin-top:5px;flex:none"></div>
+      <div class="fi-body">
+        <div class="fi-title" style="font-size:.84rem">${k}</div>
+        <div class="fi-desc">Highlighted in ${color}</div>
+      </div>
+    </div>`;
+  }).join('') : '<div class="empty-state" style="padding:24px"><div class="es-ic">✏️</div><p>No highlights yet. Select a verse in the Bible reader to highlight it.</p></div>';
+}
+
+/* ═══════════════════════════════════════
+   PRAYER
+═══════════════════════════════════════ */
+const PRAYERS = [
+  {name:"Joseph S.",initials:"JS",time:"You · 3 days ago",text:"Lord, please guide my family as we navigate a difficult season. Give us wisdom and peace that surpasses understanding.",praying:12,anonymous:false},
+  {name:"Anonymous",initials:"A",time:"Lusaka Baptist · 1 day ago",text:"Pray for our church building project. We need K240,000 more for the roof. May God provide through generous hearts.",praying:34,anonymous:true},
+  {name:"Grace M.",initials:"GM",time:"Grace Baptist · 2 days ago",text:"Please pray for my mother who was diagnosed this week. The doctors are hopeful but we are trusting God for a miracle.",praying:67,anonymous:false},
+];
+function renderPrayers() {
+  document.getElementById('prayerList').innerHTML = PRAYERS.map((p,i) => `
+    <div class="pr-card" id="pr${i}">
+      <div class="pr-header">
+        <div class="pr-av" style="background:${p.anonymous?'var(--sur3)':'linear-gradient(145deg,var(--red),var(--red-d))'}">${p.initials}</div>
+        <div class="pr-info"><b>${p.name}</b><small>${p.time}</small></div>
+        <span class="pr-chip" id="prc${i}">🙏 ${p.praying} praying</span>
+      </div>
+      <div class="pr-text">"${p.text}"</div>
+      <div class="pr-actions">
+        <button class="pray-btn" onclick="togglePray(${i},this)">🙏 I'm praying</button>
+        <button class="pray-btn" onclick="showToast('Request shared')">↗ Share</button>
+      </div>
+    </div>`).join('');
+}
+let prayingSet = new Set();
+function togglePray(i, btn) {
+  if (prayingSet.has(i)) { prayingSet.delete(i); btn.classList.remove('on'); PRAYERS[i].praying--; }
+  else { prayingSet.add(i); btn.classList.add('on'); PRAYERS[i].praying++; showToast('🙏 Prayer counted'); }
+  document.getElementById('prc'+i).textContent = `🙏 ${PRAYERS[i].praying} praying`;
+}
+function submitPrayer() {
+  const t = document.getElementById('prayerText').value.trim();
+  if (!t) { showToast('Please type your prayer request first'); return; }
+  const newPrayer = {name:'Joseph S.',initials:'JS',time:'You · Just now',text:t,praying:0,anonymous:false};
+  PRAYERS.unshift(newPrayer);
+  document.getElementById('prayerText').value='';
+  renderPrayers();
+  showToast('🙏 Prayer request shared with your churches');
+}
+
+/* ═══════════════════════════════════════
+   GIVING
+═══════════════════════════════════════ */
+let giveAmt = 100;
+function pickAmt(btn, amt) {
+  document.querySelectorAll('#view-giving .amount-btns .ab').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  giveAmt = amt;
+  document.getElementById('giveAmt').value = amt;
+  document.getElementById('giveLbl').textContent = amt.toLocaleString();
+}
+document.getElementById('giveAmt').addEventListener('input', function() {
+  giveAmt = parseInt(this.value)||0;
+  document.getElementById('giveLbl').textContent = giveAmt.toLocaleString();
+});
+function pickMethod(btn) {
+  document.querySelectorAll('#view-giving .method-btns .mb').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+}
+function processGiving() {
+  showToast(`💝 Processing K${giveAmt.toLocaleString()} — you'll receive a confirmation SMS`);
+}
+function setQG(btn,amt) {
+  document.querySelectorAll('.feed-side .ab').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+}
+
+/* ═══════════════════════════════════════
+   NAV
+═══════════════════════════════════════ */
+const TITLES = {feed:'My feed',churches:'Following',bible:'Bible & reading',prayer:'Prayer wall',giving:'Give & history',settings:'Account settings'};
+function goView(name, btn) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('on'));
+  document.querySelectorAll('.sbn').forEach(b => b.classList.remove('on'));
+  document.getElementById('view-'+name).classList.add('on');
+  if (btn) btn.classList.add('on');
+  document.getElementById('tbTitle').textContent = TITLES[name] || name;
+  if (name==='feed') document.getElementById('feedBadge').style.display='none';
+  closeSidebar();
+  document.getElementById('mainScroll').scrollTo(0,0);
+}
+
+/* MOBILE SIDEBAR */
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('on');
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('overlay').classList.remove('on');
+}
+
+/* ═══════════════════════════════════════
+   SETTINGS SAVE
+═══════════════════════════════════════ */
+function saveProfile() {
+  const fn = document.getElementById('stFn').value.trim();
+  const ln = document.getElementById('stLn').value.trim();
+  document.getElementById('sidebarName').textContent = `${fn} ${ln[0]}.`;
+  document.getElementById('sidebarAv').textContent = fn[0].toUpperCase();
+  document.getElementById('topbarAv').textContent = fn[0].toUpperCase();
+  showToast('✓ Profile saved successfully');
+}
+
+/* ═══════════════════════════════════════
+   UTILS
+═══════════════════════════════════════ */
+let tt;
+function showToast(msg) {
+  document.getElementById('toastMsg').textContent = msg;
+  const t = document.getElementById('toast');
+  t.classList.add('show');
+  clearTimeout(tt);
+  tt = setTimeout(() => t.classList.remove('show'), 3000);
+}
+function confirmLogout() {
+  if (confirm('Sign out of your member account?')) window.location.href = 'baptist-studio.html';
+}
+function copyVerse() {
+  navigator.clipboard.writeText('"I can do all things through Christ which strengtheneth me." — Philippians 4:13').catch(()=>{});
+  showToast('📋 Verse copied to clipboard');
+}
+function shareVerse() { showToast('↗ Share link copied — paste to send'); }
+
+/* ═══════════════════════════════════════
+   INIT
+═══════════════════════════════════════ */
+renderChurches();
+renderBible();
+renderPrayers();
+</script>
+</body>
+</html>

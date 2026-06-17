@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Find a Church — Baptist Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --red:#E0392E;--red-b:#FF5447;--red-d:#8E1F18;
+  --ink:#0B0910;--ink2:#110F18;--ink3:#0E0C14;
+  --sur:#1A1626;--sur2:#221E30;--sur3:#2A263A;
+  --line:rgba(246,239,230,.07);--line2:rgba(246,239,230,.13);--line3:rgba(246,239,230,.22);
+  --cr:#F6EFE6;--cr2:rgba(246,239,230,.65);--cr3:rgba(246,239,230,.35);--cr4:rgba(246,239,230,.1);
+  --gold:#C9A55C;--goldf:rgba(201,165,92,.14);--goldb:rgba(201,165,92,.28);
+  --green:#3fcf6d;--greenf:rgba(63,207,109,.13);--greenb:rgba(63,207,109,.28);
+  --blue:#4f8ef7;--bluef:rgba(79,142,247,.13);
+  --mw:1180px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:"Plus Jakarta Sans",sans-serif;background:var(--ink);color:var(--cr);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+h1,h2,h3,h4,.serif{font-family:"Cormorant Garamond",serif;font-weight:600;line-height:1.1}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer}
+.wrap{max-width:var(--mw);margin:0 auto;padding:0 24px}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-thumb{background:var(--sur3);border-radius:10px}
+
+/* ── TOP NAV ───────────────────────────── */
+.nav{position:fixed;top:0;left:0;right:0;z-index:60;height:58px;display:flex;align-items:center;gap:14px;padding:0 24px;background:rgba(11,9,16,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
+.nav-logo{display:flex;align-items:center;gap:10px;margin-right:8px}
+.nav-logo svg{width:30px;height:30px}
+.nav-logo span{font-family:"Cormorant Garamond";font-size:1.15rem;font-weight:600}
+.nav-search{flex:1;max-width:420px;display:flex;align-items:center;gap:9px;background:var(--sur);border:1px solid var(--line2);border-radius:10px;padding:9px 14px}
+.nav-search input{background:none;border:none;outline:none;color:var(--cr);font-size:.9rem;width:100%;font-family:inherit}
+.nav-search input::placeholder{color:var(--cr3)}
+.nav-links{display:flex;align-items:center;gap:6px;margin-left:auto}
+.nl-link{font-size:.86rem;font-weight:600;color:var(--cr2);padding:8px 14px;border-radius:8px;transition:color .2s,background .2s}
+.nl-link:hover{color:var(--cr);background:var(--sur)}
+.nl-btn{display:flex;align-items:center;gap:7px;padding:9px 18px;border-radius:100px;font-size:.86rem;font-weight:700;border:none;transition:all .25s}
+.nl-red{background:var(--red);color:#fff;box-shadow:0 6px 18px rgba(224,57,46,.35)}
+.nl-red:hover{transform:translateY(-1px);box-shadow:0 10px 24px rgba(224,57,46,.5)}
+.nl-ghost{background:var(--sur);border:1px solid var(--line2);color:var(--cr2)}
+.nl-ghost:hover{color:var(--cr);border-color:var(--line3)}
+
+/* ── HERO ──────────────────────────────── */
+.hero{padding:100px 0 56px;position:relative;overflow:hidden;text-align:center}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(224,57,46,.14),transparent 60%)}
+.hero-ring{position:absolute;top:50%;left:50%;width:800px;height:800px;transform:translate(-50%,-50%);opacity:.1;pointer-events:none}
+.hero-ring svg{width:100%;height:100%;animation:spin 90s linear infinite}
+.hero-content{position:relative;z-index:2}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:.7rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+.hero-eyebrow::before{content:"";width:24px;height:1px;background:var(--gold);opacity:.7}
+.hero h1{font-size:clamp(2.4rem,5.5vw,3.8rem);color:var(--cr);margin-bottom:14px}
+.hero h1 em{font-style:italic;color:var(--red)}
+.hero p{font-size:1.05rem;color:var(--cr2);max-width:38em;margin:0 auto 32px;line-height:1.72}
+.hero-search{display:flex;gap:0;max-width:560px;margin:0 auto;background:var(--sur);border:1.5px solid var(--line2);border-radius:14px;overflow:hidden;transition:border-color .25s,box-shadow .25s}
+.hero-search:focus-within{border-color:rgba(224,57,46,.5);box-shadow:0 0 0 4px rgba(224,57,46,.1)}
+.hs-icon{padding:16px 14px 16px 18px;font-size:1.1rem;color:var(--cr3)}
+.hs-input{flex:1;background:none;border:none;outline:none;color:var(--cr);font-size:1rem;font-family:inherit;padding:16px 0}
+.hs-input::placeholder{color:var(--cr3)}
+.hs-btn{background:var(--red);color:#fff;border:none;padding:0 24px;font-weight:700;font-size:.9rem;cursor:pointer;transition:background .2s;white-space:nowrap}
+.hs-btn:hover{background:var(--red-b)}
+.hero-chips{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:18px}
+.hero-chip{padding:6px 14px;border-radius:100px;background:var(--sur);border:1px solid var(--line2);font-size:.78rem;color:var(--cr2);cursor:pointer;transition:all .2s}
+.hero-chip:hover{color:var(--cr);border-color:var(--line3)}
+.hero-chip.on{background:rgba(224,57,46,.12);border-color:rgba(224,57,46,.3);color:var(--cr)}
+.hero-stats{display:flex;gap:32px;justify-content:center;margin-top:36px;flex-wrap:wrap}
+.hs-stat b{font-family:"Cormorant Garamond";font-size:1.8rem;color:var(--cr);display:block;font-weight:600;line-height:1}
+.hs-stat span{font-size:.76rem;color:var(--cr3);font-weight:500}
+
+/* ── ASSOCIATIONS STRIP ────────────────── */
+.assoc-strip{padding:24px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--ink2)}
+.assoc-inner{display:flex;gap:12px;overflow-x:auto;scrollbar-width:none;padding:0 24px}
+.assoc-inner::-webkit-scrollbar{display:none}
+.assoc-card{flex:none;display:flex;align-items:center;gap:11px;background:var(--sur);border:1px solid var(--line2);border-radius:12px;padding:11px 16px;cursor:pointer;transition:border-color .2s,background .2s;white-space:nowrap}
+.assoc-card:hover,.assoc-card.on{border-color:rgba(224,57,46,.35);background:rgba(224,57,46,.06)}
+.assoc-badge{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;font-family:"Cormorant Garamond";font-weight:700;font-size:1.1rem;color:#fff;flex:none}
+.assoc-info b{display:block;font-size:.82rem;color:var(--cr)}
+.assoc-info small{font-size:.64rem;color:var(--cr3)}
+
+/* ── FILTER BAR ────────────────────────── */
+.filter-bar{position:sticky;top:58px;z-index:50;background:rgba(11,9,16,.94);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);padding:0 24px}
+.filter-inner{max-width:var(--mw);margin:0 auto;display:flex;align-items:center;gap:8px;height:52px}
+.region-tabs{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;flex:1}
+.region-tabs::-webkit-scrollbar{display:none}
+.rt{padding:7px 16px;border-radius:100px;font-size:.82rem;font-weight:600;color:var(--cr3);background:none;border:none;transition:all .2s;white-space:nowrap}
+.rt:hover{color:var(--cr2)}
+.rt.on{background:var(--sur);color:var(--cr);border:1px solid var(--line2)}
+.filter-right{display:flex;align-items:center;gap:8px;flex:none}
+.sort-sel{background:var(--sur);border:1px solid var(--line2);border-radius:8px;padding:7px 12px;font-size:.8rem;color:var(--cr2);outline:none;cursor:pointer;appearance:none;font-family:inherit;padding-right:28px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23F6EFE6' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 8px center}
+.sort-sel option{background:#1A1626}
+.view-btns{display:flex;background:var(--sur);border:1px solid var(--line2);border-radius:8px;overflow:hidden}
+.vb{width:32px;height:32px;display:grid;place-items:center;font-size:.9rem;background:none;border:none;color:var(--cr3);transition:all .2s;cursor:pointer}
+.vb.on{background:var(--sur2);color:var(--cr)}
+.filter-chip{padding:6px 12px;border-radius:100px;font-size:.76rem;font-weight:700;background:var(--sur);border:1px solid var(--line2);color:var(--cr3);cursor:pointer;transition:all .2s;white-space:nowrap}
+.filter-chip.on{background:var(--greenf);border-color:var(--greenb);color:var(--green)}
+
+/* ── MAIN LAYOUT ───────────────────────── */
+.main-wrap{padding:32px 0 80px}
+.main-grid{display:grid;grid-template-columns:1fr 300px;gap:28px;align-items:start}
+.results-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.rh-count{font-size:.88rem;color:var(--cr3)}<br>.rh-count b{color:var(--cr2)}
+
+/* ── CHURCH GRID ───────────────────────── */
+.church-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.church-grid.list-view{grid-template-columns:1fr}
+
+/* CHURCH CARD (grid) */
+.c-card{background:var(--sur);border:1px solid var(--line2);border-radius:16px;overflow:hidden;transition:border-color .25s,transform .25s,box-shadow .25s;cursor:pointer;display:flex;flex-direction:column}
+.c-card:hover{border-color:rgba(224,57,46,.3);transform:translateY(-4px);box-shadow:0 16px 40px rgba(0,0,0,.4)}
+.c-card-cover{height:90px;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.c-card-cover .live-dot{position:absolute;top:10px;right:10px;display:flex;align-items:center;gap:5px;background:var(--red);color:#fff;font-size:.58rem;font-weight:700;padding:4px 9px;border-radius:100px;letter-spacing:.04em}
+.c-card-cover .live-dot::before{content:"";width:6px;height:6px;border-radius:50%;background:#fff;animation:pulse 1.5s ease-in-out infinite}
+.c-emblem{width:60px;height:60px;border-radius:16px;display:grid;place-items:center;font-family:"Cormorant Garamond";font-weight:700;font-size:1.9rem;color:#fff;box-shadow:0 8px 24px rgba(0,0,0,.4);z-index:1}
+.c-card-body{padding:16px;flex:1;display:flex;flex-direction:column}
+.c-name{font-size:1rem;color:var(--cr);font-weight:700;margin-bottom:4px;line-height:1.3}
+.c-loc{font-size:.76rem;color:var(--cr3);margin-bottom:10px;display:flex;align-items:center;gap:5px}
+.c-chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.c-chip{font-size:.58rem;font-weight:700;padding:3px 8px;border-radius:100px}
+.chip-v{background:var(--greenf);color:var(--green);border:1px solid var(--greenb)}
+.chip-a{background:var(--goldf);color:var(--gold)}
+.chip-live{background:rgba(224,57,46,.15);color:var(--red)}
+.c-stats{display:flex;gap:16px;margin-bottom:14px}
+.c-stat b{display:block;font-family:"Cormorant Garamond";font-size:1.25rem;color:var(--cr);font-weight:600;line-height:1}
+.c-stat span{font-size:.62rem;color:var(--cr3)}
+.c-actions{display:flex;gap:8px;margin-top:auto}
+.c-follow{flex:1;padding:9px;border-radius:100px;font-size:.8rem;font-weight:700;border:none;transition:all .25s cubic-bezier(.34,1.56,.64,1)}
+.c-follow.off{background:var(--red);color:#fff}
+.c-follow.off:hover{transform:scale(1.03);box-shadow:0 6px 18px rgba(224,57,46,.4)}
+.c-follow.on{background:var(--greenf);border:1.5px solid var(--greenb);color:var(--green)}
+.c-view{padding:9px 14px;border-radius:100px;font-size:.8rem;font-weight:700;background:var(--sur2);border:1px solid var(--line2);color:var(--cr2);transition:all .2s}
+.c-view:hover{color:var(--cr);border-color:var(--line3)}
+
+/* CHURCH CARD (list) */
+.church-grid.list-view .c-card{flex-direction:row;align-items:center}
+.church-grid.list-view .c-card-cover{height:auto;width:70px;min-width:70px;align-self:stretch;border-radius:0}
+.church-grid.list-view .c-emblem{width:46px;height:46px;font-size:1.4rem;border-radius:12px}
+.church-grid.list-view .c-card-body{flex-direction:row;align-items:center;gap:16px;padding:14px 16px}
+.church-grid.list-view .c-stats{margin-bottom:0;gap:20px}
+.church-grid.list-view .c-actions{margin-top:0;margin-left:auto;flex:none;gap:8px}
+.church-grid.list-view .c-chips{margin-bottom:0;flex-wrap:nowrap}
+.church-grid.list-view .c-name{margin-bottom:2px}
+.church-grid.list-view .c-loc{margin-bottom:6px}
+.church-grid.list-view .c-info{flex:1;min-width:0}
+
+/* ── SIDEBAR ───────────────────────────── */
+.side-col{position:sticky;top:110px;display:flex;flex-direction:column;gap:16px}
+.side-panel{background:var(--sur);border:1px solid var(--line2);border-radius:14px;overflow:hidden}
+.sp-head{padding:14px 16px;border-bottom:1px solid var(--line);font-family:"Cormorant Garamond";font-size:1.15rem;color:var(--cr)}
+.sp-body{padding:12px 16px}
+.sp-item{display:flex;align-items:center;gap:11px;padding:9px 0;border-bottom:1px solid var(--line);cursor:pointer;transition:opacity .2s}
+.sp-item:last-child{border-bottom:none}
+.sp-item:hover{opacity:.8}
+.sp-badge{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;font-family:"Cormorant Garamond";font-weight:700;font-size:1.1rem;color:#fff;flex:none}
+.sp-info b{display:block;font-size:.82rem;color:var(--cr)}
+.sp-info small{font-size:.66rem;color:var(--cr3)}
+.sp-arrow{margin-left:auto;color:var(--cr3);font-size:.8rem}
+.map-preview{height:160px;background:var(--sur2);border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;margin-bottom:12px;border:1px solid var(--line2);position:relative;overflow:hidden;cursor:pointer}
+.map-preview::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(224,57,46,.08),transparent 70%)}
+.map-dots{display:flex;flex-wrap:wrap;gap:12px;padding:16px;position:relative;z-index:1}
+.map-dot{width:10px;height:10px;border-radius:50%;background:var(--red);box-shadow:0 0 8px rgba(224,57,46,.6)}
+.map-dot.sm{width:7px;height:7px;background:var(--cr3);box-shadow:none}
+.map-dot.gold{background:var(--gold);box-shadow:0 0 6px rgba(201,165,92,.5)}
+.map-lbl{position:absolute;bottom:10px;font-size:.68rem;color:var(--cr3);font-weight:600;letter-spacing:.08em;z-index:1}
+.reg-list{display:flex;flex-direction:column;gap:4px}
+.reg-row{display:flex;align-items:center;justify-content:space-between;padding:8px 10px;border-radius:8px;cursor:pointer;transition:background .2s}
+.reg-row:hover{background:var(--sur2)}
+.reg-row span{font-size:.86rem;color:var(--cr2)}
+.reg-row b{font-size:.8rem;color:var(--cr3);font-weight:600}
+.join-cta{background:linear-gradient(160deg,var(--red-d),#1a0608);border-radius:14px;padding:20px 18px;text-align:center}
+.jc-ic{font-size:2rem;margin-bottom:10px}
+.join-cta h4{font-size:1.3rem;color:var(--cr);margin-bottom:6px}
+.join-cta p{font-size:.82rem;color:rgba(246,239,230,.7);line-height:1.65;margin-bottom:14px}
+.jc-btn{display:block;background:var(--red);color:#fff;padding:11px;border-radius:100px;font-weight:700;font-size:.88rem;text-align:center;transition:all .2s;box-shadow:0 6px 20px rgba(224,57,46,.35)}
+.jc-btn:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(224,57,46,.5)}
+
+/* LOAD MORE */
+.load-more{display:flex;justify-content:center;margin-top:28px}
+.lm-btn{display:flex;align-items:center;gap:9px;background:var(--sur);border:1.5px solid var(--line2);border-radius:100px;padding:12px 28px;font-size:.9rem;font-weight:700;color:var(--cr2);transition:all .25s}
+.lm-btn:hover{color:var(--cr);border-color:var(--line3);background:var(--sur2)}
+
+/* EMPTY STATE */
+.empty{text-align:center;padding:60px 24px;grid-column:1/-1}
+.empty-ic{font-size:2.5rem;margin-bottom:14px;opacity:.4}
+.empty p{color:var(--cr3);font-size:.9rem}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--sur2);border:1px solid var(--line2);border-radius:12px;padding:12px 18px;display:flex;align-items:center;gap:10px;z-index:200;box-shadow:0 12px 32px rgba(0,0,0,.5);transform:translateY(16px);opacity:0;transition:all .35s cubic-bezier(.22,1,.36,1);pointer-events:none;min-width:220px}
+.toast.show{transform:none;opacity:1}
+.toast b{font-size:.84rem;color:var(--cr)}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s cubic-bezier(.2,.8,.3,1)}
+.reveal.in{opacity:1;transform:none}
+
+/* ANIMATIONS */
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* RESPONSIVE */
+@media(max-width:960px){
+  .main-grid{grid-template-columns:1fr}
+  .side-col{display:none}
+}
+@media(max-width:700px){
+  .church-grid:not(.list-view){grid-template-columns:1fr}
+  .nav-links .nl-link{display:none}
+  .nav-search{max-width:200px}
+  .filter-chip{display:none}
+}
+@media(max-width:500px){
+  .wrap{padding:0 16px}
+  .hero{padding:82px 0 40px}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="baptist-studio.html" class="nav-logo">
+    <svg viewBox="0 0 60 60" fill="none">
+      <ellipse cx="30" cy="30" rx="24" ry="20" stroke="#E0392E" stroke-width="2.2" transform="rotate(-22 30 30)" opacity=".92"/>
+      <ellipse cx="30" cy="30" rx="23" ry="22" stroke="#B82A21" stroke-width="1.8" transform="rotate(12 30 30)" opacity=".75"/>
+      <text x="30" y="41" text-anchor="middle" font-family="Georgia,serif" font-size="27" font-weight="bold" fill="#E0392E">B</text>
+    </svg>
+    <span>Baptist Studio</span>
+  </a>
+  <div class="nav-search">
+    <span style="color:var(--cr3);font-size:.9rem">🔍</span>
+    <input type="text" id="navSearch" placeholder="Search churches…" oninput="handleSearch(this.value)">
+  </div>
+  <div class="nav-links">
+    <a href="bible.html" class="nl-link">Bible</a>
+    <a href="login.html" class="nl-btn nl-ghost">Sign in</a>
+    <a href="register.html" class="nl-btn nl-red">Register church</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-ring" aria-hidden="true">
+    <svg viewBox="0 0 800 800" fill="none">
+      <ellipse cx="400" cy="400" rx="340" ry="280" stroke="#E0392E" stroke-width="1.6" opacity=".5" transform="rotate(-18 400 400)"/>
+      <ellipse cx="400" cy="400" rx="310" ry="360" stroke="#E0392E" stroke-width="1.1" opacity=".35" transform="rotate(15 400 400)"/>
+      <ellipse cx="400" cy="400" rx="370" ry="250" stroke="#FF5447" stroke-width=".8" opacity=".25" transform="rotate(40 400 400)"/>
+    </svg>
+  </div>
+  <div class="wrap hero-content">
+    <div class="hero-eyebrow">Baptist church directory</div>
+    <h1>Find your <em>church.</em></h1>
+    <p>Discover Baptist churches in your city and across Zambia. Follow your church to receive events, sermons, and announcements — all in one place.</p>
+    <div class="hero-search">
+      <span class="hs-icon">🔍</span>
+      <input class="hs-input" type="text" id="heroSearch" placeholder="Search by church name or city…" oninput="handleSearch(this.value)">
+      <button class="hs-btn">Search</button>
+    </div>
+    <div class="hero-chips">
+      <span class="hero-chip on" onclick="setRegion('all',this)">All Zambia</span>
+      <span class="hero-chip" onclick="setRegion('Lusaka',this)">Lusaka</span>
+      <span class="hero-chip" onclick="setRegion('Copperbelt',this)">Copperbelt</span>
+      <span class="hero-chip" onclick="setRegion('Southern',this)">Southern</span>
+      <span class="hero-chip" onclick="setRegion('Eastern',this)">Eastern</span>
+    </div>
+    <div class="hero-stats">
+      <div class="hs-stat"><b>120+</b><span>Churches</span></div>
+      <div class="hs-stat"><b>9</b><span>Provinces</span></div>
+      <div class="hs-stat"><b>28k+</b><span>Members</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ASSOCIATION STRIP -->
+<div class="assoc-strip">
+  <div class="assoc-inner" id="assocStrip">
+    <div class="assoc-card on" onclick="setAssoc('all',this)">
+      <div class="assoc-badge" style="background:linear-gradient(145deg,var(--red),var(--red-d))">⛪</div>
+      <div class="assoc-info"><b>All churches</b><small>120 churches</small></div>
+    </div>
+    <div class="assoc-card" onclick="setAssoc('ZBA',this)">
+      <div class="assoc-badge" style="background:linear-gradient(145deg,#C9A55C,#8a5c1a)">Z</div>
+      <div class="assoc-info"><b>Zambia Baptist Assoc.</b><small>ZBA · 84 churches</small></div>
+    </div>
+    <div class="assoc-card" onclick="setAssoc('EBN',this)">
+      <div class="assoc-badge" style="background:linear-gradient(145deg,#4f8ef7,#2460cc)">E</div>
+      <div class="assoc-info"><b>Evangelical Baptist Network</b><small>EBN · 22 churches</small></div>
+    </div>
+    <div class="assoc-card" onclick="setAssoc('NBC',this)">
+      <div class="assoc-badge" style="background:linear-gradient(145deg,#3fcf6d,#1a7a3a)">N</div>
+      <div class="assoc-info"><b>National Baptist Conv.</b><small>NBC · 14 churches</small></div>
+    </div>
+    <div class="assoc-card" onclick="setAssoc('IND',this)">
+      <div class="assoc-badge" style="background:linear-gradient(145deg,#a855f7,#6622cc)">I</div>
+      <div class="assoc-info"><b>Independent churches</b><small>No association · 12</small></div>
+    </div>
+  </div>
+</div>
+
+<!-- FILTER BAR -->
+<div class="filter-bar">
+  <div class="filter-inner">
+    <div class="region-tabs">
+      <button class="rt on" data-r="all" onclick="setRegionTab('all',this)">All regions</button>
+      <button class="rt" data-r="Lusaka" onclick="setRegionTab('Lusaka',this)">Lusaka</button>
+      <button class="rt" data-r="Copperbelt" onclick="setRegionTab('Copperbelt',this)">Copperbelt</button>
+      <button class="rt" data-r="Southern" onclick="setRegionTab('Southern',this)">Southern</button>
+      <button class="rt" data-r="Eastern" onclick="setRegionTab('Eastern',this)">Eastern</button>
+      <button class="rt" data-r="Northern" onclick="setRegionTab('Northern',this)">Northern</button>
+    </div>
+    <div class="filter-right">
+      <button class="filter-chip" id="verifiedChip" onclick="toggleVerified()">✓ Verified only</button>
+      <select class="sort-sel" onchange="setSort(this.value)">
+        <option value="members">Most members</option>
+        <option value="alpha">A–Z</option>
+        <option value="recent">Recently joined</option>
+        <option value="events">Most active</option>
+      </select>
+      <div class="view-btns">
+        <button class="vb on" id="vbGrid" onclick="setView('grid')" title="Grid view">⊞</button>
+        <button class="vb" id="vbList" onclick="setView('list')" title="List view">☰</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main-wrap">
+  <div class="wrap">
+    <div class="main-grid">
+
+      <!-- CHURCHES -->
+      <div>
+        <div class="results-header">
+          <div class="rh-count" id="rhCount"></div>
+        </div>
+        <div class="church-grid" id="churchGrid"></div>
+        <div class="load-more" id="loadMoreWrap" style="display:none">
+          <button class="lm-btn" onclick="loadMore()">Load more churches ↓</button>
+        </div>
+      </div>
+
+      <!-- SIDEBAR -->
+      <aside class="side-col">
+        <!-- MAP -->
+        <div class="side-panel">
+          <div class="sp-head">Churches by province</div>
+          <div class="sp-body">
+            <div class="map-preview" onclick="showToast('🗺️ Interactive map coming in the app')">
+              <div class="map-dots">
+                <div class="map-dot" title="Lusaka"></div>
+                <div class="map-dot sm"></div>
+                <div class="map-dot gold" title="Livingstone"></div>
+                <div class="map-dot sm"></div>
+                <div class="map-dot" title="Ndola"></div>
+                <div class="map-dot sm"></div>
+                <div class="map-dot" title="Kitwe"></div>
+                <div class="map-dot gold"></div>
+                <div class="map-dot sm"></div>
+              </div>
+              <span class="map-lbl">📍 Tap to open map in app</span>
+            </div>
+            <div class="reg-list">
+              <div class="reg-row" onclick="setRegionTab('Lusaka',document.querySelector('[data-r=Lusaka]'))"><span>Lusaka</span><b>46 churches</b></div>
+              <div class="reg-row" onclick="setRegionTab('Copperbelt',document.querySelector('[data-r=Copperbelt]'))"><span>Copperbelt</span><b>28 churches</b></div>
+              <div class="reg-row" onclick="setRegionTab('Southern',document.querySelector('[data-r=Southern]'))"><span>Southern</span><b>18 churches</b></div>
+              <div class="reg-row" onclick="setRegionTab('Eastern',document.querySelector('[data-r=Eastern]'))"><span>Eastern</span><b>14 churches</b></div>
+              <div class="reg-row" onclick="setRegionTab('Northern',document.querySelector('[data-r=Northern]'))"><span>Northern</span><b>9 churches</b></div>
+              <div class="reg-row"><span>Other provinces</span><b>5 churches</b></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- FEATURED -->
+        <div class="side-panel">
+          <div class="sp-head">Featured this week</div>
+          <div class="sp-body">
+            <div class="sp-item" onclick="window.location='church.html'">
+              <div class="sp-badge" style="background:linear-gradient(145deg,var(--red),var(--red-d))">L</div>
+              <div class="sp-info"><b>Lusaka Baptist Church</b><small>Live today · 1,240 members</small></div>
+              <span class="sp-arrow">→</span>
+            </div>
+            <div class="sp-item" onclick="showToast('⛪ Church profile opening…')">
+              <div class="sp-badge" style="background:linear-gradient(145deg,#4f8ef7,#2460cc)">K</div>
+              <div class="sp-info"><b>Kitwe Baptist Church</b><small>680 members · Copperbelt</small></div>
+              <span class="sp-arrow">→</span>
+            </div>
+            <div class="sp-item" onclick="showToast('⛪ Church profile opening…')">
+              <div class="sp-badge" style="background:linear-gradient(145deg,var(--gold),#8a5c1a)">L</div>
+              <div class="sp-info"><b>Livingstone Baptist</b><small>510 members · Southern</small></div>
+              <span class="sp-arrow">→</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- REGISTER CTA -->
+        <div class="join-cta">
+          <div class="jc-ic">⛪</div>
+          <h4>Is your church listed?</h4>
+          <p>Register your church for free and reach your members through the app.</p>
+          <a href="register.html" class="jc-btn">Register your church →</a>
+        </div>
+      </aside>
+
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"><b id="toastMsg"></b></div>
+
+<script>
+/* ═══════════════════════════════════════
+   CHURCH DATA
+═══════════════════════════════════════ */
+const CHURCHES = [
+  {id:1,name:"Lusaka Baptist Church",city:"Kabulonga",region:"Lusaka",members:1240,events:8,verified:true,assoc:"ZBA",cover:"linear-gradient(160deg,#3a0c08,#1a0508)",badge:"L",color:"linear-gradient(145deg,#E0392E,#8E1F18)",live:true,joined:"2024-01"},
+  {id:2,name:"Grace Baptist Church",city:"Chelston",region:"Lusaka",members:860,events:5,verified:true,assoc:"ZBA",cover:"linear-gradient(160deg,#0d1a38,#060e1e)",badge:"G",color:"linear-gradient(145deg,#4f8ef7,#2460cc)",live:false,joined:"2024-02"},
+  {id:3,name:"Emmanuel Baptist Church",city:"Matero",region:"Lusaka",members:420,events:4,verified:true,assoc:"EBN",cover:"linear-gradient(160deg,#0d200d,#060e06)",badge:"E",color:"linear-gradient(145deg,#3fcf6d,#1a7a3a)",live:false,joined:"2024-03"},
+  {id:4,name:"Northside Baptist Church",city:"Northmead",region:"Lusaka",members:310,events:3,verified:false,assoc:"ZBA",cover:"linear-gradient(160deg,#1a1208,#0d0904)",badge:"N",color:"linear-gradient(145deg,#C9A55C,#8a5c1a)",live:false,joined:"2024-06"},
+  {id:5,name:"Kitwe Baptist Church",city:"Kitwe",region:"Copperbelt",members:680,events:6,verified:true,assoc:"ZBA",cover:"linear-gradient(160deg,#0e0a1e,#060412)",badge:"K",color:"linear-gradient(145deg,#a855f7,#6622cc)",live:true,joined:"2024-01"},
+  {id:6,name:"Ndola Grace Baptist",city:"Ndola",region:"Copperbelt",members:290,events:3,verified:false,assoc:"EBN",cover:"linear-gradient(160deg,#0a1a14,#040e09)",badge:"N",color:"linear-gradient(145deg,#20c997,#0a6b4a)",live:false,joined:"2024-04"},
+  {id:7,name:"Livingstone Baptist Church",city:"Livingstone",region:"Southern",members:510,events:5,verified:true,assoc:"ZBA",cover:"linear-gradient(160deg,#1a1208,#0d0a04)",badge:"L",color:"linear-gradient(145deg,#f59e0b,#92600a)",live:false,joined:"2024-02"},
+  {id:8,name:"Chipata Community Baptist",city:"Chipata",region:"Eastern",members:180,events:2,verified:false,assoc:"NBC",cover:"linear-gradient(160deg,#140a1e,#0a0610)",badge:"C",color:"linear-gradient(145deg,#ec4899,#9c1b5c)",live:false,joined:"2024-07"},
+  {id:9,name:"Choma Baptist Fellowship",city:"Choma",region:"Southern",members:240,events:3,verified:true,assoc:"ZBA",cover:"linear-gradient(160deg,#0a140a,#040904)",badge:"C",color:"linear-gradient(145deg,#16a34a,#0a5c26)",live:false,joined:"2024-03"},
+  {id:10,name:"Kabwe Calvary Baptist",city:"Kabwe",region:"Central",members:380,events:4,verified:true,assoc:"ZBA",cover:"linear-gradient(160deg,#1a0a0a,#0e0404)",badge:"K",color:"linear-gradient(145deg,#dc2626,#8E1F18)",live:false,joined:"2024-05"},
+  {id:11,name:"Kasama Baptist Church",city:"Kasama",region:"Northern",members:155,events:2,verified:false,assoc:"IND",cover:"linear-gradient(160deg,#0a0a1a,#04040e)",badge:"K",color:"linear-gradient(145deg,#6366f1,#3730a3)",live:false,joined:"2024-08"},
+  {id:12,name:"Mongu Baptist Fellowship",city:"Mongu",region:"Western",members:120,events:2,verified:false,assoc:"NBC",cover:"linear-gradient(160deg,#1a100a,#0e0804)",badge:"M",color:"linear-gradient(145deg,#ea580c,#9a3412)",live:false,joined:"2024-09"},
+];
+
+/* ═══════════════════════════════════════
+   STATE
+═══════════════════════════════════════ */
+let curRegion = 'all', curAssoc = 'all', curSort = 'members';
+let verifiedOnly = false, curView = 'grid', searchQ = '';
+let following = new Set(JSON.parse(localStorage.getItem('bs_following')||'[]'));
+let visibleCount = 8;
+
+/* ═══════════════════════════════════════
+   FILTER + RENDER
+═══════════════════════════════════════ */
+function getFiltered() {
+  let list = [...CHURCHES];
+  if (searchQ) list = list.filter(c => c.name.toLowerCase().includes(searchQ) || c.city.toLowerCase().includes(searchQ));
+  if (curRegion !== 'all') list = list.filter(c => c.region === curRegion);
+  if (curAssoc !== 'all') list = list.filter(c => c.assoc === curAssoc);
+  if (verifiedOnly) list = list.filter(c => c.verified);
+  if (curSort === 'members') list.sort((a,b) => b.members - a.members);
+  else if (curSort === 'alpha') list.sort((a,b) => a.name.localeCompare(b.name));
+  else if (curSort === 'recent') list.sort((a,b) => b.joined.localeCompare(a.joined));
+  else if (curSort === 'events') list.sort((a,b) => b.events - a.events);
+  return list;
+}
+
+function render() {
+  const filtered = getFiltered();
+  const shown = filtered.slice(0, visibleCount);
+  const grid = document.getElementById('churchGrid');
+  const lmw = document.getElementById('loadMoreWrap');
+  const isGrid = curView === 'grid';
+  grid.className = 'church-grid' + (isGrid ? '' : ' list-view');
+
+  document.getElementById('rhCount').innerHTML = `<b>${filtered.length}</b> church${filtered.length!==1?'es':''} found`;
+  lmw.style.display = filtered.length > visibleCount ? 'flex' : 'none';
+
+  if (!shown.length) {
+    grid.innerHTML = `<div class="empty"><div class="empty-ic">🔍</div><p>No churches found.<br>Try a different search or filter.</p></div>`;
+    return;
+  }
+
+  grid.innerHTML = shown.map(c => buildCard(c, isGrid)).join('');
+  // reveal animation
+  setTimeout(() => grid.querySelectorAll('.c-card').forEach((el,i) => {
+    setTimeout(() => el.classList.add('in'), i * 50);
+  }), 10);
+}
+
+function buildCard(c, isGrid) {
+  const isFollowing = following.has(c.id);
+  const fmtMembers = c.members >= 1000 ? (c.members/1000).toFixed(1)+'k' : c.members;
+  if (isGrid) {
+    return `
+    <div class="c-card reveal" onclick="openChurch(${c.id})" style="position:relative">
+      <div class="c-card-cover" style="background:${c.cover}">
+        ${c.live ? '<div class="live-dot">LIVE NOW</div>' : ''}
+        <div class="c-emblem" style="background:${c.color}">${c.badge}</div>
+      </div>
+      <div class="c-card-body">
+        <div class="c-name">${c.name}</div>
+        <div class="c-loc">📍 ${c.city}, ${c.region}</div>
+        <div class="c-chips">
+          ${c.verified ? '<span class="c-chip chip-v">✓ Verified</span>' : ''}
+          <span class="c-chip chip-a">${c.assoc}</span>
+          ${c.live ? '<span class="c-chip chip-live">● Live event</span>' : ''}
+        </div>
+        <div class="c-stats">
+          <div class="c-stat"><b>${fmtMembers}</b><span>Members</span></div>
+          <div class="c-stat"><b>${c.events}</b><span>Events/month</span></div>
+        </div>
+        <div class="c-actions" onclick="event.stopPropagation()">
+          <button class="c-follow ${isFollowing ? 'on' : 'off'}" onclick="toggleFollow(${c.id},this)">${isFollowing ? '✓ Following' : '+ Follow'}</button>
+          <button class="c-view" onclick="openChurch(${c.id})">View →</button>
+        </div>
+      </div>
+    </div>`;
+  } else {
+    return `
+    <div class="c-card reveal" onclick="openChurch(${c.id})">
+      <div class="c-card-cover" style="background:${c.cover}">
+        ${c.live ? '<div class="live-dot" style="font-size:.5rem;padding:3px 7px">LIVE</div>' : ''}
+        <div class="c-emblem" style="background:${c.color}">${c.badge}</div>
+      </div>
+      <div class="c-card-body">
+        <div class="c-info">
+          <div class="c-name">${c.name}</div>
+          <div class="c-loc">📍 ${c.city}, ${c.region}</div>
+          <div class="c-chips">
+            ${c.verified ? '<span class="c-chip chip-v">✓ Verified</span>' : ''}
+            <span class="c-chip chip-a">${c.assoc}</span>
+          </div>
+        </div>
+        <div class="c-stats" style="flex:none">
+          <div class="c-stat"><b>${fmtMembers}</b><span>Members</span></div>
+          <div class="c-stat"><b>${c.events}</b><span>Events/mo</span></div>
+        </div>
+        <div class="c-actions" onclick="event.stopPropagation()">
+          <button class="c-follow ${isFollowing ? 'on' : 'off'}" onclick="toggleFollow(${c.id},this)">${isFollowing ? '✓' : '+'}</button>
+          <button class="c-view" onclick="openChurch(${c.id})">→</button>
+        </div>
+      </div>
+    </div>`;
+  }
+}
+
+/* ═══════════════════════════════════════
+   CONTROLS
+═══════════════════════════════════════ */
+function handleSearch(q) {
+  searchQ = q.trim().toLowerCase();
+  document.getElementById('heroSearch').value = q;
+  document.getElementById('navSearch').value = q;
+  visibleCount = 8;
+  render();
+}
+function setRegion(r, el) {
+  curRegion = r;
+  document.querySelectorAll('.hero-chip').forEach(c => c.classList.remove('on'));
+  el.classList.add('on');
+  document.querySelectorAll('.rt').forEach(t => t.classList.toggle('on', t.dataset.r === r));
+  visibleCount = 8; render();
+  document.querySelector('.filter-bar').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+function setRegionTab(r, el) {
+  curRegion = r;
+  document.querySelectorAll('.rt').forEach(t => t.classList.remove('on'));
+  if (el) el.classList.add('on');
+  document.querySelectorAll('.hero-chip').forEach(c => c.classList.toggle('on', c.textContent.trim() === (r==='all'?'All Zambia':r)));
+  visibleCount = 8; render();
+}
+function setAssoc(a, el) {
+  curAssoc = a;
+  document.querySelectorAll('.assoc-card').forEach(c => c.classList.remove('on'));
+  el.classList.add('on');
+  visibleCount = 8; render();
+}
+function toggleVerified() {
+  verifiedOnly = !verifiedOnly;
+  document.getElementById('verifiedChip').classList.toggle('on', verifiedOnly);
+  visibleCount = 8; render();
+}
+function setSort(v) { curSort = v; render(); }
+function setView(v) {
+  curView = v;
+  document.getElementById('vbGrid').classList.toggle('on', v==='grid');
+  document.getElementById('vbList').classList.toggle('on', v==='list');
+  render();
+}
+function loadMore() { visibleCount += 6; render(); }
+function openChurch(id) {
+  if (id === 1) window.location.href = 'church.html';
+  else showToast('⛪ Full church profiles coming soon — download the app!');
+}
+
+/* ═══════════════════════════════════════
+   FOLLOW
+═══════════════════════════════════════ */
+function toggleFollow(id, btn) {
+  if (following.has(id)) {
+    following.delete(id);
+    btn.className = 'c-follow off';
+    btn.textContent = curView==='grid' ? '+ Follow' : '+';
+    showToast('Unfollowed');
+  } else {
+    following.add(id);
+    btn.className = 'c-follow on';
+    btn.textContent = curView==='grid' ? '✓ Following' : '✓';
+    showToast('✓ Now following — you\'ll get events & updates');
+  }
+  localStorage.setItem('bs_following', JSON.stringify([...following]));
+}
+
+/* ═══════════════════════════════════════
+   REVEAL + TOAST
+═══════════════════════════════════════ */
+const io = new IntersectionObserver(es => {
+  es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }});
+}, {threshold:.08});
+function observeCards() { document.querySelectorAll('.reveal:not(.in)').forEach(el => io.observe(el)); }
+
+let tt;
+function showToast(msg) {
+  document.getElementById('toastMsg').textContent = msg;
+  const t = document.getElementById('toast');
+  t.classList.add('show');
+  clearTimeout(tt);
+  tt = setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+/* ═══════════════════════════════════════
+   INIT
+═══════════════════════════════════════ */
+render();
+new MutationObserver(observeCards).observe(document.getElementById('churchGrid'), {childList:true});
+observeCards();
+</script>
+</body>
+</html>

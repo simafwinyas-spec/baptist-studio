@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bible — Baptist Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --red:#E0392E;--red-b:#FF5447;--red-d:#8E1F18;
+  --ink:#0B0910;--ink2:#110F18;--ink3:#0E0C14;
+  --sur:#1A1626;--sur2:#221E30;--sur3:#2A263A;
+  --line:rgba(246,239,230,.07);--line2:rgba(246,239,230,.13);--line3:rgba(246,239,230,.22);
+  --cr:#F6EFE6;--cr2:rgba(246,239,230,.65);--cr3:rgba(246,239,230,.35);--cr4:rgba(246,239,230,.1);
+  --gold:#C9A55C;--goldf:rgba(201,165,92,.16);--goldb:rgba(201,165,92,.3);
+  --green:#3fcf6d;--greenf:rgba(63,207,109,.15);
+  --blue:#4f8ef7;--bluef:rgba(79,142,247,.15);
+  --purple:#a855f7;--purplef:rgba(168,85,247,.15);
+  --hl-gold:rgba(201,165,92,.22);
+  --hl-red:rgba(224,57,46,.18);
+  --hl-green:rgba(63,207,109,.18);
+  --hl-blue:rgba(79,142,247,.18);
+  --fs:1.28rem;--lh:2;
+  --sb:268px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{height:100%}
+body{font-family:"Plus Jakarta Sans",sans-serif;background:var(--ink);color:var(--cr);display:flex;flex-direction:column;height:100vh;overflow:hidden;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4,.serif{font-family:"Cormorant Garamond",serif;line-height:1.1}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--sur3);border-radius:10px}
+
+/* ── TOP BAR ───────────────────────────── */
+.topbar{height:54px;background:var(--ink2);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px;padding:0 16px;flex:none;z-index:50;position:relative}
+.tb-logo{display:flex;align-items:center;gap:9px;padding-right:14px;border-right:1px solid var(--line2);margin-right:4px}
+.tb-logo svg{width:28px;height:28px}
+.tb-logo span{font-family:"Cormorant Garamond";font-size:1.1rem;font-weight:600}
+.tb-nav{display:flex;align-items:center;gap:4px;flex:1;min-width:0}
+.tb-ref{display:flex;align-items:center;gap:2px;background:var(--sur);border:1px solid var(--line2);border-radius:8px;padding:5px 12px;cursor:pointer;transition:border-color .2s;min-width:0}
+.tb-ref:hover{border-color:var(--line3)}
+.tb-ref .book{font-family:"Cormorant Garamond";font-size:1.1rem;color:var(--cr);font-weight:600;white-space:nowrap}
+.tb-ref .ch{font-size:.78rem;color:var(--cr3);margin-left:6px;white-space:nowrap}
+.tb-sep{color:var(--cr3);font-size:.9rem;margin:0 2px}
+.tb-translation{background:var(--sur);border:1px solid var(--line2);border-radius:8px;padding:5px 10px;font-size:.78rem;font-weight:700;color:var(--cr2);cursor:pointer;transition:all .2s;white-space:nowrap}
+.tb-translation:hover{color:var(--cr);border-color:var(--line3)}
+.tb-actions{display:flex;align-items:center;gap:4px;margin-left:auto}
+.tb-btn{width:34px;height:34px;border-radius:8px;background:none;border:none;color:var(--cr3);font-size:1rem;display:grid;place-items:center;transition:background .2s,color .2s;cursor:pointer}
+.tb-btn:hover,.tb-btn.on{background:var(--sur);color:var(--cr)}
+.fs-row{display:flex;align-items:center;gap:4px;background:var(--sur);border:1px solid var(--line2);border-radius:8px;padding:3px 6px}
+.fs-btn{width:28px;height:28px;border-radius:6px;background:none;border:none;color:var(--cr2);font-size:.88rem;font-weight:700;display:grid;place-items:center;cursor:pointer;transition:background .2s,color .2s}
+.fs-btn:hover{background:var(--sur2);color:var(--cr)}
+.fs-lbl{font-size:.72rem;color:var(--cr3);font-weight:600;min-width:28px;text-align:center}
+.mob-sb-btn{display:none;background:none;border:none;color:var(--cr2);font-size:1rem;padding:6px;border-radius:8px;transition:background .2s}
+.mob-sb-btn:hover{background:var(--sur)}
+
+/* ── BODY ──────────────────────────────── */
+.body{display:flex;flex:1;overflow:hidden}
+
+/* ── SIDEBAR ───────────────────────────── */
+.sidebar{width:var(--sb);flex:none;background:var(--ink2);border-right:1px solid var(--line);display:flex;flex-direction:column;height:100%;overflow:hidden;transition:transform .3s cubic-bezier(.22,1,.36,1)}
+.sb-search{padding:12px 14px;border-bottom:1px solid var(--line)}
+.sb-search-box{display:flex;align-items:center;gap:8px;background:var(--sur);border:1px solid var(--line2);border-radius:9px;padding:8px 12px}
+.sb-search-box input{background:none;border:none;outline:none;color:var(--cr);font-size:.86rem;width:100%;font-family:inherit}
+.sb-search-box input::placeholder{color:var(--cr3)}
+.sb-search-box span{color:var(--cr3);font-size:.9rem;flex:none}
+.sb-testament{display:flex;padding:10px 14px;gap:6px;border-bottom:1px solid var(--line)}
+.tt{flex:1;padding:7px;border-radius:8px;font-size:.76rem;font-weight:700;text-align:center;cursor:pointer;border:none;transition:all .2s}
+.tt.on{background:var(--red);color:#fff}
+.tt.off{background:var(--sur);color:var(--cr2)}
+.sb-books{flex:1;overflow-y:auto;padding:8px 0}
+.book-item{display:flex;align-items:center;gap:10px;padding:8px 14px;cursor:pointer;transition:background .15s;border-left:2px solid transparent}
+.book-item:hover{background:var(--sur)}
+.book-item.active{background:rgba(224,57,46,.1);border-left-color:var(--red)}
+.bi-name{font-size:.9rem;color:var(--cr2);flex:1}
+.book-item.active .bi-name{color:var(--cr);font-weight:600}
+.bi-chs{font-size:.66rem;color:var(--cr3)}
+.bi-tag{font-size:.58rem;font-weight:700;padding:2px 6px;border-radius:4px;background:var(--goldf);color:var(--gold);margin-left:auto}
+.sb-chapters{border-top:1px solid var(--line);padding:12px 14px;flex:none;max-height:200px;overflow-y:auto}
+.sb-ch-title{font-size:.66rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--cr3);margin-bottom:10px}
+.ch-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.ch-num{width:100%;aspect-ratio:1;border-radius:7px;background:var(--sur);border:none;font-size:.76rem;color:var(--cr2);font-weight:600;cursor:pointer;transition:all .2s;display:grid;place-items:center}
+.ch-num:hover{background:var(--sur2);color:var(--cr)}
+.ch-num.active{background:var(--red);color:#fff}
+.ch-num.has-content{border:1px solid rgba(201,165,92,.3)}
+
+/* ── READER ────────────────────────────── */
+.reader-wrap{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
+.reader-scroll{flex:1;overflow-y:auto;padding:40px clamp(20px, 5vw, 80px) 100px}
+.daily-verse{background:linear-gradient(135deg,var(--red-d),#1a0508);border-radius:12px;padding:16px 20px;margin-bottom:36px;display:flex;align-items:flex-start;gap:14px;cursor:pointer;transition:opacity .2s}
+.daily-verse:hover{opacity:.9}
+.dv-ic{font-size:1.3rem;flex:none;margin-top:2px}
+.dv-body .dv-label{font-size:.62rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(246,239,230,.5);margin-bottom:6px}
+.dv-body .dv-text{font-family:"Cormorant Garamond";font-style:italic;font-size:1.05rem;color:var(--cr);line-height:1.55}
+.dv-body .dv-ref{font-size:.74rem;font-weight:700;color:var(--gold);margin-top:6px}
+.dv-close{margin-left:auto;background:none;border:none;color:rgba(246,239,230,.4);font-size:1rem;cursor:pointer;padding:2px;transition:color .2s;flex:none}
+.dv-close:hover{color:var(--cr)}
+.ch-header{margin-bottom:32px}
+.ch-book{font-size:.72rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--cr3);margin-bottom:8px}
+.ch-title{font-size:clamp(2.2rem,5vw,3.2rem);color:var(--cr);font-weight:600;line-height:1.1;margin-bottom:10px}
+.ch-subtitle{font-size:.86rem;color:var(--cr3);font-style:italic}
+.ch-divider{height:1px;background:linear-gradient(90deg,var(--red) 0%,transparent 100%);margin:20px 0 32px;width:60px}
+.verse-block{position:relative;padding:6px 8px 6px 0;margin:0 -8px;border-radius:8px;cursor:pointer;transition:background .2s;user-select:none}
+.verse-block:hover{background:var(--cr4)}
+.verse-block.selected{background:var(--cr4)}
+.verse-block.hl-gold{background:var(--hl-gold)!important}
+.verse-block.hl-red{background:var(--hl-red)!important}
+.verse-block.hl-green{background:var(--hl-green)!important}
+.verse-block.hl-blue{background:var(--hl-blue)!important}
+.verse-num{font-family:"Plus Jakarta Sans";font-size:.6rem;font-weight:800;color:var(--red);vertical-align:super;margin-right:6px;line-height:0}
+.verse-text{font-family:"Cormorant Garamond";font-size:var(--fs);line-height:var(--lh);color:var(--cr)}
+.verse-bookmark{position:absolute;right:4px;top:50%;transform:translateY(-50%);font-size:.8rem;opacity:0;transition:opacity .2s}
+.verse-block:hover .verse-bookmark{opacity:.4}
+.verse-block.bookmarked .verse-bookmark{opacity:1;color:var(--gold)}
+.section-heading{font-family:"Cormorant Garamond";font-size:1.1rem;color:var(--gold);margin:28px 0 12px;font-style:italic;font-weight:500}
+.no-content{text-align:center;padding:80px 24px}
+.nc-ic{font-size:3rem;margin-bottom:20px;opacity:.4}
+.nc-title{font-size:1.8rem;color:var(--cr);margin-bottom:10px}
+.nc-msg{font-size:.95rem;color:var(--cr2);line-height:1.72;margin-bottom:24px}
+.nc-app{display:inline-flex;align-items:center;gap:8px;background:var(--red);color:#fff;padding:12px 24px;border-radius:100px;font-weight:700;font-size:.92rem;box-shadow:0 8px 24px rgba(224,57,46,.35)}
+
+/* ── BOTTOM NAV ────────────────────────── */
+.reader-bottom{height:56px;background:var(--ink2);border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 20px;flex:none}
+.nav-ch-btn{display:flex;align-items:center;gap:8px;background:none;border:none;padding:8px 16px;border-radius:100px;color:var(--cr2);font-size:.88rem;font-weight:600;transition:all .2s}
+.nav-ch-btn:hover:not(:disabled){background:var(--sur);color:var(--cr)}
+.nav-ch-btn:disabled{opacity:.25;cursor:default}
+.rb-center{font-size:.8rem;color:var(--cr3);font-weight:600;text-align:center}
+
+/* ── VERSE ACTION BAR ──────────────────── */
+.action-bar{position:fixed;bottom:72px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--sur2);border:1px solid var(--line3);border-radius:14px;padding:8px 10px;display:flex;align-items:center;gap:4px;z-index:80;opacity:0;visibility:hidden;transition:all .3s cubic-bezier(.22,1,.36,1);box-shadow:0 16px 40px rgba(0,0,0,.6);white-space:nowrap}
+.action-bar.show{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0)}
+.ab-btn{display:flex;align-items:center;gap:6px;padding:8px 12px;border-radius:9px;background:none;border:none;color:var(--cr2);font-size:.8rem;font-weight:600;transition:background .2s,color .2s;cursor:pointer}
+.ab-btn:hover{background:var(--sur3);color:var(--cr)}
+.ab-sep{width:1px;height:20px;background:var(--line2)}
+.hl-dots{display:flex;gap:5px;padding:0 4px}
+.hl-dot{width:22px;height:22px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:transform .2s,border-color .2s}
+.hl-dot:hover{transform:scale(1.2)}
+.hl-dot.active{border-color:var(--cr)}
+.hl-dot.gold-dot{background:var(--gold)}
+.hl-dot.red-dot{background:var(--red)}
+.hl-dot.green-dot{background:var(--green)}
+.hl-dot.blue-dot{background:var(--blue)}
+
+/* ── SEARCH PANEL ──────────────────────── */
+.search-panel{position:fixed;top:54px;left:0;right:0;background:var(--ink2);border-bottom:1px solid var(--line);z-index:60;transform:translateY(-100%);transition:transform .3s cubic-bezier(.22,1,.36,1);padding:14px 16px}
+.search-panel.open{transform:none}
+.sp-box{display:flex;align-items:center;gap:10px;background:var(--sur);border:1px solid var(--line2);border-radius:10px;padding:10px 14px;margin-bottom:10px}
+.sp-box input{background:none;border:none;outline:none;color:var(--cr);font-size:.95rem;flex:1;font-family:inherit}
+.sp-box input::placeholder{color:var(--cr3)}
+.sp-results{max-height:300px;overflow-y:auto}
+.sr-item{padding:10px 4px;border-bottom:1px solid var(--line);cursor:pointer;transition:background .2s;border-radius:6px}
+.sr-item:hover{background:var(--sur)}
+.sr-ref{font-size:.72rem;font-weight:700;color:var(--gold);margin-bottom:4px}
+.sr-text{font-family:"Cormorant Garamond";font-size:1rem;color:var(--cr2);line-height:1.5}
+.sr-text mark{background:var(--hl-gold);color:var(--gold);border-radius:3px;padding:0 2px}
+.sp-empty{text-align:center;padding:24px;color:var(--cr3);font-size:.88rem}
+
+/* ── TRANSLATION PICKER ────────────────── */
+.modal-bg{position:fixed;inset:0;background:rgba(8,6,14,.8);backdrop-filter:blur(8px);z-index:100;display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;visibility:hidden;transition:all .3s}
+.modal-bg.open{opacity:1;visibility:visible}
+.modal{background:var(--sur);border:1px solid var(--line2);border-radius:18px;width:100%;max-width:400px;transform:scale(.93) translateY(16px);transition:transform .35s cubic-bezier(.22,1,.36,1);overflow:hidden}
+.modal-bg.open .modal{transform:none}
+.mh{padding:18px 20px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
+.mh h3{font-size:1.4rem;color:var(--cr)}
+.mclose{width:30px;height:30px;border-radius:8px;background:var(--sur2);border:none;color:var(--cr3);display:grid;place-items:center;cursor:pointer;transition:background .2s}
+.mclose:hover{background:var(--sur3);color:var(--cr)}
+.mb{padding:14px}
+.trans-opt{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-radius:10px;cursor:pointer;transition:background .2s;border:1.5px solid transparent}
+.trans-opt:hover{background:var(--sur2)}
+.trans-opt.active{background:rgba(224,57,46,.1);border-color:rgba(224,57,46,.3)}
+.to-name{font-size:1rem;color:var(--cr);font-weight:600}
+.to-full{font-size:.78rem;color:var(--cr3)}
+.to-check{color:var(--red);font-size:1.1rem;opacity:0}
+.trans-opt.active .to-check{opacity:1}
+
+/* TOAST */
+.toast{position:fixed;bottom:72px;right:20px;background:var(--sur2);border:1px solid var(--line2);border-radius:12px;padding:11px 16px;display:flex;align-items:center;gap:9px;z-index:200;box-shadow:0 12px 32px rgba(0,0,0,.5);transform:translateY(16px);opacity:0;transition:all .35s cubic-bezier(.22,1,.36,1);pointer-events:none}
+.toast.show{transform:none;opacity:1}
+.toast b{font-size:.82rem;color:var(--cr)}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .sidebar{position:fixed;left:0;top:54px;bottom:0;z-index:40;transform:translateX(-100%)}
+  .sidebar.open{transform:none}
+  .mob-sb-btn{display:flex}
+  .reader-scroll{padding:24px 18px 100px}
+  .fs-row{display:none}
+  .tb-translation{display:none}
+  .action-bar{bottom:64px;left:16px;right:16px;transform:translateY(20px);width:auto}
+  .action-bar.show{transform:translateY(0)}
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <button class="mob-sb-btn" id="mobSbBtn" onclick="toggleSidebar()">☰</button>
+  <a href="baptist-studio.html" class="tb-logo">
+    <svg viewBox="0 0 60 60" fill="none">
+      <ellipse cx="30" cy="30" rx="24" ry="20" stroke="#E0392E" stroke-width="2.2" transform="rotate(-22 30 30)" opacity=".92"/>
+      <ellipse cx="30" cy="30" rx="23" ry="22" stroke="#B82A21" stroke-width="1.8" transform="rotate(12 30 30)" opacity=".75"/>
+      <text x="30" y="41" text-anchor="middle" font-family="Georgia,serif" font-size="27" font-weight="bold" fill="#E0392E">B</text>
+    </svg>
+    <span>Bible</span>
+  </a>
+  <div class="tb-nav">
+    <div class="tb-ref" onclick="openBookSidebar()">
+      <span class="book" id="refBook">Genesis</span>
+      <span class="ch" id="refCh">Chapter 1</span>
+    </div>
+  </div>
+  <div class="fs-row">
+    <button class="fs-btn" onclick="changeFs(-1)">A−</button>
+    <span class="fs-lbl" id="fsLbl">M</span>
+    <button class="fs-btn" onclick="changeFs(1)">A+</button>
+  </div>
+  <button class="tb-translation" onclick="openTranslation()" id="tbTrans">KJV</button>
+  <div class="tb-actions">
+    <button class="tb-btn" id="searchToggle" onclick="toggleSearch()" title="Search">🔍</button>
+    <button class="tb-btn" id="bookmarksBtn" onclick="showBookmarks()" title="Bookmarks">🔖</button>
+    <a href="church.html" class="tb-btn" title="Back to church" style="display:grid;place-items:center">⛪</a>
+  </div>
+</div>
+
+<!-- SEARCH PANEL -->
+<div class="search-panel" id="searchPanel">
+  <div class="sp-box">
+    <span>🔍</span>
+    <input type="text" id="searchInput" placeholder="Search in current book…" oninput="doSearch(this.value)">
+    <button style="background:none;border:none;color:var(--cr3);font-size:.9rem;cursor:pointer" onclick="toggleSearch()">✕</button>
+  </div>
+  <div class="sp-results" id="searchResults"><div class="sp-empty">Type to search across all available chapters</div></div>
+</div>
+
+<!-- BODY -->
+<div class="body">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sb-search">
+      <div class="sb-search-box">
+        <span>📖</span>
+        <input type="text" id="bookSearch" placeholder="Find a book…" oninput="filterBooks(this.value)">
+      </div>
+    </div>
+    <div class="sb-testament">
+      <button class="tt on" id="tt-ot" onclick="setTestament('OT')">Old Testament</button>
+      <button class="tt off" id="tt-nt" onclick="setTestament('NT')">New Testament</button>
+    </div>
+    <div class="sb-books" id="bookList"></div>
+    <div class="sb-chapters" id="chapterPanel" style="display:none">
+      <div class="sb-ch-title" id="chPanelTitle">SELECT CHAPTER</div>
+      <div class="ch-grid" id="chGrid"></div>
+    </div>
+  </aside>
+
+  <!-- READER -->
+  <div class="reader-wrap">
+    <div class="reader-scroll" id="readerScroll">
+      <div class="daily-verse" id="dailyVerse">
+        <span class="dv-ic">✨</span>
+        <div class="dv-body">
+          <div class="dv-label">Verse of the day</div>
+          <div class="dv-text" id="dvText"></div>
+          <div class="dv-ref" id="dvRef"></div>
+        </div>
+        <button class="dv-close" onclick="document.getElementById('dailyVerse').style.display='none'">✕</button>
+      </div>
+      <div id="readerContent"></div>
+    </div>
+    <div class="reader-bottom">
+      <button class="nav-ch-btn" id="prevBtn" onclick="navChapter(-1)">← Previous</button>
+      <div class="rb-center" id="rbCenter"></div>
+      <button class="nav-ch-btn" id="nextBtn" onclick="navChapter(1)">Next →</button>
+    </div>
+  </div>
+</div>
+
+<!-- VERSE ACTION BAR -->
+<div class="action-bar" id="actionBar">
+  <button class="ab-btn" onclick="copyVerse()">📋 Copy</button>
+  <div class="ab-sep"></div>
+  <div class="hl-dots">
+    <div class="hl-dot gold-dot" onclick="highlight('gold')" title="Highlight gold"></div>
+    <div class="hl-dot red-dot" onclick="highlight('red')" title="Highlight red"></div>
+    <div class="hl-dot green-dot" onclick="highlight('green')" title="Highlight green"></div>
+    <div class="hl-dot blue-dot" onclick="highlight('blue')" title="Highlight blue"></div>
+  </div>
+  <div class="ab-sep"></div>
+  <button class="ab-btn" onclick="bookmarkVerse()">🔖 Bookmark</button>
+  <button class="ab-btn" onclick="shareVerse()">↑ Share</button>
+  <button class="ab-btn" style="color:var(--cr3)" onclick="clearSelection()">✕</button>
+</div>
+
+<!-- TRANSLATION MODAL -->
+<div class="modal-bg" id="transModal">
+  <div class="modal">
+    <div class="mh"><h3>Translation</h3><button class="mclose" onclick="closeModal('transModal')">✕</button></div>
+    <div class="mb">
+      <div class="trans-opt active" data-t="KJV" onclick="setTranslation('KJV',this)"><div><div class="to-name">KJV</div><div class="to-full">King James Version (1611)</div></div><span class="to-check">✓</span></div>
+      <div class="trans-opt" data-t="NIV" onclick="setTranslation('NIV',this)"><div><div class="to-name">NIV</div><div class="to-full">New International Version</div></div><span class="to-check">✓</span></div>
+      <div class="trans-opt" data-t="ESV" onclick="setTranslation('ESV',this)"><div><div class="to-name">ESV</div><div class="to-full">English Standard Version</div></div><span class="to-check">✓</span></div>
+      <div class="trans-opt" data-t="NKJV" onclick="setTranslation('NKJV',this)"><div><div class="to-name">NKJV</div><div class="to-full">New King James Version</div></div><span class="to-check">✓</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"><b id="toastMsg">Copied</b></div>
+
+<script>
+/* ═══════════════════════════════════════
+   BIBLE DATA (KJV — Public Domain)
+═══════════════════════════════════════ */
+const BOOKS_OT = [
+  {n:"Genesis",c:50},{n:"Exodus",c:40},{n:"Leviticus",c:27},{n:"Numbers",c:36},{n:"Deuteronomy",c:34},
+  {n:"Joshua",c:24},{n:"Judges",c:21},{n:"Ruth",c:4},{n:"1 Samuel",c:31},{n:"2 Samuel",c:24},
+  {n:"1 Kings",c:22},{n:"2 Kings",c:25},{n:"1 Chronicles",c:29},{n:"2 Chronicles",c:36},
+  {n:"Ezra",c:10},{n:"Nehemiah",c:13},{n:"Esther",c:10},{n:"Job",c:42},{n:"Psalms",c:150},
+  {n:"Proverbs",c:31},{n:"Ecclesiastes",c:12},{n:"Song of Solomon",c:8},{n:"Isaiah",c:66},
+  {n:"Jeremiah",c:52},{n:"Lamentations",c:5},{n:"Ezekiel",c:48},{n:"Daniel",c:12},
+  {n:"Hosea",c:14},{n:"Joel",c:3},{n:"Amos",c:9},{n:"Obadiah",c:1},{n:"Jonah",c:4},
+  {n:"Micah",c:7},{n:"Nahum",c:3},{n:"Habakkuk",c:3},{n:"Zephaniah",c:3},
+  {n:"Haggai",c:2},{n:"Zechariah",c:14},{n:"Malachi",c:4}
+];
+const BOOKS_NT = [
+  {n:"Matthew",c:28},{n:"Mark",c:16},{n:"Luke",c:24},{n:"John",c:21},{n:"Acts",c:28},
+  {n:"Romans",c:16},{n:"1 Corinthians",c:16},{n:"2 Corinthians",c:13},{n:"Galatians",c:6},
+  {n:"Ephesians",c:6},{n:"Philippians",c:4},{n:"Colossians",c:4},{n:"1 Thessalonians",c:5},
+  {n:"2 Thessalonians",c:3},{n:"1 Timothy",c:6},{n:"2 Timothy",c:4},{n:"Titus",c:3},
+  {n:"Philemon",c:1},{n:"Hebrews",c:13},{n:"James",c:5},{n:"1 Peter",c:5},{n:"2 Peter",c:3},
+  {n:"1 John",c:5},{n:"2 John",c:1},{n:"3 John",c:1},{n:"Jude",c:1},{n:"Revelation",c:22}
+];
+
+const CONTENT = {
+  "Genesis": {
+    1: {title:"The Creation",sub:"In the beginning",verses:["In the beginning God created the heaven and the earth.","And the earth was without form, and void; and darkness was upon the face of the deep. And the Spirit of God moved upon the face of the waters.","And God said, Let there be light: and there was light.","And God saw the light, that it was good: and God divided the light from the darkness.","And God called the light Day, and the darkness he called Night. And the evening and the morning were the first day.","And God said, Let there be a firmament in the midst of the waters, and let it divide the waters from the waters.","And God made the firmament, and divided the waters which were under the firmament from the waters which were above the firmament: and it was so.","And God called the firmament Heaven. And the evening and the morning were the second day.","And God said, Let the waters under the heaven be gathered together unto one place, and let the dry land appear: and it was so.","And God called the dry land Earth; and the gathering together of the waters called he Seas: and God saw that it was good.","And God said, Let the earth bring forth grass, the herb yielding seed, and the fruit tree yielding fruit after his kind, whose seed is in itself, upon the earth: and it was so.","And the earth brought forth grass, and herb yielding seed after his kind, and the tree yielding fruit, whose seed was in itself, after his kind: and God saw that it was good.","And the evening and the morning were the third day.","And God said, Let there be lights in the firmament of the heaven to divide the day from the night; and let them be for signs, and for seasons, and for days, and years:","And let them be for lights in the firmament of the heaven to give light upon the earth: and it was so.","And God made two great lights; the greater light to rule the day, and the lesser light to rule the night: he made the stars also.","And God set them in the firmament of the heaven to give light upon the earth,","And to rule over the day and over the night, and to divide the light from the darkness: and God saw that it was good.","And the evening and the morning were the fourth day.","And God said, Let the waters bring forth abundantly the moving creature that hath life, and fowl that may fly above the earth in the open firmament of heaven.","And God created great whales, and every living creature that moveth, which the waters brought forth abundantly, after their kind, and every winged fowl after his kind: and God saw that it was good.","And God blessed them, saying, Be fruitful, and multiply, and fill the waters in the seas, and let fowl multiply in the earth.","And the evening and the morning were the fifth day.","And God said, Let the earth bring forth the living creature after his kind, cattle, and creeping thing, and beast of the earth after his kind: and it was so.","And God made the beast of the earth after his kind, and cattle after their kind, and every thing that creepeth upon the earth after his kind: and God saw that it was good.","And God said, Let us make man in our image, after our likeness: and let them have dominion over the fish of the sea, and over the fowl of the air, and over the cattle, and over all the earth, and over every creeping thing that creepeth upon the earth.","So God created man in his own image, in the image of God created he him; male and female created he them.","And God blessed them, and God said unto them, Be fruitful, and multiply, and replenish the earth, and subdue it: and have dominion over the fish of the sea, and over the fowl of the air, and over every living thing that moveth upon the earth.","And God said, Behold, I have given you every herb bearing seed, which is upon the face of all the earth, and every tree, in the which is the fruit of a tree yielding seed; to you it shall be for meat.","And to every beast of the earth, and to every fowl of the air, and to every thing that creepeth upon the earth, wherein there is life, I have given every green herb for meat: and it was so.","And God saw every thing that he had made, and, behold, it was very good. And the evening and the morning were the sixth day."]}
+  },
+  "Psalms": {
+    23:{title:"Psalm 23",sub:"A Psalm of David",verses:["The LORD is my shepherd; I shall not want.","He maketh me to lie down in green pastures: he leadeth me beside the still waters.","He restoreth my soul: he leadeth me in the paths of righteousness for his name's sake.","Yea, though I walk through the valley of the shadow of death, I will fear no evil: for thou art with me; thy rod and thy staff they comfort me.","Thou preparest a table before me in the presence of mine enemies: thou anointest my head with oil; my cup runneth over.","Surely goodness and mercy shall follow me all the days of my life: and I will dwell in the house of the LORD for ever."]},
+    91:{title:"Psalm 91",sub:"He that dwelleth in the secret place",verses:["He that dwelleth in the secret place of the most High shall abide under the shadow of the Almighty.","I will say of the LORD, He is my refuge and my fortress: my God; in him will I trust.","Surely he shall deliver thee from the snare of the fowler, and from the noisome pestilence.","He shall cover thee with his feathers, and under his wings shalt thou trust: his truth shall be thy shield and buckler.","Thou shalt not be afraid for the terror by night; nor for the arrow that flieth by day;","Nor for the pestilence that walketh in darkness; nor for the destruction that wasteth at noonday.","A thousand shall fall at thy side, and ten thousand at thy right hand; but it shall not come nigh thee.","Only with thine eyes shalt thou behold and see the reward of the wicked.","Because thou hast made the LORD, which is my refuge, even the most High, thy habitation;","There shall no evil befall thee, neither shall any plague come nigh thy dwelling.","For he shall give his angels charge over thee, to keep thee in all thy ways.","They shall bear thee up in their hands, lest thou dash thy foot against a stone.","Thou shalt tread upon the lion and adder: the young lion and the dragon shalt thou trample under feet.","Because he hath set his love upon me, therefore will I deliver him: I will set him on high, because he hath known my name.","He shall call upon me, and I will answer him: I will be with him in trouble; I will deliver him, and honour him.","With long life will I satisfy him, and shew him my salvation."]},
+    1:{title:"Psalm 1",sub:"The Way of the Righteous",verses:["Blessed is the man that walketh not in the counsel of the ungodly, nor standeth in the way of sinners, nor sitteth in the seat of the scornful.","But his delight is in the law of the LORD; and in his law doth he meditate day and night.","And he shall be like a tree planted by the rivers of water, that bringeth forth his fruit in his season; his leaf also shall not wither; and whatsoever he doeth shall prosper.","The ungodly are not so: but are like the chaff which the wind driveth away.","Therefore the ungodly shall not stand in the judgment, nor sinners in the congregation of the righteous.","For the LORD knoweth the way of the righteous: but the way of the ungodly shall perish."]}
+  },
+  "Matthew": {
+    5:{title:"Matthew 5",sub:"The Sermon on the Mount — The Beatitudes",verses:["And seeing the multitudes, he went up into a mountain: and when he was set, his disciples came unto him:","And he opened his mouth, and taught them, saying,","Blessed are the poor in spirit: for theirs is the kingdom of heaven.","Blessed are they that mourn: for they shall be comforted.","Blessed are the meek: for they shall inherit the earth.","Blessed are they which do hunger and thirst after righteousness: for they shall be filled.","Blessed are the merciful: for they shall obtain mercy.","Blessed are the pure in heart: for they shall see God.","Blessed are the peacemakers: for they shall be called the children of God.","Blessed are they which are persecuted for righteousness' sake: for theirs is the kingdom of heaven.","Blessed are ye, when men shall revile you, and persecute you, and shall say all manner of evil against you falsely, for my sake.","Rejoice, and be exceeding glad: for great is your reward in heaven: for so persecuted they the prophets which were before you.","Ye are the salt of the earth: but if the salt have lost his savour, wherewith shall it be salted? it is thenceforth good for nothing, but to be cast out, and to be trodden under foot of men.","Ye are the light of the world. A city that is set on an hill cannot be hid.","Neither do men light a candle, and put it under a bushel, but on a candlestick; and it giveth light unto all that are in the house.","Let your light so shine before men, that they may see your good works, and glorify your Father which is in heaven.","Think not that I am come to destroy the law, or the prophets: I am not come to destroy, but to fulfil.","For verily I say unto you, Till heaven and earth pass, one jot or one tittle shall in no wise pass from the law, till all be fulfilled.","Whosoever therefore shall break one of these least commandments, and shall teach men so, he shall be called the least in the kingdom of heaven: but whosoever shall do and teach them, the same shall be called great in the kingdom of heaven.","For I say unto you, That except your righteousness shall exceed the righteousness of the scribes and Pharisees, ye shall in no case enter into the kingdom of heaven."]}
+  },
+  "John": {
+    3:{title:"John 3",sub:"You Must Be Born Again",verses:["There was a man of the Pharisees, named Nicodemus, a ruler of the Jews:","The same came to Jesus by night, and said unto him, Rabbi, we know that thou art a teacher come from God: for no man can do these miracles that thou doest, except God be with him.","Jesus answered and said unto him, Verily, verily, I say unto thee, Except a man be born again, he cannot see the kingdom of God.","Nicodemus saith unto him, How can a man be born when he is old? can he enter the second time into his mother's womb, and be born?","Jesus answered, Verily, verily, I say unto thee, Except a man be born of water and of the Spirit, he cannot enter into the kingdom of God.","That which is born of the flesh is flesh; and that which is born of the Spirit is spirit.","Marvel not that I said unto thee, Ye must be born again.","The wind bloweth where it listeth, and thou hearest the sound thereof, but canst not tell whence it cometh, and whither it goeth: so is every one that is born of the Spirit.","Nicodemus answered and said unto him, How can these things be?","Jesus answered and said unto him, Art thou a master of Israel, and knowest not these things?","Verily, verily, I say unto thee, We speak that we do know, and testify that we have seen; and ye receive not our witness.","If I have told you earthly things, and ye believe not, how shall ye believe, if I tell you of heavenly things?","And no man hath ascended up to heaven, but he that came down from heaven, even the Son of man which is in heaven.","And as Moses lifted up the serpent in the wilderness, even so must the Son of man be lifted up:","That whosoever believeth in him should not perish, but have eternal life.","For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life.","For God sent not his Son into the world to condemn the world; but that the world through him might be saved.","He that believeth on him is not condemned: but he that believeth not is condemned already, because he hath not believed in the name of the only begotten Son of God.","And this is the condemnation, that light is come into the world, and men loved darkness rather than light, because their deeds were evil.","For every one that doeth evil hateth the light, neither cometh to the light, lest his deeds should be reproved.","But he that doeth truth cometh to the light, that his deeds may be made manifest, that they are wrought in God.","After these things came Jesus and his disciples into the land of Judaea; and there he tarried with them, and baptized.","And John also was baptizing in Aenon near to Salim, because there was much water there: and they came, and were baptized.","For John was not yet cast into prison.","Then there arose a question between some of John's disciples and the Jews about purifying.","And they came unto John, and said unto him, Rabbi, he that was with thee beyond Jordan, to whom thou barest witness, behold, the same baptizeth, and all men come to him.","John answered and said, A man can receive nothing, except it be given him from heaven.","Ye yourselves bear me witness, that I said, I am not the Christ, but that I am sent before him.","He that hath the bride is the bridegroom: but the friend of the bridegroom, which standeth and heareth him, rejoiceth greatly because of the bridegroom's voice: this my joy therefore is fulfilled.","He must increase, but I must decrease.","He that cometh from above is above all: he that is of the earth is earthly, and speaketh of the earth: he that cometh from heaven is above all.","And what he hath seen and heard, that he testifieth; and no man receiveth his testimony.","He that hath received his testimony hath set to his seal that God is true.","For he whom God hath sent speaketh the words of God: for God giveth not the Spirit by measure unto him.","The Father loveth the Son, and hath given all things into his hand.","He that believeth on the Son hath everlasting life: and he that believeth not the Son shall not see life; but the wrath of God abideth on him."]}
+  },
+  "Romans": {
+    8:{title:"Romans 8",sub:"Life in the Spirit — No Condemnation",verses:["There is therefore now no condemnation to them which are in Christ Jesus, who walk not after the flesh, but after the Spirit.","For the law of the Spirit of life in Christ Jesus hath made me free from the law of sin and death.","For what the law could not do, in that it was weak through the flesh, God sending his own Son in the likeness of sinful flesh, and for sin, condemned sin in the flesh:","That the righteousness of the law might be fulfilled in us, who walk not after the flesh, but after the Spirit.","For they that are after the flesh do mind the things of the flesh; but they that are after the Spirit the things of the Spirit.","For to be carnally minded is death; but to be spiritually minded is life and peace.","Because the carnal mind is enmity against God: for it is not subject to the law of God, neither indeed can be.","So then they that are in the flesh cannot please God.","But ye are not in the flesh, but in the Spirit, if so be that the Spirit of God dwell in you. Now if any man have not the Spirit of Christ, he is none of his.","And if Christ be in you, the body is dead because of sin; but the Spirit is life because of righteousness.","But if the Spirit of him that raised up Jesus from the dead dwell in you, he that raised up Christ from the dead shall also quicken your mortal bodies by his Spirit that dwelleth in you.","Therefore, brethren, we are debtors, not to the flesh, to live after the flesh.","For if ye live after the flesh, ye shall die: but if ye through the Spirit do mortify the deeds of the body, ye shall live.","For as many as are led by the Spirit of God, they are the sons of God.","For ye have not received the spirit of bondage again to fear; but ye have received the Spirit of adoption, whereby we cry, Abba, Father.","The Spirit itself beareth witness with our spirit, that we are the children of God:","And if children, then heirs; heirs of God, and joint-heirs with Christ; if so be that we suffer with him, that we may be also glorified together.","For I reckon that the sufferings of this present time are not worthy to be compared with the glory which shall be revealed in us.","For the earnest expectation of the creature waiteth for the manifestation of the sons of God.","For the creature was made subject to vanity, not willingly, but by reason of him who hath subjected the same in hope,","Because the creature itself also shall be delivered from the bondage of corruption into the glorious liberty of the children of God.","For we know that the whole creation groaneth and travaileth in pain together until now.","And not only they, but ourselves also, which have the firstfruits of the Spirit, even we ourselves groan within ourselves, waiting for the adoption, to wit, the redemption of our body.","For we are saved by hope: but hope that is seen is not hope: for what a man seeth, why doth he yet hope for?","But if we hope for that we see not, then do we with patience wait for it.","Likewise the Spirit also helpeth our infirmities: for we know not what we should pray for as we ought: but the Spirit itself maketh intercession for us with groanings which cannot be uttered.","And he that searcheth the hearts knoweth what is the mind of the Spirit, because he maketh intercession for the saints according to the will of God.","And we know that all things work together for good to them that love God, to them who are the called according to his purpose.","For whom he did foreknow, he also did predestinate to be conformed to the image of his Son, that he might be the firstborn among many brethren.","Moreover whom he did predestinate, them he also called: and whom he called, them he also justified: and whom he justified, them he also glorified.","What shall we then say to these things? If God be for us, who can be against us?","He that spared not his own Son, but delivered him up for us all, how shall he not with him also freely give us all things?","Who shall lay any thing to the charge of God's elect? It is God that justifieth.","Who is he that condemneth? It is Christ that died, yea rather, that is risen again, who is even at the right hand of God, who also maketh intercession for us.","Who shall separate us from the love of Christ? shall tribulation, or distress, or persecution, or famine, or nakedness, or peril, or sword?","As it is written, For thy sake we are killed all the day long; we are accounted as sheep for the slaughter.","Nay, in all these things we are more than conquerors through him that loved us.","For I am persuaded, that neither death, nor life, nor angels, nor principalities, nor powers, nor things present, nor things to come,","Nor height, nor depth, nor any other creature, shall be able to separate us from the love of God, which is in Christ Jesus our Lord."]}
+  },
+  "1 Corinthians": {
+    13:{title:"1 Corinthians 13",sub:"The Greatest Gift — Love",verses:["Though I speak with the tongues of men and of angels, and have not charity, I am become as sounding brass, or a tinkling cymbal.","And though I have the gift of prophecy, and understand all mysteries, and all knowledge; and though I have all faith, so that I could remove mountains, and have not charity, I am nothing.","And though I bestow all my goods to feed the poor, and though I give my body to be burned, and have not charity, it profiteth me nothing.","Charity suffereth long, and is kind; charity envieth not; charity vaunteth not itself, is not puffed up,","Doth not behave itself unseemly, seeketh not her own, is not easily provoked, thinketh no evil;","Rejoiceth not in iniquity, but rejoiceth in the truth;","Beareth all things, believeth all things, hopeth all things, endureth all things.","Charity never faileth: but whether there be prophecies, they shall fail; whether there be tongues, they shall cease; whether there be knowledge, it shall vanish away.","For now we know in part, and we prophesy in part.","But when that which is perfect is come, then that which is in part shall be done away.","When I was a child, I spake as a child, I understood as a child, I thought as a child: but when I became a man, I put away childish things.","For now we see through a glass, darkly; but then face to face: now I know in part; but then shall I know even as also I am known.","And now abideth faith, hope, charity, these three; but the greatest of these is charity."]}
+  },
+  "Philippians": {
+    4:{title:"Philippians 4",sub:"Rejoice in the Lord Always",verses:["Therefore, my brethren dearly beloved and longed for, my joy and crown, so stand fast in the Lord, my dearly beloved.","I beseech Euodias, and beseech Syntyche, that they be of the same mind in the Lord.","And I intreat thee also, true yokefellow, help those women which laboured with me in the gospel, with Clement also, and with other my fellowlabourers, whose names are in the book of life.","Rejoice in the Lord always: and again I say, Rejoice.","Let your moderation be known unto all men. The Lord is at hand.","Be careful for nothing; but in every thing by prayer and supplication with thanksgiving let your requests be made known unto God.","And the peace of God, which passeth all understanding, shall keep your hearts and minds through Christ Jesus.","Finally, brethren, whatsoever things are true, whatsoever things are honest, whatsoever things are just, whatsoever things are pure, whatsoever things are lovely, whatsoever things are of good report; if there be any virtue, and if there be any praise, think on these things.","Those things, which ye have both learned, and received, and heard, and seen in me, do: and the God of peace shall be with you.","But I rejoiced in the Lord greatly, that now at the last your care of me hath flourished again; wherein ye were also careful, but ye lacked opportunity.","Not that I desire a gift: but I desire fruit that may abound to your account.","I know both how to be abased, and I know how to abound: every where and in all things I am instructed both to be full and to be hungry, both to abound and to suffer need.","I can do all things through Christ which strengtheneth me.","Notwithstanding ye have well done, that ye did communicate with my affliction.","Now ye Philippians know also, that in the beginning of the gospel, when I departed from Macedonia, no church communicated with me as concerning giving and receiving, but ye only.","For even in Thessalonica ye sent once and again unto my necessity.","Not because I desire a gift: but I desire fruit that may abound to your account.","But I have all, and abound: I am full, having received of Epaphroditus the things which were sent from you, an odour of a sweet smell, a sacrifice acceptable, wellpleasing to God.","But my God shall supply all your need according to his riches in glory by Christ Jesus.","Now unto God and our Father be glory for ever and ever. Amen.","Salute every saint in Christ Jesus. The brethren which are with me greet you.","All the saints salute you, chiefly they that are of Caesar's household.","The grace of our Lord Jesus Christ be with you all. Amen."]}
+  }
+};
+
+const DAILY_VERSES = [
+  {text:"For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life.",ref:"John 3:16"},
+  {text:"I can do all things through Christ which strengtheneth me.",ref:"Philippians 4:13"},
+  {text:"The LORD is my shepherd; I shall not want.",ref:"Psalm 23:1"},
+  {text:"And we know that all things work together for good to them that love God.",ref:"Romans 8:28"},
+  {text:"Rejoice in the Lord always: and again I say, Rejoice.",ref:"Philippians 4:4"},
+  {text:"He that dwelleth in the secret place of the most High shall abide under the shadow of the Almighty.",ref:"Psalm 91:1"},
+  {text:"Blessed are the pure in heart: for they shall see God.",ref:"Matthew 5:8"},
+];
+
+/* ═══════════════════════════════════════
+   STATE
+═══════════════════════════════════════ */
+let curBook = "Genesis", curCh = 1, curTrans = "KJV";
+let testament = "OT";
+let selectedVerse = null;
+let highlights = JSON.parse(localStorage.getItem('bs_highlights') || '{}');
+let bookmarks = JSON.parse(localStorage.getItem('bs_bookmarks') || '[]');
+let fsSizes = ['0.98rem','1.15rem','1.28rem','1.45rem','1.65rem'];
+let fsIdx = 2;
+
+/* ═══════════════════════════════════════
+   DAILY VERSE
+═══════════════════════════════════════ */
+const dv = DAILY_VERSES[new Date().getDate() % DAILY_VERSES.length];
+document.getElementById('dvText').textContent = '"' + dv.text + '"';
+document.getElementById('dvRef').textContent = '— ' + dv.ref;
+
+/* ═══════════════════════════════════════
+   BOOK LIST
+═══════════════════════════════════════ */
+function renderBooks(filter) {
+  const list = document.getElementById('bookList');
+  const books = testament === 'OT' ? BOOKS_OT : BOOKS_NT;
+  const q = (filter||'').toLowerCase();
+  list.innerHTML = '';
+  books.filter(b => !q || b.n.toLowerCase().includes(q)).forEach(b => {
+    const hasData = !!CONTENT[b.n];
+    const div = document.createElement('div');
+    div.className = 'book-item' + (b.n === curBook ? ' active' : '');
+    div.innerHTML = `<span class="bi-name">${b.n}</span><span class="bi-chs">${b.c} ch</span>${hasData ? '<span class="bi-tag">✓</span>' : ''}`;
+    div.onclick = () => selectBook(b);
+    list.appendChild(div);
+  });
+}
+
+function selectBook(b) {
+  curBook = b.n;
+  renderBooks();
+  renderChapterPanel(b);
+}
+
+function renderChapterPanel(b) {
+  const panel = document.getElementById('chapterPanel');
+  const grid = document.getElementById('chGrid');
+  document.getElementById('chPanelTitle').textContent = b.n.toUpperCase();
+  grid.innerHTML = '';
+  const hasData = CONTENT[b.n];
+  for (let i = 1; i <= b.c; i++) {
+    const btn = document.createElement('button');
+    btn.className = 'ch-num' + (i === curCh && b.n === curBook ? ' active' : '') + (hasData && hasData[i] ? ' has-content' : '');
+    btn.textContent = i;
+    btn.onclick = () => { curCh = i; loadChapter(); };
+    grid.appendChild(btn);
+  }
+  panel.style.display = 'block';
+}
+
+function filterBooks(q) { renderBooks(q); }
+
+function setTestament(t) {
+  testament = t;
+  document.getElementById('tt-ot').className = 'tt ' + (t==='OT'?'on':'off');
+  document.getElementById('tt-nt').className = 'tt ' + (t==='NT'?'on':'off');
+  document.getElementById('chapterPanel').style.display = 'none';
+  renderBooks();
+}
+
+function openBookSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  sidebar.classList.add('open');
+}
+
+/* ═══════════════════════════════════════
+   LOAD CHAPTER
+═══════════════════════════════════════ */
+function loadChapter() {
+  clearSelection();
+  const bookData = CONTENT[curBook];
+  const chData = bookData && bookData[curCh];
+  document.getElementById('refBook').textContent = curBook;
+  document.getElementById('refCh').textContent = 'Chapter ' + curCh;
+  const allBooks = [...BOOKS_OT, ...BOOKS_NT];
+  const bookObj = allBooks.find(b => b.n === curBook);
+  document.getElementById('rbCenter').textContent = `${curBook} · Chapter ${curCh} of ${bookObj ? bookObj.c : '?'}`;
+  document.getElementById('prevBtn').disabled = curCh <= 1;
+  document.getElementById('nextBtn').disabled = !bookObj || curCh >= bookObj.c;
+
+  const content = document.getElementById('readerContent');
+  if (!chData) {
+    content.innerHTML = `<div class="no-content"><div class="nc-ic">📖</div><h2 class="nc-title">${curBook} ${curCh}</h2><p class="nc-msg">This chapter is available in the full app.<br>Download Baptist Studio to read all 66 books of the Bible, anytime, offline.</p><a href="baptist-studio.html#get" class="nc-app">Download the app →</a></div>`;
+    renderBooks();
+    return;
+  }
+
+  const hlKey = `${curBook}_${curCh}`;
+  const chHighlights = highlights[hlKey] || {};
+  const chBookmarks = new Set(bookmarks.filter(b => b.book === curBook && b.ch === curCh).map(b => b.v));
+
+  let html = `<div class="ch-book">${curBook}</div><h1 class="ch-title">${chData.title}</h1><p class="ch-subtitle">${chData.sub}</p><div class="ch-divider"></div>`;
+  chData.verses.forEach((v, i) => {
+    const n = i + 1;
+    const hl = chHighlights[n] ? ` hl-${chHighlights[n]}` : '';
+    const bk = chBookmarks.has(n) ? ' bookmarked' : '';
+    html += `<div class="verse-block${hl}${bk}" data-v="${n}" onclick="selectVerse(this,${n})"><span class="verse-num">${n}</span><span class="verse-text">${v}</span><span class="verse-bookmark">🔖</span></div>`;
+  });
+  content.innerHTML = html;
+  document.getElementById('readerScroll').scrollTop = 0;
+  renderBooks();
+  updateChGrid();
+  closeSidebar();
+}
+
+function updateChGrid() {
+  document.querySelectorAll('.ch-num').forEach((btn, i) => {
+    btn.classList.toggle('active', i + 1 === curCh);
+  });
+}
+
+function navChapter(dir) {
+  const allBooks = [...BOOKS_OT, ...BOOKS_NT];
+  const bookObj = allBooks.find(b => b.n === curBook);
+  if (!bookObj) return;
+  const next = curCh + dir;
+  if (next < 1 || next > bookObj.c) return;
+  curCh = next;
+  loadChapter();
+}
+
+/* ═══════════════════════════════════════
+   VERSE INTERACTION
+═══════════════════════════════════════ */
+function selectVerse(el, n) {
+  if (selectedVerse && selectedVerse !== el) {
+    selectedVerse.classList.remove('selected');
+  }
+  if (selectedVerse === el) {
+    clearSelection();
+    return;
+  }
+  selectedVerse = el;
+  el.classList.add('selected');
+  document.getElementById('actionBar').classList.add('show');
+}
+
+function clearSelection() {
+  if (selectedVerse) selectedVerse.classList.remove('selected');
+  selectedVerse = null;
+  document.getElementById('actionBar').classList.remove('show');
+}
+
+function highlight(color) {
+  if (!selectedVerse) return;
+  const n = +selectedVerse.dataset.v;
+  const key = `${curBook}_${curCh}`;
+  if (!highlights[key]) highlights[key] = {};
+  const prev = highlights[key][n];
+  ['hl-gold','hl-red','hl-green','hl-blue'].forEach(c => selectedVerse.classList.remove(c));
+  if (prev === color) {
+    delete highlights[key][n];
+  } else {
+    highlights[key][n] = color;
+    selectedVerse.classList.add('hl-' + color);
+  }
+  localStorage.setItem('bs_highlights', JSON.stringify(highlights));
+  showToast('✓ Highlight ' + (prev === color ? 'removed' : 'saved'));
+}
+
+function bookmarkVerse() {
+  if (!selectedVerse) return;
+  const n = +selectedVerse.dataset.v;
+  const existing = bookmarks.findIndex(b => b.book === curBook && b.ch === curCh && b.v === n);
+  if (existing >= 0) {
+    bookmarks.splice(existing, 1);
+    selectedVerse.classList.remove('bookmarked');
+    showToast('Bookmark removed');
+  } else {
+    const chData = CONTENT[curBook] && CONTENT[curBook][curCh];
+    bookmarks.push({book:curBook,ch:curCh,v:n,text:chData ? chData.verses[n-1].slice(0,60) + '…' : ''});
+    selectedVerse.classList.add('bookmarked');
+    showToast('🔖 Bookmarked — ' + curBook + ' ' + curCh + ':' + n);
+  }
+  localStorage.setItem('bs_bookmarks', JSON.stringify(bookmarks));
+  clearSelection();
+}
+
+function copyVerse() {
+  if (!selectedVerse) return;
+  const n = +selectedVerse.dataset.v;
+  const chData = CONTENT[curBook] && CONTENT[curBook][curCh];
+  if (!chData) return;
+  const text = `"${chData.verses[n-1]}" — ${curBook} ${curCh}:${n} (${curTrans})`;
+  navigator.clipboard?.writeText(text);
+  showToast('📋 Verse copied to clipboard');
+  clearSelection();
+}
+
+function shareVerse() {
+  if (!selectedVerse) return;
+  const n = +selectedVerse.dataset.v;
+  const chData = CONTENT[curBook] && CONTENT[curBook][curCh];
+  if (!chData) return;
+  const text = `"${chData.verses[n-1]}" — ${curBook} ${curCh}:${n} (${curTrans})`;
+  if (navigator.share) navigator.share({title:'Baptist Studio Bible', text});
+  else { navigator.clipboard?.writeText(text); showToast('↑ Verse copied — share it!'); }
+  clearSelection();
+}
+
+function showBookmarks() {
+  if (!bookmarks.length) { showToast('No bookmarks yet — tap a verse to bookmark it'); return; }
+  const bk = bookmarks[bookmarks.length - 1];
+  curBook = bk.book; curCh = bk.ch;
+  const t = testament;
+  testament = BOOKS_OT.find(b=>b.n===bk.book) ? 'OT' : 'NT';
+  if (testament !== t) setTestament(testament);
+  loadChapter();
+  setTimeout(() => {
+    const el = document.querySelector(`[data-v="${bk.v}"]`);
+    if (el) { el.scrollIntoView({behavior:'smooth',block:'center'}); selectVerse(el,bk.v); }
+  }, 200);
+}
+
+/* ═══════════════════════════════════════
+   FONT SIZE
+═══════════════════════════════════════ */
+const fsLabels = ['XS','S','M','L','XL'];
+function changeFs(dir) {
+  fsIdx = Math.max(0, Math.min(fsSizes.length-1, fsIdx + dir));
+  document.documentElement.style.setProperty('--fs', fsSizes[fsIdx]);
+  document.getElementById('fsLbl').textContent = fsLabels[fsIdx];
+}
+
+/* ═══════════════════════════════════════
+   TRANSLATION
+═══════════════════════════════════════ */
+function openTranslation() { document.getElementById('transModal').classList.add('open'); }
+function setTranslation(t, el) {
+  curTrans = t;
+  document.querySelectorAll('.trans-opt').forEach(o => o.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('tbTrans').textContent = t;
+  closeModal('transModal');
+  showToast('Translation: ' + t);
+}
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+document.getElementById('transModal').addEventListener('click', e => { if(e.target===document.getElementById('transModal')) closeModal('transModal'); });
+
+/* ═══════════════════════════════════════
+   SEARCH
+═══════════════════════════════════════ */
+let searchOpen = false;
+function toggleSearch() {
+  searchOpen = !searchOpen;
+  document.getElementById('searchPanel').classList.toggle('open', searchOpen);
+  document.getElementById('searchToggle').classList.toggle('on', searchOpen);
+  if (searchOpen) setTimeout(() => document.getElementById('searchInput').focus(), 300);
+  else { document.getElementById('searchInput').value = ''; document.getElementById('searchResults').innerHTML = '<div class="sp-empty">Type to search across all available chapters</div>'; }
+}
+
+function doSearch(q) {
+  const res = document.getElementById('searchResults');
+  if (!q || q.length < 2) { res.innerHTML = '<div class="sp-empty">Type to search across all available chapters</div>'; return; }
+  const results = [];
+  Object.entries(CONTENT).forEach(([book, chapters]) => {
+    Object.entries(chapters).forEach(([ch, data]) => {
+      data.verses.forEach((v, i) => {
+        if (v.toLowerCase().includes(q.toLowerCase())) results.push({book, ch:+ch, v:i+1, text:v});
+      });
+    });
+  });
+  if (!results.length) { res.innerHTML = '<div class="sp-empty">No results found</div>'; return; }
+  const re = new RegExp(`(${q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})`, 'gi');
+  res.innerHTML = results.slice(0,30).map(r => `<div class="sr-item" onclick="jumpTo('${r.book}',${r.ch},${r.v})"><div class="sr-ref">${r.book} ${r.ch}:${r.v}</div><div class="sr-text">${r.text.replace(re,'<mark>$1</mark>')}</div></div>`).join('');
+}
+
+function jumpTo(book, ch, v) {
+  curBook = book; curCh = ch;
+  testament = BOOKS_OT.find(b=>b.n===book) ? 'OT' : 'NT';
+  setTestament(testament);
+  loadChapter();
+  toggleSearch();
+  setTimeout(() => {
+    const el = document.querySelector(`[data-v="${v}"]`);
+    if (el) { el.scrollIntoView({behavior:'smooth',block:'center'}); selectVerse(el,v); }
+  }, 200);
+}
+
+/* ═══════════════════════════════════════
+   SIDEBAR TOGGLE
+═══════════════════════════════════════ */
+function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); }
+function closeSidebar() {
+  if (window.innerWidth <= 768) document.getElementById('sidebar').classList.remove('open');
+}
+document.getElementById('readerScroll').addEventListener('click', e => {
+  if (!e.target.closest('.verse-block') && !e.target.closest('.action-bar')) clearSelection();
+});
+
+/* ═══════════════════════════════════════
+   TOAST
+═══════════════════════════════════════ */
+let toastTimer;
+function showToast(msg) {
+  document.getElementById('toastMsg').textContent = msg;
+  const t = document.getElementById('toast');
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+/* ═══════════════════════════════════════
+   INIT
+═══════════════════════════════════════ */
+renderBooks();
+const defaultBook = BOOKS_OT.find(b => b.n === curBook);
+if (defaultBook) renderChapterPanel(defaultBook);
+loadChapter();
+</script>
+</body>
+</html>

@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign In — Baptist Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --red:#E0392E;--red-b:#FF5447;--red-d:#8E1F18;
+  --ink:#0B0910;--ink2:#110F18;--ink3:#0E0C14;
+  --sur:#1A1626;--sur2:#221E30;--sur3:#2A263A;
+  --line:rgba(246,239,230,.07);--line2:rgba(246,239,230,.14);
+  --cr:#F6EFE6;--cr2:rgba(246,239,230,.62);--cr3:rgba(246,239,230,.32);
+  --gold:#C9A55C;--goldf:rgba(201,165,92,.14);--goldb:rgba(201,165,92,.25);
+  --green:#3fcf6d;--greenf:rgba(63,207,109,.14);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:"Plus Jakarta Sans",sans-serif;background:var(--ink);color:var(--cr);display:flex;min-height:100vh;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+h1,h2,h3,.serif{font-family:"Cormorant Garamond",serif;font-weight:600;line-height:1.1}
+a{color:inherit;text-decoration:none}
+
+/* LAYOUT */
+.layout{display:grid;grid-template-columns:420px 1fr;min-height:100vh;width:100%}
+
+/* LEFT PANEL */
+.left{background:var(--ink2);border-right:1px solid var(--line);display:flex;flex-direction:column;padding:36px 44px;position:relative;overflow:hidden}
+.left::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 20% 15%,rgba(224,57,46,.15),transparent 55%),radial-gradient(ellipse at 80% 90%,rgba(142,31,24,.12),transparent 55%)}
+.rings{position:absolute;bottom:-80px;right:-80px;width:420px;height:420px;opacity:.15;pointer-events:none}
+.rings svg{width:100%;height:100%;animation:spin 80s linear infinite}
+.logo{display:flex;align-items:center;gap:11px;position:relative;z-index:2}
+.lmark{width:42px;height:42px;position:relative;flex:none}
+.lmark svg{position:absolute;inset:0;width:100%;height:100%}
+.lname{font-family:"Cormorant Garamond",serif;font-size:1.3rem;font-weight:600;line-height:1.1}
+.lname small{display:block;font-family:"Plus Jakarta Sans";font-size:.5rem;letter-spacing:.38em;text-transform:uppercase;color:var(--gold);margin-top:3px;font-weight:600}
+.left-mid{flex:1;display:flex;flex-direction:column;justify-content:center;position:relative;z-index:2;padding:40px 0 20px}
+.left-mid blockquote{margin-bottom:48px}
+.left-mid blockquote p{font-family:"Cormorant Garamond";font-style:italic;font-size:1.7rem;line-height:1.4;color:var(--cr)}
+.left-mid blockquote p em{color:var(--red)}
+.left-mid blockquote cite{display:block;margin-top:14px;font-family:"Plus Jakarta Sans";font-style:normal;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:600}
+.churches{display:flex;flex-direction:column;gap:12px}
+.ch-row{display:flex;align-items:center;gap:11px;padding:12px 14px;background:var(--sur);border:1px solid var(--line2);border-radius:12px}
+.ch-badge{width:36px;height:36px;border-radius:9px;background:linear-gradient(145deg,var(--red),var(--red-d));display:grid;place-items:center;color:#fff;font-family:"Cormorant Garamond";font-weight:700;font-size:1.1rem;flex:none}
+.ch-badge.v2{background:linear-gradient(145deg,#4f8ef7,#2460cc)}
+.ch-badge.v3{background:linear-gradient(145deg,var(--gold),#8a6220)}
+.ch-info b{display:block;font-size:.82rem;color:var(--cr)}
+.ch-info small{font-size:.64rem;color:var(--cr3)}
+.v-dot{margin-left:auto;width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 6px rgba(63,207,109,.6)}
+.ch-lbl{font-size:.64rem;font-weight:700;color:var(--green);margin-left:auto}
+.left-foot{position:relative;z-index:2;border-top:1px solid var(--line);padding-top:20px;font-size:.8rem;color:var(--cr3)}
+.left-foot a{color:var(--gold);transition:color .2s}
+.left-foot a:hover{color:var(--cr)}
+
+/* RIGHT PANEL */
+.right{display:flex;align-items:center;justify-content:center;padding:60px 40px;position:relative;background:var(--ink3)}
+.right::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 70% 20%,rgba(224,57,46,.07),transparent 50%)}
+
+/* CARD */
+.card{width:100%;max-width:440px;position:relative;z-index:2}
+.card-head{margin-bottom:36px}
+.card-head h2{font-size:2.2rem;color:var(--cr);margin-bottom:8px}
+.card-head p{font-size:.95rem;color:var(--cr2);line-height:1.65}
+.card-head p a{color:var(--gold);font-weight:600;text-decoration:underline;text-underline-offset:3px;transition:color .2s}
+.card-head p a:hover{color:var(--cr)}
+
+/* FORM */
+.field{margin-bottom:20px}
+.field label{display:block;font-size:.74rem;font-weight:700;color:var(--cr2);letter-spacing:.08em;text-transform:uppercase;margin-bottom:7px}
+.inp-wrap{position:relative}
+.inp{width:100%;background:var(--sur);border:1.5px solid var(--line2);border-radius:12px;padding:14px 16px;font-family:"Plus Jakarta Sans";font-size:.97rem;color:var(--cr);outline:none;transition:border-color .25s,box-shadow .25s,background .25s;appearance:none}
+.inp::placeholder{color:var(--cr3)}
+.inp:focus{border-color:var(--red);box-shadow:0 0 0 4px rgba(224,57,46,.1);background:rgba(26,22,38,.9)}
+.inp.err{border-color:rgba(224,57,46,.6)}
+.inp-icon{position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--cr3);font-size:1rem;cursor:pointer;user-select:none;transition:color .2s}
+.inp-icon:hover{color:var(--cr2)}
+.err-text{font-size:.74rem;color:var(--red);margin-top:6px;display:none}
+.field.has-err .err-text{display:block}
+
+.row-between{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.row-between label{margin-bottom:0}
+.forgot{font-size:.78rem;color:var(--gold);font-weight:600;cursor:pointer;transition:color .2s}
+.forgot:hover{color:var(--cr)}
+
+/* DIVIDER */
+.or{display:flex;align-items:center;gap:14px;margin:24px 0;color:var(--cr3);font-size:.78rem;font-weight:600}
+.or::before,.or::after{content:"";flex:1;height:1px;background:var(--line2)}
+
+/* CHURCH SWITCH */
+.switch-box{background:var(--sur);border:1.5px solid var(--line2);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:border-color .25s,background .25s}
+.switch-box:hover{border-color:rgba(201,165,92,.4);background:rgba(26,22,38,.9)}
+.sb-badge{width:36px;height:36px;border-radius:10px;background:linear-gradient(145deg,var(--red),var(--red-d));display:grid;place-items:center;color:#fff;font-family:"Cormorant Garamond";font-weight:700;font-size:1.1rem;flex:none}
+.sb-info b{display:block;font-size:.88rem;color:var(--cr)}
+.sb-info small{font-size:.7rem;color:var(--cr3)}
+.sb-arrow{margin-left:auto;color:var(--cr3);font-size:.9rem}
+.switch-hint{font-size:.75rem;color:var(--cr3);text-align:center;margin-top:8px}
+
+/* BUTTONS */
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;font-weight:700;font-size:.97rem;padding:15px 28px;border-radius:100px;border:none;cursor:pointer;font-family:"Plus Jakarta Sans";transition:transform .25s cubic-bezier(.34,1.56,.64,1),box-shadow .25s,background .2s;width:100%}
+.btn-red{background:var(--red);color:#fff;box-shadow:0 10px 28px rgba(224,57,46,.38)}
+.btn-red:hover{transform:translateY(-2px);box-shadow:0 16px 36px rgba(224,57,46,.55)}
+.btn-red:active{transform:scale(.97)}
+.btn-red.loading{pointer-events:none;opacity:.85}
+.btn-red.loading .btn-lbl{display:none}
+.btn-red.loading::after{content:"";width:18px;height:18px;border:2.5px solid rgba(255,255,255,.35);border-top-color:#fff;border-radius:50%;animation:spin .75s linear infinite}
+.btn-ghost{background:var(--sur);border:1.5px solid var(--line2);color:var(--cr2)}
+.btn-ghost:hover{border-color:var(--line2);background:var(--sur2);color:var(--cr)}
+
+/* FOOTER NOTE */
+.foot-note{text-align:center;margin-top:28px;font-size:.84rem;color:var(--cr3)}
+.foot-note a{color:var(--gold);font-weight:600;text-decoration:underline;text-underline-offset:3px;transition:color .2s}
+.foot-note a:hover{color:var(--cr)}
+
+/* RESET MODAL */
+.modal-bg{position:fixed;inset:0;background:rgba(8,6,14,.85);backdrop-filter:blur(10px);z-index:100;display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
+.modal-bg.open{opacity:1;visibility:visible}
+.modal{background:var(--sur);border:1px solid var(--line2);border-radius:20px;width:100%;max-width:400px;transform:scale(.93) translateY(14px);transition:transform .35s cubic-bezier(.22,1,.36,1)}
+.modal-bg.open .modal{transform:none}
+.modal-head{padding:22px 24px 16px;display:flex;align-items:center;justify-content:space-between}
+.modal-head h3{font-size:1.5rem;color:var(--cr)}
+.modal-close{width:30px;height:30px;border-radius:8px;background:var(--sur2);border:none;color:var(--cr3);display:grid;place-items:center;cursor:pointer;transition:background .2s}
+.modal-close:hover{background:var(--sur3);color:var(--cr)}
+.modal-body{padding:0 24px 22px}
+.modal-body p{font-size:.9rem;color:var(--cr2);margin-bottom:18px;line-height:1.65}
+.modal-body .inp{margin-bottom:6px}
+.modal-foot{padding:16px 24px;border-top:1px solid var(--line);display:flex;gap:10px}
+.modal-foot .btn{flex:1;padding:12px}
+
+/* SUCCESS STATE */
+.success-state{text-align:center;display:none;animation:fadeUp .5s ease}
+.success-state.show{display:block}
+.s-ring{width:80px;height:80px;border-radius:50%;background:var(--greenf);border:2px solid rgba(63,207,109,.35);display:grid;place-items:center;margin:0 auto 20px;font-size:2rem;animation:popIn .5s cubic-bezier(.34,1.56,.64,1) .1s both}
+
+/* ANIMATIONS */
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+@keyframes popIn{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:scale(1)}}
+
+/* RESPONSIVE */
+@media(max-width:860px){
+  .layout{grid-template-columns:1fr}
+  .left{display:none}
+  .right{padding:48px 24px;align-items:flex-start;padding-top:60px}
+}
+@media(max-width:480px){
+  .right{padding:32px 20px}
+}
+</style>
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- LEFT PANEL -->
+  <aside class="left">
+    <div class="rings" aria-hidden="true">
+      <svg viewBox="0 0 420 420" fill="none">
+        <ellipse cx="210" cy="210" rx="170" ry="140" stroke="#E0392E" stroke-width="1.4" opacity=".7" transform="rotate(-20 210 210)"/>
+        <ellipse cx="210" cy="210" rx="155" ry="175" stroke="#E0392E" stroke-width="1" opacity=".5" transform="rotate(15 210 210)"/>
+        <ellipse cx="210" cy="210" rx="180" ry="130" stroke="#FF5447" stroke-width=".8" opacity=".35" transform="rotate(40 210 210)"/>
+      </svg>
+    </div>
+
+    <a href="baptist-studio.html" class="logo">
+      <div class="lmark">
+        <svg viewBox="0 0 60 60" fill="none">
+          <ellipse cx="30" cy="30" rx="24" ry="20" stroke="#E0392E" stroke-width="2.2" transform="rotate(-22 30 30)" opacity=".92"/>
+          <ellipse cx="30" cy="30" rx="23" ry="22" stroke="#B82A21" stroke-width="1.8" transform="rotate(12 30 30)" opacity=".75"/>
+          <ellipse cx="30" cy="30" rx="25" ry="18" stroke="#E0392E" stroke-width="1.4" transform="rotate(38 30 30)" opacity=".55"/>
+          <text x="30" y="41" text-anchor="middle" font-family="Georgia,serif" font-size="27" font-weight="bold" fill="#E0392E">B</text>
+        </svg>
+      </div>
+      <div class="lname">Baptist Studio<small>Faith · Community</small></div>
+    </a>
+
+    <div class="left-mid">
+      <blockquote>
+        <p>"Where two or three are gathered together in my name, there am <em>I</em> in the midst of them."</p>
+        <cite>Matthew 18:20</cite>
+      </blockquote>
+      <div class="churches">
+        <div class="ch-row">
+          <div class="ch-badge">L</div>
+          <div class="ch-info"><b>Lusaka Baptist Church</b><small>1,240 members · Kabulonga</small></div>
+          <div class="v-dot" title="Online"></div>
+        </div>
+        <div class="ch-row">
+          <div class="ch-badge v2">G</div>
+          <div class="ch-info"><b>Grace Baptist Church</b><small>860 members · Chelston</small></div>
+          <div class="ch-lbl">Live</div>
+        </div>
+        <div class="ch-row">
+          <div class="ch-badge v3">Z</div>
+          <div class="ch-info"><b>Zambia Baptist Assoc.</b><small>National body · 120 churches</small></div>
+          <div class="v-dot"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="left-foot">
+      New church? <a href="register.html">Register here →</a> &nbsp;·&nbsp; <a href="baptist-studio.html">Back to Baptist Studio</a>
+    </div>
+  </aside>
+
+  <!-- RIGHT PANEL -->
+  <main class="right">
+    <div class="card">
+
+      <!-- SIGN IN FORM -->
+      <div id="formState">
+        <div class="card-head">
+          <h2>Welcome back.</h2>
+          <p>Sign in to your church dashboard. Not registered yet? <a href="register.html">Register your church →</a></p>
+        </div>
+
+        <!-- CHURCH SELECTOR -->
+        <div class="field" style="margin-bottom:24px">
+          <label>Signing in as</label>
+          <div class="switch-box" onclick="cycleChurch()">
+            <div class="sb-badge" id="chBadge">L</div>
+            <div class="sb-info">
+              <b id="chName">Lusaka Baptist Church</b>
+              <small id="chSub">Kabulonga · Sign in as a different church</small>
+            </div>
+            <span class="sb-arrow">↕</span>
+          </div>
+          <div class="switch-hint">Tap to switch church account</div>
+        </div>
+
+        <div class="field" id="f-email">
+          <label>Email address</label>
+          <input class="inp" id="email" type="email" placeholder="you@yourchurch.org" autocomplete="email">
+          <div class="err-text">Please enter a valid email address</div>
+        </div>
+
+        <div class="field" id="f-pass">
+          <div class="row-between">
+            <label>Password</label>
+            <span class="forgot" onclick="openReset()">Forgot password?</span>
+          </div>
+          <div class="inp-wrap">
+            <input class="inp" id="password" type="password" placeholder="Your password" autocomplete="current-password" style="padding-right:48px">
+            <span class="inp-icon" id="eyeBtn" onclick="toggleEye()" title="Show/hide password">👁</span>
+          </div>
+          <div class="err-text">Password must be at least 8 characters</div>
+        </div>
+
+        <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:.88rem;color:var(--cr2);margin-bottom:24px">
+          <input type="checkbox" id="remember" checked style="accent-color:var(--red);width:16px;height:16px;flex:none">
+          Keep me signed in on this device
+        </label>
+
+        <button class="btn btn-red" id="signInBtn" onclick="signIn()">
+          <span class="btn-lbl">Sign in to dashboard →</span>
+        </button>
+
+        <div class="or">or</div>
+
+        <button class="btn btn-ghost" onclick="demoLogin()">
+          Sign in with demo account
+        </button>
+
+        <div class="foot-note">
+          Don't have an account? <a href="register.html">Register your church — it's free.</a>
+        </div>
+      </div>
+
+      <!-- SUCCESS STATE (shown briefly before redirect) -->
+      <div class="success-state" id="successState">
+        <div class="s-ring">✓</div>
+        <h2 style="font-size:2rem;margin-bottom:10px">Signed in!</h2>
+        <p style="color:var(--cr2);font-size:.95rem;line-height:1.7">Welcome back, Pastor Mwale.<br>Taking you to your dashboard…</p>
+        <div style="margin-top:22px;display:flex;align-items:center;justify-content:center;gap:10px;color:var(--cr3);font-size:.82rem">
+          <div style="width:16px;height:16px;border:2px solid var(--cr3);border-top-color:var(--red);border-radius:50%;animation:spin .8s linear infinite"></div>
+          Redirecting…
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<!-- FORGOT PASSWORD MODAL -->
+<div class="modal-bg" id="resetModal">
+  <div class="modal">
+    <div class="modal-head">
+      <h3>Reset password</h3>
+      <button class="modal-close" onclick="closeReset()">✕</button>
+    </div>
+    <div class="modal-body">
+      <p>Enter the email address for your church account and we'll send a reset link.</p>
+      <div id="resetForm">
+        <input class="inp" id="resetEmail" type="email" placeholder="you@yourchurch.org" style="margin-bottom:0">
+      </div>
+      <div id="resetSent" style="display:none;text-align:center;padding:12px 0">
+        <div style="font-size:2rem;margin-bottom:10px">📧</div>
+        <b style="color:var(--cr);display:block;margin-bottom:6px">Reset link sent</b>
+        <span style="font-size:.85rem;color:var(--cr2)">Check your inbox — the link expires in 30 minutes.</span>
+      </div>
+    </div>
+    <div class="modal-foot" id="resetFoot">
+      <button class="btn btn-ghost" onclick="closeReset()">Cancel</button>
+      <button class="btn btn-red" onclick="sendReset()">Send reset link</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* CHURCH SWITCHER */
+const churches = [
+  {badge:'L',name:'Lusaka Baptist Church',sub:'Kabulonga · Sign in as a different church'},
+  {badge:'G',name:'Grace Baptist Church',sub:'Chelston · Sign in as a different church'},
+  {badge:'Z',name:'Zambia Baptist Assoc.',sub:'National body · Sign in as a different church'},
+];
+const badgeColors = [
+  'linear-gradient(145deg,#E0392E,#8E1F18)',
+  'linear-gradient(145deg,#4f8ef7,#2460cc)',
+  'linear-gradient(145deg,#C9A55C,#8a6220)',
+];
+let churchIdx = 0;
+function cycleChurch() {
+  churchIdx = (churchIdx + 1) % churches.length;
+  const c = churches[churchIdx];
+  document.getElementById('chBadge').textContent = c.badge;
+  document.getElementById('chBadge').style.background = badgeColors[churchIdx];
+  document.getElementById('chName').textContent = c.name;
+  document.getElementById('chSub').textContent = c.sub;
+}
+
+/* PASSWORD TOGGLE */
+let shown = false;
+function toggleEye() {
+  shown = !shown;
+  document.getElementById('password').type = shown ? 'text' : 'password';
+  document.getElementById('eyeBtn').textContent = shown ? '🙈' : '👁';
+}
+
+/* SIGN IN */
+function signIn() {
+  const email = document.getElementById('email').value.trim();
+  const pass  = document.getElementById('password').value;
+  let ok = true;
+  const ef = document.getElementById('f-email');
+  const pf = document.getElementById('f-pass');
+  ef.classList.remove('has-err');
+  pf.classList.remove('has-err');
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { ef.classList.add('has-err'); ok = false; }
+  if (pass.length < 8) { pf.classList.add('has-err'); ok = false; }
+  if (!ok) return;
+  proceed();
+}
+
+function demoLogin() { proceed(); }
+
+function proceed() {
+  const btn = document.getElementById('signInBtn');
+  btn.classList.add('loading');
+  setTimeout(() => {
+    document.getElementById('formState').style.display = 'none';
+    document.getElementById('successState').classList.add('show');
+    setTimeout(() => { window.location.href = 'dashboard.html'; }, 1800);
+  }, 1400);
+}
+
+/* FORGOT PASSWORD */
+function openReset() {
+  document.getElementById('resetModal').classList.add('open');
+  document.getElementById('resetSent').style.display = 'none';
+  document.getElementById('resetForm').style.display = 'block';
+  document.getElementById('resetFoot').style.display = 'flex';
+  document.getElementById('resetEmail').value = document.getElementById('email').value;
+}
+function closeReset() { document.getElementById('resetModal').classList.remove('open'); }
+function sendReset() {
+  const em = document.getElementById('resetEmail').value.trim();
+  if (!em) { document.getElementById('resetEmail').classList.add('err'); return; }
+  document.getElementById('resetForm').style.display = 'none';
+  document.getElementById('resetFoot').style.display = 'none';
+  document.getElementById('resetSent').style.display = 'block';
+}
+document.getElementById('resetModal').addEventListener('click', e => {
+  if (e.target === document.getElementById('resetModal')) closeReset();
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeReset(); });
+
+/* CLEAR ERRORS ON INPUT */
+document.querySelectorAll('.inp').forEach(el => {
+  el.addEventListener('input', () => { el.classList.remove('err'); el.closest('.field')?.classList.remove('has-err'); });
+});
+</script>
+</body>
+</html>

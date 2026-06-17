@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0B0910">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Baptist Studio">
+<link rel="manifest" href="manifest.json">
+<title>Baptist Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --red:#E0392E;--red-b:#FF5447;--red-d:#8E1F18;
+  --ink:#0B0910;--ink2:#110F18;
+  --sur:#1A1626;--sur2:#221E30;--sur3:#2A263A;
+  --line:rgba(246,239,230,.07);--line2:rgba(246,239,230,.13);--line3:rgba(246,239,230,.22);
+  --cr:#F6EFE6;--cr2:rgba(246,239,230,.65);--cr3:rgba(246,239,230,.35);--cr4:rgba(246,239,230,.1);
+  --gold:#C9A55C;--goldf:rgba(201,165,92,.14);--goldb:rgba(201,165,92,.28);
+  --green:#3fcf6d;--greenf:rgba(63,207,109,.13);--greenb:rgba(63,207,109,.28);
+  --blue:#4f8ef7;
+  --nb:62px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#060410;-webkit-font-smoothing:antialiased}
+body{font-family:"Plus Jakarta Sans",sans-serif;color:var(--cr);display:flex;align-items:center;justify-content:center}
+h1,h2,h3,h4,.serif{font-family:"Cormorant Garamond",serif;font-weight:600;line-height:1.1}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer}
+::-webkit-scrollbar{display:none}
+
+/* ── DEVICE FRAME ──────────────────────── */
+.device{
+  width:390px;height:844px;position:relative;overflow:hidden;
+  background:var(--ink);border-radius:50px;
+  box-shadow:0 0 0 12px #1a1626,0 0 0 14px #110f18,0 60px 120px rgba(0,0,0,.8),0 0 80px rgba(224,57,46,.04);
+}
+@media(max-width:440px){
+  body{background:var(--ink);align-items:flex-start}
+  .device{width:100vw;height:100dvh;border-radius:0;box-shadow:none}
+}
+@media(max-height:860px) and (min-width:441px){
+  .device{transform:scale(calc(100vh / 900));transform-origin:center center}
+}
+
+/* DYNAMIC ISLAND */
+.island{position:absolute;top:12px;left:50%;transform:translateX(-50%);z-index:100;width:120px;height:34px;background:#000;border-radius:20px;display:flex;align-items:center;justify-content:center;gap:10px;pointer-events:none}
+.island-cam{width:10px;height:10px;border-radius:50%;background:#111;border:1px solid #222}
+.island-face{width:24px;height:10px;border-radius:6px;background:#111;border:1px solid #222}
+
+/* STATUS BAR */
+.status{position:absolute;top:0;left:0;right:0;height:54px;display:flex;align-items:flex-end;justify-content:space-between;padding:0 24px 8px;z-index:90;pointer-events:none}
+.st-time{font-size:.78rem;font-weight:700;color:var(--cr)}
+.st-right{display:flex;align-items:center;gap:5px;font-size:.6rem;color:var(--cr)}
+
+/* ── SCREENS ────────────────────────────── */
+.screens{position:absolute;inset:0;bottom:var(--nb);top:54px;overflow:hidden}
+.screen{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;opacity:0;transform:translateX(24px) scale(.97);transition:opacity .32s ease,transform .32s cubic-bezier(.4,0,.2,1);pointer-events:none}
+.screen.on{opacity:1;transform:none;pointer-events:auto}
+.screen.out{opacity:0;transform:translateX(-24px) scale(.97)}
+
+/* ── BOTTOM NAV ─────────────────────────── */
+.bnav{position:absolute;bottom:0;left:0;right:0;height:var(--nb);background:rgba(17,15,24,.96);backdrop-filter:blur(20px);border-top:1px solid var(--line);display:flex;align-items:center;padding:0 8px;padding-bottom:env(safe-area-inset-bottom,0);z-index:80}
+.bt{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:6px 4px;background:none;border:none;transition:transform .2s cubic-bezier(.34,1.56,.64,1)}
+.bt:active{transform:scale(.88)}
+.bt-ic{font-size:1.3rem;transition:transform .25s cubic-bezier(.34,1.56,.64,1),filter .25s}
+.bt-lb{font-size:.58rem;font-weight:600;color:var(--cr3);transition:color .25s}
+.bt.on .bt-ic{transform:translateY(-3px) scale(1.12)}
+.bt.on .bt-lb{color:var(--red);font-weight:700}
+.bt-give .bt-ic-wrap{width:46px;height:46px;border-radius:50%;background:var(--red);display:grid;place-items:center;font-size:1.25rem;box-shadow:0 6px 18px rgba(224,57,46,.45);transition:transform .25s cubic-bezier(.34,1.56,.64,1),box-shadow .25s;margin-top:-16px}
+.bt-give:active .bt-ic-wrap{transform:scale(.88)}
+.bt-give.on .bt-ic-wrap{box-shadow:0 10px 26px rgba(224,57,46,.65)}
+.bt-give .bt-lb{color:var(--cr3);font-size:.56rem}
+.bt-give.on .bt-lb{color:var(--red)}
+
+/* ── SHARED COMPONENTS ──────────────────── */
+.screen-head{padding:12px 20px 0;display:flex;align-items:center;justify-content:space-between}
+.sh-title{font-family:"Cormorant Garamond";font-size:1.55rem;font-weight:600;color:var(--cr)}
+.sh-btn{width:36px;height:36px;border-radius:50%;background:var(--sur);border:1px solid var(--line2);display:grid;place-items:center;font-size:.9rem;transition:background .2s}
+.sh-btn:active{background:var(--sur2)}
+.search-bar{margin:12px 20px 0;display:flex;align-items:center;gap:9px;background:var(--sur);border:1px solid var(--line2);border-radius:12px;padding:10px 14px}
+.sb-inp{flex:1;background:none;border:none;outline:none;color:var(--cr);font-size:.88rem;font-family:inherit}
+.sb-inp::placeholder{color:var(--cr3)}
+.section-label{padding:16px 20px 8px;font-size:.64rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--cr3)}
+.card{background:var(--sur);border:1px solid var(--line2);border-radius:16px;overflow:hidden;transition:transform .15s,border-color .2s}
+.card:active{transform:scale(.97)}
+
+/* ── HOME SCREEN ────────────────────────── */
+.home-head{padding:14px 20px 0;display:flex;align-items:center;justify-content:space-between}
+.home-greet{font-size:1.15rem;font-weight:700;color:var(--cr)}
+.home-greet small{display:block;font-size:.72rem;font-weight:400;color:var(--cr3);margin-top:1px}
+.home-notif{position:relative;width:36px;height:36px;border-radius:50%;background:var(--sur);border:1px solid var(--line2);display:grid;place-items:center;font-size:.95rem}
+.home-notif::after{content:"";position:absolute;top:7px;right:7px;width:8px;height:8px;border-radius:50%;background:var(--red);border:1.5px solid var(--ink)}
+
+/* VERSE CARD */
+.verse-card{margin:14px 20px 0;background:linear-gradient(160deg,rgba(201,165,92,.12),rgba(224,57,46,.06));border:1px solid var(--goldb);border-radius:20px;padding:18px 18px 14px;position:relative;overflow:hidden}
+.vc-quote{position:absolute;top:-12px;left:10px;font-family:"Cormorant Garamond";font-size:5.5rem;color:var(--gold);opacity:.12;line-height:1;pointer-events:none}
+.vc-label{font-size:.58rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.vc-text{font-family:"Cormorant Garamond";font-size:1.15rem;color:var(--cr);line-height:1.6;margin-bottom:6px}
+.vc-ref{font-size:.7rem;color:var(--cr3)}
+.vc-actions{display:flex;gap:7px;margin-top:11px}
+.vc-btn{padding:6px 12px;border-radius:100px;font-size:.68rem;font-weight:700;background:var(--sur2);border:1px solid var(--line2);color:var(--cr2);transition:all .15s}
+.vc-btn:active{background:var(--sur3);transform:scale(.94)}
+
+/* QUICK ACTIONS */
+.quick-row{display:flex;gap:10px;padding:14px 20px 0;overflow-x:auto}
+.quick-row::-webkit-scrollbar{display:none}
+.qa{display:flex;flex-direction:column;align-items:center;gap:6px;flex:none;width:62px;transition:transform .15s}
+.qa:active{transform:scale(.88)}
+.qa-ic{width:50px;height:50px;border-radius:16px;display:grid;place-items:center;font-size:1.4rem}
+.qa-lb{font-size:.6rem;font-weight:600;color:var(--cr2);text-align:center}
+
+/* CHURCH SCROLL */
+.church-scroll{display:flex;gap:10px;padding:8px 20px 0;overflow-x:auto}
+.church-scroll::-webkit-scrollbar{display:none}
+.cs-card{flex:none;width:130px;background:var(--sur);border:1px solid var(--line2);border-radius:14px;overflow:hidden;transition:transform .15s}
+.cs-card:active{transform:scale(.93)}
+.cs-cover{height:52px;display:flex;align-items:center;justify-content:center}
+.cs-badge{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;font-family:"Cormorant Garamond";font-weight:700;font-size:1.25rem;color:#fff}
+.cs-info{padding:8px 10px}
+.cs-name{font-size:.72rem;font-weight:700;color:var(--cr);line-height:1.2;margin-bottom:2px}
+.cs-meta{font-size:.58rem;color:var(--cr3)}
+
+/* FEED */
+.feed-item{margin:0 20px 10px;background:var(--sur);border:1px solid var(--line2);border-radius:14px;padding:13px;transition:border-color .2s,transform .15s}
+.feed-item:active{transform:scale(.98)}
+.fi-top{display:flex;align-items:center;gap:8px;margin-bottom:9px}
+.fi-cb{width:24px;height:24px;border-radius:7px;display:grid;place-items:center;font-size:.75rem;font-weight:700;color:#fff;flex:none}
+.fi-cn{font-size:.72rem;font-weight:700;color:var(--cr2)}
+.fi-time{font-size:.62rem;color:var(--cr3);margin-left:auto}
+.fi-type{width:28px;height:28px;border-radius:8px;display:grid;place-items:center;font-size:.85rem}
+.fi-title{font-size:.88rem;color:var(--cr);font-weight:700;margin-bottom:3px;line-height:1.35}
+.fi-desc{font-size:.72rem;color:var(--cr3);line-height:1.55}
+.fi-chip{display:inline-flex;align-items:center;gap:4px;margin-top:9px;padding:5px 10px;border-radius:100px;font-size:.62rem;font-weight:700;background:rgba(224,57,46,.1);color:var(--red);border:1px solid rgba(224,57,46,.2)}
+
+/* ── BIBLE SCREEN ───────────────────────── */
+.passage-list{padding:0 20px 12px}
+.passage-card{background:var(--sur);border:1px solid var(--line2);border-radius:14px;margin-bottom:10px;overflow:hidden;transition:border-color .25s}
+.passage-card.open{border-color:rgba(201,165,92,.3)}
+.pc-head{display:flex;align-items:center;gap:12px;padding:13px 14px;cursor:pointer;transition:background .15s}
+.pc-head:active{background:var(--sur2)}
+.pc-ic{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;font-size:1rem;flex:none}
+.pc-info{flex:1}
+.pc-title{font-size:.88rem;color:var(--cr);font-weight:700}
+.pc-sub{font-size:.66rem;color:var(--cr3)}
+.pc-arr{color:var(--cr3);font-size:.75rem;transition:transform .3s}
+.passage-card.open .pc-arr{transform:rotate(90deg)}
+.pc-body{max-height:0;overflow:hidden;transition:max-height .4s cubic-bezier(.4,0,.2,1)}
+.passage-card.open .pc-body{max-height:600px}
+.pc-text{padding:0 14px 14px;font-family:"Cormorant Garamond";font-size:1.05rem;color:var(--cr2);line-height:1.85}
+.pc-text .vn{font-size:.65rem;font-weight:700;color:var(--red);vertical-align:super;margin-right:3px}
+.pc-footer{display:flex;gap:8px;padding:0 14px 14px}
+.pc-act{padding:6px 13px;border-radius:100px;font-size:.68rem;font-weight:700;background:var(--sur2);border:1px solid var(--line2);color:var(--cr3);transition:all .15s}
+.pc-act:active{background:var(--sur3);transform:scale(.93)}
+.pc-act.red{background:rgba(224,57,46,.1);border-color:rgba(224,57,46,.2);color:var(--red)}
+
+.bible-full-btn{display:flex;align-items:center;justify-content:center;gap:10px;margin:4px 20px 20px;padding:14px;border-radius:14px;background:var(--sur);border:1.5px solid var(--goldb);color:var(--gold);font-weight:700;font-size:.88rem;transition:background .2s}
+.bible-full-btn:active{background:rgba(201,165,92,.1)}
+
+.streak-card{margin:14px 20px 0;background:linear-gradient(160deg,rgba(201,165,92,.1),rgba(11,9,16,0));border:1px solid var(--goldb);border-radius:16px;padding:14px 16px;display:flex;align-items:center;gap:14px}
+.sc-num{font-family:"Cormorant Garamond";font-size:2.6rem;color:var(--gold);font-weight:600;line-height:1;flex:none}
+.sc-info b{display:block;font-size:.86rem;color:var(--cr);font-weight:700}
+.sc-info p{font-size:.7rem;color:var(--cr3);line-height:1.5}
+.sc-days{display:flex;gap:4px;margin-top:8px}
+.sc-day{width:24px;height:24px;border-radius:50%;background:var(--sur2);display:grid;place-items:center;font-size:.52rem;font-weight:700;color:var(--cr3)}
+.sc-day.done{background:var(--goldf);color:var(--gold)}
+.sc-day.now{background:var(--gold);color:var(--ink);font-size:.6rem}
+
+/* ── CHURCHES SCREEN ────────────────────── */
+.ch-card{margin:0 20px 10px;background:var(--sur);border:1px solid var(--line2);border-radius:14px;display:flex;align-items:center;gap:12px;padding:13px;transition:border-color .25s,transform .15s}
+.ch-card:active{transform:scale(.97)}
+.ch-badge{width:44px;height:44px;border-radius:13px;display:grid;place-items:center;font-family:"Cormorant Garamond";font-weight:700;font-size:1.5rem;color:#fff;flex:none}
+.ch-info{flex:1;min-width:0}
+.ch-name{font-size:.86rem;color:var(--cr);font-weight:700;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ch-loc{font-size:.66rem;color:var(--cr3);margin-bottom:5px}
+.ch-chips{display:flex;gap:5px}
+.ch-chip{font-size:.54rem;font-weight:700;padding:2px 7px;border-radius:100px}
+.chip-g{background:var(--greenf);color:var(--green);border:1px solid var(--greenb)}
+.chip-a{background:var(--goldf);color:var(--gold)}
+.ch-right{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.ch-mem{font-family:"Cormorant Garamond";font-size:1.1rem;color:var(--cr);font-weight:600;line-height:1}
+.ch-mem-lb{font-size:.54rem;color:var(--cr3)}
+.ch-follow{padding:6px 12px;border-radius:100px;font-size:.66rem;font-weight:700;border:none;transition:all .2s cubic-bezier(.34,1.56,.64,1)}
+.ch-follow.off{background:var(--red);color:#fff}
+.ch-follow.on{background:var(--greenf);border:1px solid var(--greenb);color:var(--green)}
+.filter-chips{display:flex;gap:8px;padding:12px 20px 0;overflow-x:auto}
+.filter-chips::-webkit-scrollbar{display:none}
+.fchip{padding:7px 14px;border-radius:100px;font-size:.72rem;font-weight:700;background:var(--sur);border:1px solid var(--line2);color:var(--cr3);flex:none;transition:all .2s}
+.fchip.on{background:rgba(224,57,46,.1);border-color:rgba(224,57,46,.3);color:var(--cr)}
+
+/* ── GIVE SCREEN ─────────────────────────── */
+.give-church-sel{margin:14px 20px 0;background:var(--sur);border:1px solid var(--line2);border-radius:14px;padding:14px;display:flex;align-items:center;gap:11px;cursor:pointer;transition:border-color .2s}
+.give-church-sel:active{border-color:var(--line3)}
+.gcs-badge{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;font-family:"Cormorant Garamond";font-weight:700;font-size:1.3rem;color:#fff;flex:none}
+.gcs-info b{display:block;font-size:.88rem;color:var(--cr);font-weight:700}
+.gcs-info small{font-size:.66rem;color:var(--cr3)}
+.gcs-arr{margin-left:auto;color:var(--cr3)}
+.give-stats{display:flex;gap:10px;padding:12px 20px 0}
+.gstat{flex:1;background:var(--sur);border:1px solid var(--line2);border-radius:12px;padding:12px;text-align:center}
+.gstat b{display:block;font-family:"Cormorant Garamond";font-size:1.45rem;color:var(--cr);font-weight:600;line-height:1;margin-bottom:2px}
+.gstat small{font-size:.6rem;color:var(--cr3)}
+.give-form{margin:14px 20px 0;background:var(--sur);border:1px solid var(--line2);border-radius:16px;padding:16px}
+.gf-label{font-size:.66rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--cr3);margin-bottom:10px;display:block}
+.amt-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:10px}
+.amt-btn{padding:11px 8px;border-radius:10px;font-size:.82rem;font-weight:700;background:var(--sur2);border:1.5px solid var(--line2);color:var(--cr2);transition:all .2s}
+.amt-btn.on{background:rgba(224,57,46,.12);border-color:rgba(224,57,46,.35);color:var(--cr)}
+.amt-btn:active{transform:scale(.93)}
+.custom-row{display:flex;align-items:center;background:var(--sur2);border:1.5px solid var(--line2);border-radius:10px;overflow:hidden;margin-bottom:12px;transition:border-color .2s}
+.custom-row:focus-within{border-color:rgba(224,57,46,.4)}
+.cr-pre{padding:11px 12px;font-size:.9rem;font-weight:700;color:var(--cr3);border-right:1px solid var(--line2)}
+.cr-inp{flex:1;background:none;border:none;outline:none;padding:11px 12px;color:var(--cr);font-size:.94rem;font-family:inherit}
+.cr-inp::placeholder{color:var(--cr3)}
+.desig{width:100%;background:var(--sur2);border:1.5px solid var(--line2);border-radius:10px;padding:11px 14px;color:var(--cr2);font-size:.84rem;font-family:inherit;outline:none;appearance:none;margin-bottom:12px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='11' viewBox='0 0 24 24' fill='none' stroke='%23F6EFE6' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center}
+.desig option{background:var(--sur)}
+.method-row{display:flex;gap:7px;margin-bottom:14px}
+.mth{flex:1;padding:10px 6px;border-radius:10px;border:1.5px solid var(--line2);background:var(--sur2);color:var(--cr3);font-size:.68rem;font-weight:700;text-align:center;transition:all .2s}
+.mth.on{border-color:rgba(224,57,46,.35);background:rgba(224,57,46,.06);color:var(--cr)}
+.give-btn{width:100%;padding:14px;border-radius:100px;background:var(--red);color:#fff;border:none;font-weight:700;font-size:.94rem;box-shadow:0 6px 20px rgba(224,57,46,.4);transition:all .2s}
+.give-btn:active{transform:scale(.97);box-shadow:0 3px 10px rgba(224,57,46,.3)}
+.txn-item{margin:0 20px 8px;display:flex;align-items:center;gap:10px;background:var(--sur);border:1px solid var(--line2);border-radius:12px;padding:11px 13px}
+.txn-ic{width:32px;height:32px;border-radius:9px;display:grid;place-items:center;font-size:.85rem;flex:none}
+.txn-info{flex:1}
+.txn-info b{display:block;font-size:.8rem;color:var(--cr);font-weight:700}
+.txn-info small{font-size:.64rem;color:var(--cr3)}
+.txn-badge{font-size:.56rem;font-weight:700;padding:2px 6px;border-radius:100px;background:var(--goldf);color:var(--gold);margin-left:6px}
+.txn-amt{font-weight:700;font-size:.9rem;color:var(--cr)}
+
+/* ── PROFILE SCREEN ──────────────────────── */
+.profile-card{margin:14px 20px 0;background:linear-gradient(160deg,rgba(224,57,46,.08),rgba(11,9,16,0));border:1px solid var(--line2);border-radius:20px;padding:18px;display:flex;align-items:center;gap:14px}
+.pf-av{width:56px;height:56px;border-radius:50%;background:linear-gradient(145deg,var(--red),var(--red-d));display:grid;place-items:center;font-family:"Cormorant Garamond";font-weight:700;font-size:1.8rem;color:#fff;flex:none;box-shadow:0 6px 18px rgba(224,57,46,.35)}
+.pf-info b{display:block;font-size:1.05rem;color:var(--cr);font-weight:700}
+.pf-info small{font-size:.68rem;color:var(--cr3)}
+.pf-stats{display:flex;gap:10px;padding:12px 20px 0}
+.pfs{flex:1;background:var(--sur);border:1px solid var(--line2);border-radius:12px;padding:12px;text-align:center}
+.pfs b{display:block;font-family:"Cormorant Garamond";font-size:1.5rem;color:var(--cr);font-weight:600;line-height:1;margin-bottom:2px}
+.pfs small{font-size:.6rem;color:var(--cr3)}
+.list-item{display:flex;align-items:center;gap:12px;padding:13px 20px;border-bottom:1px solid var(--line);cursor:pointer;transition:background .15s;-webkit-tap-highlight-color:transparent}
+.list-item:active{background:var(--sur)}
+.li-ic{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;font-size:1rem;flex:none}
+.li-info{flex:1}
+.li-info b{display:block;font-size:.86rem;color:var(--cr);font-weight:600;margin-bottom:1px}
+.li-info small{font-size:.68rem;color:var(--cr3)}
+.li-arr{color:var(--cr3);font-size:.75rem}
+.list-item.red .li-info b{color:var(--red)}
+
+/* BOOKMARK ITEMS */
+.bm-item{margin:0 20px 8px;background:var(--sur);border:1px solid var(--line2);border-radius:12px;padding:12px;display:flex;gap:10px;cursor:pointer;transition:border-color .2s,transform .15s}
+.bm-item:active{transform:scale(.97)}
+.bm-dot{width:8px;height:8px;border-radius:50%;flex:none;margin-top:5px}
+.bm-text{font-family:"Cormorant Garamond";font-size:1rem;color:var(--cr2);line-height:1.6;flex:1}
+.bm-ref{display:block;font-family:"Plus Jakarta Sans";font-size:.62rem;color:var(--cr3);margin-top:4px}
+
+/* SHEET MODAL */
+.sheet-overlay{position:absolute;inset:0;background:rgba(0,0,0,.6);z-index:120;opacity:0;transition:opacity .3s;pointer-events:none}
+.sheet-overlay.on{opacity:1;pointer-events:auto}
+.sheet{position:absolute;left:0;right:0;bottom:0;background:var(--ink2);border-radius:24px 24px 0 0;padding:0 0 env(safe-area-inset-bottom,24px);z-index:121;transform:translateY(100%);transition:transform .4s cubic-bezier(.4,0,.2,1);max-height:85%}
+.sheet-overlay.on .sheet{transform:none}
+.sheet-handle{width:36px;height:4px;border-radius:100px;background:var(--sur3);margin:10px auto 16px}
+.sheet-title{padding:0 20px 14px;font-family:"Cormorant Garamond";font-size:1.3rem;color:var(--cr);border-bottom:1px solid var(--line)}
+.sheet-scroll{overflow-y:auto;max-height:55vh;padding:10px 0}
+
+/* TOAST */
+.toast{position:absolute;bottom:calc(var(--nb) + 12px);left:50%;transform:translateX(-50%) translateY(8px);background:var(--sur2);border:1px solid var(--line2);border-radius:100px;padding:10px 18px;font-size:.8rem;color:var(--cr);white-space:nowrap;z-index:200;opacity:0;transition:all .3s cubic-bezier(.22,1,.36,1);pointer-events:none;box-shadow:0 8px 24px rgba(0,0,0,.5)}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* INSTALL BANNER */
+.install-banner{position:absolute;top:54px;left:0;right:0;background:var(--red);padding:10px 18px;display:flex;align-items:center;gap:10px;z-index:85;transform:translateY(-100%);transition:transform .4s}
+.install-banner.on{transform:none}
+.ib-text{flex:1;font-size:.78rem;color:#fff;font-weight:600}
+.ib-btn{padding:6px 14px;border-radius:100px;background:#fff;color:var(--red);font-size:.72rem;font-weight:700;border:none;cursor:pointer}
+.ib-close{color:rgba(255,255,255,.7);font-size:1rem;background:none;border:none;cursor:pointer}
+
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+
+<!-- ── DEVICE ──────────────────────────────── -->
+<div class="device">
+  <div class="island"><div class="island-cam"></div><div class="island-face"></div></div>
+  <div class="status">
+    <span class="st-time" id="stTime">9:41</span>
+    <span class="st-right">☀ 🔋</span>
+  </div>
+
+  <!-- INSTALL BANNER -->
+  <div class="install-banner" id="installBanner">
+    <span class="ib-text">Add Baptist Studio to your Home Screen</span>
+    <button class="ib-btn" id="installBtn">Add</button>
+    <button class="ib-close" onclick="document.getElementById('installBanner').classList.remove('on')">✕</button>
+  </div>
+
+  <!-- ═══ SCREENS ═══ -->
+  <div class="screens" id="screens">
+
+    <!-- ── HOME ──────────────────────────────── -->
+    <section class="screen on" id="scr-home">
+      <div class="home-head">
+        <div class="home-greet" id="homeGreet">Good morning, Joseph<small>Tuesday · June 17, 2026</small></div>
+        <div class="home-notif">🔔</div>
+      </div>
+
+      <!-- Daily verse -->
+      <div class="verse-card">
+        <div class="vc-quote">"</div>
+        <div class="vc-label">Verse of the day</div>
+        <div class="vc-text">"I can do all things through Christ which strengtheneth me."</div>
+        <div class="vc-ref">Philippians 4:13 · KJV</div>
+        <div class="vc-actions">
+          <button class="vc-btn" onclick="goTab('bible',document.querySelector('[data-t=bible]'))">📖 Read</button>
+          <button class="vc-btn" onclick="copyVerse()">📋 Copy</button>
+          <button class="vc-btn" onclick="toast('↗ Verse link copied!')">↗ Share</button>
+        </div>
+      </div>
+
+      <!-- Quick actions -->
+      <div class="quick-row">
+        <div class="qa" onclick="goTab('bible',document.querySelector('[data-t=bible]'))">
+          <div class="qa-ic" style="background:var(--goldf)">📖</div>
+          <span class="qa-lb">Bible</span>
+        </div>
+        <div class="qa" onclick="goTab('churches',document.querySelector('[data-t=churches]'))">
+          <div class="qa-ic" style="background:rgba(224,57,46,.1)">⛪</div>
+          <span class="qa-lb">Churches</span>
+        </div>
+        <div class="qa" onclick="goTab('give',document.querySelector('[data-t=give]'))">
+          <div class="qa-ic" style="background:rgba(63,207,109,.1)">💝</div>
+          <span class="qa-lb">Give</span>
+        </div>
+        <div class="qa" onclick="window.location='prayer.html'">
+          <div class="qa-ic" style="background:rgba(79,142,247,.1)">🙏</div>
+          <span class="qa-lb">Prayer</span>
+        </div>
+        <div class="qa" onclick="window.location='events.html'">
+          <div class="qa-ic" style="background:rgba(79,142,247,.1)">📅</div>
+          <span class="qa-lb">Events</span>
+        </div>
+        <div class="qa" onclick="window.location='sermons.html'">
+          <div class="qa-ic" style="background:rgba(168,85,247,.1)">🎵</div>
+          <span class="qa-lb">Sermons</span>
+        </div>
+      </div>
+
+      <!-- Following -->
+      <div class="section-label">Your churches</div>
+      <div class="church-scroll">
+        <div class="cs-card" onclick="window.location='church.html'">
+          <div class="cs-cover" style="background:linear-gradient(160deg,#3a0c08,#1a0508)">
+            <div class="cs-badge" style="background:linear-gradient(145deg,#E0392E,#8E1F18)">L</div>
+          </div>
+          <div class="cs-info">
+            <div class="cs-name">Lusaka Baptist</div>
+            <div class="cs-meta">1,240 members · Live ●</div>
+          </div>
+        </div>
+        <div class="cs-card" onclick="toast('⛪ Opening church…')">
+          <div class="cs-cover" style="background:linear-gradient(160deg,#0d1a38,#060e1e)">
+            <div class="cs-badge" style="background:linear-gradient(145deg,#4f8ef7,#2460cc)">G</div>
+          </div>
+          <div class="cs-info">
+            <div class="cs-name">Grace Baptist</div>
+            <div class="cs-meta">860 members</div>
+          </div>
+        </div>
+        <div class="cs-card" onclick="toast('⛪ Opening church…')">
+          <div class="cs-cover" style="background:linear-gradient(160deg,#0d200d,#060e06)">
+            <div class="cs-badge" style="background:linear-gradient(145deg,#3fcf6d,#1a7a3a)">E</div>
+          </div>
+          <div class="cs-info">
+            <div class="cs-name">Emmanuel Baptist</div>
+            <div class="cs-meta">420 members</div>
+          </div>
+        </div>
+        <div class="cs-card" onclick="window.location='directory.html'" style="background:rgba(224,57,46,.04);border-style:dashed">
+          <div class="cs-cover" style="background:transparent">
+            <div style="font-size:1.5rem;opacity:.4">+</div>
+          </div>
+          <div class="cs-info">
+            <div class="cs-name" style="color:var(--cr3)">Find more</div>
+            <div class="cs-meta">Browse directory</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Feed -->
+      <div class="section-label">Updates from your churches</div>
+      <div class="feed-item">
+        <div class="fi-top">
+          <div class="fi-cb" style="background:linear-gradient(145deg,#E0392E,#8E1F18)">L</div>
+          <span class="fi-cn">Lusaka Baptist Church</span>
+          <span class="fi-time">2h ago</span>
+          <div class="fi-type" style="background:rgba(224,57,46,.1)">📅</div>
+        </div>
+        <div class="fi-title">Sunday Service — "Walk by Faith"</div>
+        <div class="fi-desc">Join us this Sunday at 9:00 AM and 11:30 AM. Preacher: Pastor David Banda · 2 Corinthians 5:7.</div>
+        <div class="fi-chip">RSVP going →</div>
+      </div>
+      <div class="feed-item">
+        <div class="fi-top">
+          <div class="fi-cb" style="background:linear-gradient(145deg,#4f8ef7,#2460cc)">G</div>
+          <span class="fi-cn">Grace Baptist Church</span>
+          <span class="fi-time">5h ago</span>
+          <div class="fi-type" style="background:rgba(79,142,247,.1)">🎵</div>
+        </div>
+        <div class="fi-title">New sermon: "The God Who Provides"</div>
+        <div class="fi-desc">Last Sunday's message from Pastor Grace Mwanza is now available. 42 minutes.</div>
+        <div class="fi-chip" onclick="window.location='sermons.html'">▶ Listen now</div>
+      </div>
+      <div class="feed-item" style="margin-bottom:20px">
+        <div class="fi-top">
+          <div class="fi-cb" style="background:linear-gradient(145deg,#C9A55C,#8a5c1a)">Z</div>
+          <span class="fi-cn">ZBA · Association</span>
+          <span class="fi-time">1d ago</span>
+          <div class="fi-type" style="background:var(--goldf)">📢</div>
+        </div>
+        <div class="fi-title">2026 Youth Conference registration is open</div>
+        <div class="fi-desc">Theme: "Generation Chosen." Lusaka, June 28–30. Register by June 25 — limited spots.</div>
+        <div class="fi-chip">Register now →</div>
+      </div>
+    </section>
+
+    <!-- ── BIBLE ──────────────────────────────── -->
+    <section class="screen" id="scr-bible">
+      <div class="screen-head" style="padding-bottom:0">
+        <span class="sh-title">Bible</span>
+        <button class="sh-btn" onclick="window.location='bible.html'" title="Full reader">⊕</button>
+      </div>
+
+      <div class="search-bar" style="margin-top:12px">
+        <span style="color:var(--cr3)">🔍</span>
+        <input class="sb-inp" type="text" placeholder="Search scriptures…" oninput="filterPassages(this.value)">
+      </div>
+
+      <!-- Streak -->
+      <div class="streak-card">
+        <div class="sc-num">5 🔥</div>
+        <div class="sc-info">
+          <b>Day streak</b>
+          <p>Read today to keep it going</p>
+          <div class="sc-days">
+            <div class="sc-day done">Mo</div>
+            <div class="sc-day done">Tu</div>
+            <div class="sc-day done">We</div>
+            <div class="sc-day done">Th</div>
+            <div class="sc-day done">Fr</div>
+            <div class="sc-day now">Sa</div>
+            <div class="sc-day">Su</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-label">Featured passages</div>
+      <div class="passage-list" id="passageList">
+
+        <div class="passage-card" id="pc0">
+          <div class="pc-head" onclick="togglePassage('pc0')">
+            <div class="pc-ic" style="background:var(--goldf)">🌿</div>
+            <div class="pc-info"><div class="pc-title">Psalm 23</div><div class="pc-sub">The Lord is my Shepherd · 6 verses</div></div>
+            <span class="pc-arr">›</span>
+          </div>
+          <div class="pc-body">
+            <div class="pc-text"><span class="vn">1</span>The Lord is my shepherd; I shall not want. <span class="vn">2</span>He maketh me to lie down in green pastures: he leadeth me beside the still waters. <span class="vn">3</span>He restoreth my soul: he leadeth me in the paths of righteousness for his name's sake. <span class="vn">4</span>Yea, though I walk through the valley of the shadow of death, I will fear no evil: for thou art with me; thy rod and thy staff they comfort me. <span class="vn">5</span>Thou preparest a table before me in the presence of mine enemies: thou anointest my head with oil; my cup runneth over. <span class="vn">6</span>Surely goodness and mercy shall follow me all the days of my life: and I will dwell in the house of the Lord for ever.</div>
+            <div class="pc-footer">
+              <button class="pc-act red" onclick="bookmarkPassage('Psalm 23','The Lord is my shepherd…')">🔖 Bookmark</button>
+              <button class="pc-act" onclick="toast('📋 Passage copied!')">📋 Copy</button>
+              <button class="pc-act" onclick="window.location='bible.html'">Open reader</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="passage-card" id="pc1">
+          <div class="pc-head" onclick="togglePassage('pc1')">
+            <div class="pc-ic" style="background:rgba(224,57,46,.1)">✝️</div>
+            <div class="pc-info"><div class="pc-title">John 3:16–21</div><div class="pc-sub">For God so loved the world · 6 verses</div></div>
+            <span class="pc-arr">›</span>
+          </div>
+          <div class="pc-body">
+            <div class="pc-text"><span class="vn">16</span>For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life. <span class="vn">17</span>For God sent not his Son into the world to condemn the world; but that the world through him might be saved. <span class="vn">18</span>He that believeth on him is not condemned: but he that believeth not is condemned already, because he hath not believed in the name of the only begotten Son of God. <span class="vn">19</span>And this is the condemnation, that light is come into the world, and men loved darkness rather than light, because their deeds were evil. <span class="vn">20</span>For every one that doeth evil hateth the light, neither cometh to the light, lest his deeds should be reproved. <span class="vn">21</span>But he that doeth truth cometh to the light, that his deeds may be made manifest, that they are wrought in God.</div>
+            <div class="pc-footer">
+              <button class="pc-act red" onclick="bookmarkPassage('John 3:16','For God so loved the world…')">🔖 Bookmark</button>
+              <button class="pc-act" onclick="toast('📋 Passage copied!')">📋 Copy</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="passage-card" id="pc2">
+          <div class="pc-head" onclick="togglePassage('pc2')">
+            <div class="pc-ic" style="background:rgba(63,207,109,.1)">💪</div>
+            <div class="pc-info"><div class="pc-title">Philippians 4:4–13</div><div class="pc-sub">Rejoice in the Lord alway · 10 verses</div></div>
+            <span class="pc-arr">›</span>
+          </div>
+          <div class="pc-body">
+            <div class="pc-text"><span class="vn">4</span>Rejoice in the Lord alway: and again I say, Rejoice. <span class="vn">5</span>Let your moderation be known unto all men. The Lord is at hand. <span class="vn">6</span>Be careful for nothing; but in every thing by prayer and supplication with thanksgiving let your requests be made known unto God. <span class="vn">7</span>And the peace of God, which passeth all understanding, shall keep your hearts and minds through Christ Jesus. <span class="vn">8</span>Finally, brethren, whatsoever things are true, whatsoever things are honest, whatsoever things are just, whatsoever things are pure, whatsoever things are lovely, whatsoever things are of good report; if there be any virtue, and if there be any praise, think on these things. <span class="vn">9</span>Those things, which ye have both learned, and received, and heard, and seen in me, do: and the God of peace shall be with you. <span class="vn">13</span>I can do all things through Christ which strengtheneth me.</div>
+            <div class="pc-footer">
+              <button class="pc-act red" onclick="bookmarkPassage('Philippians 4:13','I can do all things through Christ…')">🔖 Bookmark</button>
+              <button class="pc-act" onclick="toast('📋 Passage copied!')">📋 Copy</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="passage-card" id="pc3">
+          <div class="pc-head" onclick="togglePassage('pc3')">
+            <div class="pc-ic" style="background:var(--goldf)">❤️</div>
+            <div class="pc-info"><div class="pc-title">1 Corinthians 13</div><div class="pc-sub">The love chapter · 13 verses</div></div>
+            <span class="pc-arr">›</span>
+          </div>
+          <div class="pc-body">
+            <div class="pc-text"><span class="vn">1</span>Though I speak with the tongues of men and of angels, and have not charity, I am become as sounding brass, or a tinkling cymbal. <span class="vn">2</span>And though I have the gift of prophecy, and understand all mysteries, and all knowledge; and though I have all faith, so that I could remove mountains, and have not charity, I am nothing. <span class="vn">4</span>Charity suffereth long, and is kind; charity envieth not; charity vaunteth not itself, is not puffed up; <span class="vn">7</span>Beareth all things, believeth all things, hopeth all things, endureth all things. <span class="vn">8</span>Charity never faileth. <span class="vn">13</span>And now abideth faith, hope, charity, these three; but the greatest of these is charity.</div>
+            <div class="pc-footer">
+              <button class="pc-act red" onclick="bookmarkPassage('1 Cor 13:13','The greatest of these is charity.')">🔖 Bookmark</button>
+              <button class="pc-act" onclick="toast('📋 Passage copied!')">📋 Copy</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <a href="bible.html" class="bible-full-btn">
+        📖 Open full Bible reader — 66 books
+      </a>
+
+      <div class="section-label" id="bm-section-label">My bookmarks</div>
+      <div id="bmList" style="padding-bottom:20px"></div>
+    </section>
+
+    <!-- ── CHURCHES ───────────────────────────── -->
+    <section class="screen" id="scr-churches">
+      <div class="screen-head">
+        <span class="sh-title">Churches</span>
+        <button class="sh-btn" onclick="window.location='directory.html'">⊕</button>
+      </div>
+      <div class="search-bar">
+        <span style="color:var(--cr3)">🔍</span>
+        <input class="sb-inp" type="text" id="chSearch" placeholder="Search by name or city…" oninput="filterChurches(this.value)">
+      </div>
+      <div class="filter-chips">
+        <button class="fchip on" data-r="all" onclick="setChFilter('all',this)">All Zambia</button>
+        <button class="fchip" data-r="Lusaka" onclick="setChFilter('Lusaka',this)">Lusaka</button>
+        <button class="fchip" data-r="Copperbelt" onclick="setChFilter('Copperbelt',this)">Copperbelt</button>
+        <button class="fchip" data-r="Southern" onclick="setChFilter('Southern',this)">Southern</button>
+      </div>
+      <div class="section-label">Following</div>
+      <div id="followingList"></div>
+      <div class="section-label">Discover</div>
+      <div id="discoverList"></div>
+      <div style="height:20px"></div>
+    </section>
+
+    <!-- ── GIVE ──────────────────────────────── -->
+    <section class="screen" id="scr-give">
+      <div class="screen-head">
+        <span class="sh-title">Give</span>
+        <button class="sh-btn" onclick="toast('📋 Giving receipts sent to your email')">🧾</button>
+      </div>
+
+      <div class="give-stats">
+        <div class="gstat"><b>K2,400</b><small>This year</small></div>
+        <div class="gstat"><b>12</b><small>Gifts given</small></div>
+        <div class="gstat"><b>K200</b><small>Avg/month</small></div>
+      </div>
+
+      <div class="give-church-sel" onclick="showChurchSheet()">
+        <div class="gcs-badge" style="background:linear-gradient(145deg,#E0392E,#8E1F18)">L</div>
+        <div class="gcs-info"><b>Lusaka Baptist Church</b><small>Tap to change</small></div>
+        <span class="gcs-arr">›</span>
+      </div>
+
+      <div class="give-form">
+        <span class="gf-label">Amount (ZMW)</span>
+        <div class="amt-grid">
+          <button class="amt-btn" onclick="pickAmt(this,50)">K50</button>
+          <button class="amt-btn on" onclick="pickAmt(this,100)">K100</button>
+          <button class="amt-btn" onclick="pickAmt(this,200)">K200</button>
+          <button class="amt-btn" onclick="pickAmt(this,500)">K500</button>
+          <button class="amt-btn" onclick="pickAmt(this,1000)">K1,000</button>
+          <button class="amt-btn" onclick="focusCustom()">Other</button>
+        </div>
+        <div class="custom-row">
+          <span class="cr-pre">K</span>
+          <input class="cr-inp" type="number" id="giveAmtInp" value="100" placeholder="0" oninput="updateGiveBtn()">
+        </div>
+        <select class="desig" id="giveDesig">
+          <option>Tithe (10%)</option>
+          <option>Sunday offering</option>
+          <option>Building fund</option>
+          <option>Youth ministry</option>
+          <option>Missions</option>
+        </select>
+        <span class="gf-label">Payment method</span>
+        <div class="method-row">
+          <button class="mth on" onclick="pickMth(this)">📱 Airtel Money</button>
+          <button class="mth" onclick="pickMth(this)">📱 MTN Money</button>
+          <button class="mth" onclick="pickMth(this)">💳 Card</button>
+        </div>
+        <button class="give-btn" id="giveBtn" onclick="processGive()">Give K100 now</button>
+      </div>
+
+      <div class="section-label">Recent transactions</div>
+      <div class="txn-item">
+        <div class="txn-ic" style="background:var(--goldf)">💝</div>
+        <div class="txn-info"><b>Lusaka Baptist Church<span class="txn-badge">Tithe</span></b><small>Jun 9, 2026 · Airtel Money</small></div>
+        <span class="txn-amt">K200</span>
+      </div>
+      <div class="txn-item">
+        <div class="txn-ic" style="background:var(--bluef)">💝</div>
+        <div class="txn-info"><b>Lusaka Baptist Church<span class="txn-badge" style="background:var(--bluef);color:var(--blue)">Offering</span></b><small>Jun 2, 2026 · MTN Money</small></div>
+        <span class="txn-amt">K50</span>
+      </div>
+      <div class="txn-item">
+        <div class="txn-ic" style="background:var(--greenf)">💝</div>
+        <div class="txn-info"><b>Grace Baptist Church<span class="txn-badge" style="background:var(--greenf);color:var(--green)">Building</span></b><small>May 26, 2026 · Card</small></div>
+        <span class="txn-amt">K500</span>
+      </div>
+      <div style="height:20px"></div>
+    </section>
+
+    <!-- ── PROFILE ────────────────────────────── -->
+    <section class="screen" id="scr-profile">
+      <div class="screen-head">
+        <span class="sh-title">Profile</span>
+        <button class="sh-btn" onclick="window.location='profile.html'" title="Full profile">⊕</button>
+      </div>
+
+      <div class="profile-card">
+        <div class="pf-av" id="pfAv">J</div>
+        <div class="pf-info">
+          <b id="pfName">Joseph Sikalumba</b>
+          <small>Member since January 2026</small>
+          <small style="margin-top:4px;color:var(--gold)">Following 3 churches</small>
+        </div>
+      </div>
+
+      <div class="pf-stats">
+        <div class="pfs" id="pfBm"><b>4</b><small>Bookmarks</small></div>
+        <div class="pfs"><b>3</b><small>Prayers</small></div>
+        <div class="pfs"><b>K2.4k</b><small>Given</small></div>
+      </div>
+
+      <div class="section-label">My bookmarks</div>
+      <div id="profileBmList"></div>
+
+      <div class="section-label">Account</div>
+      <div class="list-item" onclick="window.location='profile.html'">
+        <div class="li-ic" style="background:rgba(224,57,46,.1)">👤</div>
+        <div class="li-info"><b>Edit profile</b><small>Name, email, phone, city</small></div>
+        <span class="li-arr">›</span>
+      </div>
+      <div class="list-item" onclick="window.location='profile.html'">
+        <div class="li-ic" style="background:rgba(79,142,247,.1)">🔔</div>
+        <div class="li-info"><b>Notifications</b><small>Events, sermons, prayer wall</small></div>
+        <span class="li-arr">›</span>
+      </div>
+      <div class="list-item" onclick="window.location='bible.html'">
+        <div class="li-ic" style="background:var(--goldf)">📖</div>
+        <div class="li-info"><b>Bible reader</b><small>Open the full browser reader</small></div>
+        <span class="li-arr">›</span>
+      </div>
+      <div class="list-item" onclick="window.location='directory.html'">
+        <div class="li-ic" style="background:rgba(63,207,109,.1)">🗺</div>
+        <div class="li-info"><b>Church directory</b><small>Find and follow more churches</small></div>
+        <span class="li-arr">›</span>
+      </div>
+      <div class="list-item red" onclick="confirmLogout()" style="border-bottom:none;margin-bottom:20px">
+        <div class="li-ic" style="background:rgba(224,57,46,.08)">←</div>
+        <div class="li-info"><b>Sign out</b><small></small></div>
+      </div>
+    </section>
+
+  </div><!-- /screens -->
+
+  <!-- BOTTOM NAV -->
+  <nav class="bnav">
+    <button class="bt on" data-t="home" onclick="goTab('home',this)">
+      <span class="bt-ic">🏠</span><span class="bt-lb">Home</span>
+    </button>
+    <button class="bt" data-t="bible" onclick="goTab('bible',this)">
+      <span class="bt-ic">📖</span><span class="bt-lb">Bible</span>
+    </button>
+    <button class="bt bt-give" data-t="give" onclick="goTab('give',this)">
+      <div class="bt-ic-wrap">💝</div>
+      <span class="bt-lb">Give</span>
+    </button>
+    <button class="bt" data-t="churches" onclick="goTab('churches',this)">
+      <span class="bt-ic">⛪</span><span class="bt-lb">Churches</span>
+    </button>
+    <button class="bt" data-t="profile" onclick="goTab('profile',this)">
+      <span class="bt-ic">👤</span><span class="bt-lb">Me</span>
+    </button>
+  </nav>
+
+  <!-- SHEET: PRAYER -->
+  <div class="sheet-overlay" id="prayerOverlay" onclick="closeSheets()">
+    <div class="sheet" onclick="event.stopPropagation()">
+      <div class="sheet-handle"></div>
+      <div class="sheet-title">Share a prayer request</div>
+      <div class="sheet-scroll">
+        <div style="padding:14px 20px">
+          <textarea id="prayerTa" rows="4" placeholder="Type your request… your church community will pray with you." style="width:100%;background:var(--sur);border:1.5px solid var(--line2);border-radius:12px;padding:12px;color:var(--cr);font-size:.9rem;font-family:inherit;resize:none;outline:none"></textarea>
+          <div style="display:flex;align-items:center;gap:10px;margin-top:12px">
+            <label style="display:flex;align-items:center;gap:6px;font-size:.76rem;color:var(--cr3)"><input type="checkbox" style="accent-color:var(--red)"> Keep anonymous</label>
+            <button onclick="submitPrayer()" style="margin-left:auto;padding:10px 20px;border-radius:100px;background:var(--red);color:#fff;border:none;font-weight:700;font-size:.84rem;box-shadow:0 4px 14px rgba(224,57,46,.3)">Share 🙏</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SHEET: CHURCH SELECT -->
+  <div class="sheet-overlay" id="churchSheetOverlay" onclick="closeSheets()">
+    <div class="sheet" onclick="event.stopPropagation()">
+      <div class="sheet-handle"></div>
+      <div class="sheet-title">Give to which church?</div>
+      <div class="sheet-scroll">
+        <div class="list-item" onclick="selectGiveChurch('L','linear-gradient(145deg,#E0392E,#8E1F18)','Lusaka Baptist Church')">
+          <div class="li-ic" style="background:linear-gradient(145deg,#E0392E,#8E1F18);width:36px;height:36px;border-radius:10px;color:#fff;font-family:\'Cormorant Garamond\';font-weight:700;font-size:1.1rem">L</div>
+          <div class="li-info"><b>Lusaka Baptist Church</b><small>Kabulonga, Lusaka</small></div>
+          <span style="color:var(--green);font-size:.7rem;font-weight:700">Following</span>
+        </div>
+        <div class="list-item" onclick="selectGiveChurch('G','linear-gradient(145deg,#4f8ef7,#2460cc)','Grace Baptist Church')">
+          <div class="li-ic" style="background:linear-gradient(145deg,#4f8ef7,#2460cc);width:36px;height:36px;border-radius:10px;color:#fff;font-family:\'Cormorant Garamond\';font-weight:700;font-size:1.1rem">G</div>
+          <div class="li-info"><b>Grace Baptist Church</b><small>Chelston, Lusaka</small></div>
+          <span style="color:var(--green);font-size:.7rem;font-weight:700">Following</span>
+        </div>
+        <div class="list-item" onclick="selectGiveChurch('E','linear-gradient(145deg,#3fcf6d,#1a7a3a)','Emmanuel Baptist Church')">
+          <div class="li-ic" style="background:linear-gradient(145deg,#3fcf6d,#1a7a3a);width:36px;height:36px;border-radius:10px;color:#fff;font-family:\'Cormorant Garamond\';font-weight:700;font-size:1.1rem">E</div>
+          <div class="li-info"><b>Emmanuel Baptist Church</b><small>Matero, Lusaka</small></div>
+          <span style="color:var(--green);font-size:.7rem;font-weight:700">Following</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toastEl"></div>
+
+</div><!-- /device -->
+
+<script>
+/* ═══════════════════════════════════════
+   TIME
+═══════════════════════════════════════ */
+function updateTime() {
+  const d = new Date();
+  const h = d.getHours(), m = d.getMinutes();
+  document.getElementById('stTime').textContent = `${h>12?h-12:h||12}:${String(m).padStart(2,'0')}`;
+  const g = h<12?'morning':h<17?'afternoon':'evening';
+  document.getElementById('homeGreet').innerHTML = `Good ${g}, Joseph<small>${d.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'})}</small>`;
+}
+updateTime(); setInterval(updateTime, 30000);
+
+/* ═══════════════════════════════════════
+   TAB NAVIGATION
+═══════════════════════════════════════ */
+let curTab = 'home';
+function goTab(name, btn) {
+  if (name === curTab) return;
+  const prev = document.getElementById('scr-'+curTab);
+  const next = document.getElementById('scr-'+name);
+  prev.classList.remove('on');
+  prev.classList.add('out');
+  setTimeout(()=>prev.classList.remove('out'),320);
+  next.classList.add('on');
+  document.querySelectorAll('.bt').forEach(b => b.classList.remove('on'));
+  document.querySelector(`[data-t="${name}"]`)?.classList.add('on');
+  curTab = name;
+  if (name === 'bible') renderBookmarks();
+  if (name === 'profile') renderProfileBookmarks();
+  if (name === 'churches') renderChurches();
+}
+
+/* ═══════════════════════════════════════
+   CHURCHES
+═══════════════════════════════════════ */
+const CHURCHES = [
+  {id:1,name:"Lusaka Baptist Church",city:"Kabulonga",region:"Lusaka",badge:"L",color:"linear-gradient(145deg,#E0392E,#8E1F18)",members:1240,verified:true,url:"church.html"},
+  {id:2,name:"Grace Baptist Church",city:"Chelston",region:"Lusaka",badge:"G",color:"linear-gradient(145deg,#4f8ef7,#2460cc)",members:860,verified:true},
+  {id:3,name:"Emmanuel Baptist Church",city:"Matero",region:"Lusaka",badge:"E",color:"linear-gradient(145deg,#3fcf6d,#1a7a3a)",members:420,verified:true},
+  {id:4,name:"Northside Baptist",city:"Northmead",region:"Lusaka",badge:"N",color:"linear-gradient(145deg,#C9A55C,#8a5c1a)",members:310,verified:false},
+  {id:5,name:"Kitwe Baptist Church",city:"Kitwe",region:"Copperbelt",badge:"K",color:"linear-gradient(145deg,#a855f7,#6622cc)",members:680,verified:true},
+  {id:6,name:"Ndola Grace Baptist",city:"Ndola",region:"Copperbelt",badge:"N",color:"linear-gradient(145deg,#20c997,#0a6b4a)",members:290,verified:false},
+  {id:7,name:"Livingstone Baptist",city:"Livingstone",region:"Southern",badge:"L",color:"linear-gradient(145deg,#f59e0b,#92600a)",members:510,verified:true},
+  {id:8,name:"Chipata Community Baptist",city:"Chipata",region:"Eastern",badge:"C",color:"linear-gradient(145deg,#ec4899,#9c1b5c)",members:180,verified:false},
+];
+const following = new Set(JSON.parse(localStorage.getItem('bs_following')||'[1,2,3]'));
+let chRegion = 'all', chQ = '';
+
+function renderChurches() {
+  const f = CHURCHES.filter(c => {
+    if (chQ && !c.name.toLowerCase().includes(chQ) && !c.city.toLowerCase().includes(chQ)) return false;
+    if (chRegion !== 'all' && c.region !== chRegion) return false;
+    return true;
+  });
+  const fol = f.filter(c => following.has(c.id));
+  const disc = f.filter(c => !following.has(c.id));
+  document.getElementById('followingList').innerHTML = fol.length ? fol.map(c=>churchCard(c)).join('') : '<div style="padding:16px 20px;font-size:.82rem;color:var(--cr3)">No followed churches match.</div>';
+  document.getElementById('discoverList').innerHTML = disc.length ? disc.map(c=>churchCard(c)).join('') : '<div style="padding:16px 20px;font-size:.82rem;color:var(--cr3)">No more churches in this filter.</div>';
+}
+function churchCard(c) {
+  const isF = following.has(c.id);
+  const fmtM = c.members >= 1000 ? (c.members/1000).toFixed(1)+'k' : c.members;
+  return `<div class="ch-card" onclick="${c.url?`window.location='${c.url}'`:`toast('⛪ Church profiles for all churches coming soon!')`}">
+    <div class="ch-badge" style="background:${c.color}">${c.badge}</div>
+    <div class="ch-info">
+      <div class="ch-name">${c.name}</div>
+      <div class="ch-loc">📍 ${c.city}</div>
+      <div class="ch-chips">${c.verified?'<span class="ch-chip chip-g">✓ Verified</span>':''}</div>
+    </div>
+    <div class="ch-right">
+      <div><div class="ch-mem">${fmtM}</div><div class="ch-mem-lb">members</div></div>
+      <button class="ch-follow ${isF?'on':'off'}" onclick="event.stopPropagation();toggleFollow(${c.id},this)">${isF?'✓ Following':'+ Follow'}</button>
+    </div>
+  </div>`;
+}
+function toggleFollow(id, btn) {
+  if (following.has(id)) {
+    following.delete(id); btn.className='ch-follow off'; btn.textContent='+ Follow'; toast('Unfollowed');
+  } else {
+    following.add(id); btn.className='ch-follow on'; btn.textContent='✓ Following'; toast('✓ Now following!');
+  }
+  localStorage.setItem('bs_following', JSON.stringify([...following]));
+}
+function filterChurches(q) { chQ = q.toLowerCase(); renderChurches(); }
+function setChFilter(r, el) {
+  chRegion = r;
+  document.querySelectorAll('.fchip').forEach(c => c.classList.remove('on'));
+  el.classList.add('on');
+  renderChurches();
+}
+
+/* ═══════════════════════════════════════
+   BIBLE + BOOKMARKS
+═══════════════════════════════════════ */
+function togglePassage(id) {
+  const pc = document.getElementById(id);
+  const wasOpen = pc.classList.contains('open');
+  document.querySelectorAll('.passage-card').forEach(p => p.classList.remove('open'));
+  if (!wasOpen) pc.classList.add('open');
+}
+const DEFAULT_BM = [
+  {ref:"Psalm 23:1",text:"The Lord is my shepherd; I shall not want.",color:"gold"},
+  {ref:"John 3:16",text:"For God so loved the world, that he gave his only begotten Son…",color:"red"},
+  {ref:"Philippians 4:13",text:"I can do all things through Christ which strengtheneth me.",color:"green"},
+  {ref:"1 Corinthians 13:13",text:"The greatest of these is charity.",color:"blue"},
+];
+const colorMap = {gold:'var(--gold)',red:'var(--red)',green:'var(--green)',blue:'var(--blue)'};
+
+function bookmarkPassage(ref, text) {
+  const bms = JSON.parse(localStorage.getItem('bs_bm_app')||'[]');
+  if (bms.find(b=>b.ref===ref)) { toast('Already bookmarked!'); return; }
+  bms.unshift({ref, text, color:'gold'});
+  localStorage.setItem('bs_bm_app', JSON.stringify(bms));
+  toast('🔖 Bookmarked!');
+  renderBookmarks();
+  renderProfileBookmarks();
+  document.getElementById('pfBm').querySelector('b').textContent = bms.length;
+}
+function getBM() {
+  const stored = JSON.parse(localStorage.getItem('bs_bm_app')||'[]');
+  return stored.length ? stored : DEFAULT_BM;
+}
+function renderBookmarks() {
+  const bms = getBM();
+  document.getElementById('bmList').innerHTML = bms.slice(0,6).map(b => `
+    <div class="bm-item" onclick="window.location='bible.html'">
+      <div class="bm-dot" style="background:${colorMap[b.color]||'var(--gold)'}"></div>
+      <div><div class="bm-text">"${b.text.substring(0,80)}${b.text.length>80?'…':''}"</div><span class="bm-ref">${b.ref}</span></div>
+    </div>`).join('');
+  document.getElementById('bm-section-label').textContent = bms.length ? `My bookmarks (${bms.length})` : 'My bookmarks';
+}
+function renderProfileBookmarks() {
+  const bms = getBM().slice(0,3);
+  document.getElementById('profileBmList').innerHTML = bms.map(b => `
+    <div class="bm-item" onclick="window.location='bible.html'">
+      <div class="bm-dot" style="background:${colorMap[b.color]||'var(--gold)'}"></div>
+      <div><div class="bm-text" style="font-size:.9rem">"${b.text.substring(0,70)}${b.text.length>70?'…':''}"</div><span class="bm-ref">${b.ref}</span></div>
+    </div>`).join('');
+}
+function filterPassages(q) {
+  const lq = q.toLowerCase();
+  document.querySelectorAll('.passage-card').forEach(pc => {
+    const txt = pc.textContent.toLowerCase();
+    pc.style.display = lq && !txt.includes(lq) ? 'none' : '';
+  });
+}
+
+/* ═══════════════════════════════════════
+   GIVING
+═══════════════════════════════════════ */
+let gAmt = 100;
+function pickAmt(btn, amt) {
+  document.querySelectorAll('.amt-btn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  gAmt = amt;
+  document.getElementById('giveAmtInp').value = amt;
+  document.getElementById('giveBtn').textContent = `Give K${amt.toLocaleString()} now`;
+}
+function focusCustom() {
+  document.querySelectorAll('.amt-btn').forEach(b=>b.classList.remove('on'));
+  document.getElementById('giveAmtInp').focus();
+}
+function updateGiveBtn() {
+  const v = parseInt(document.getElementById('giveAmtInp').value)||0;
+  gAmt = v;
+  document.getElementById('giveBtn').textContent = `Give K${v.toLocaleString()} now`;
+}
+function pickMth(btn) {
+  document.querySelectorAll('.mth').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+}
+function processGive() {
+  const btn = document.getElementById('giveBtn');
+  const orig = btn.textContent;
+  btn.textContent = 'Processing…'; btn.disabled = true;
+  setTimeout(() => {
+    btn.textContent = '✓ Gift sent! Thank you'; btn.style.background='var(--green)';
+    toast('💝 K'+gAmt.toLocaleString()+' given — God bless you!');
+    setTimeout(()=>{ btn.textContent=orig; btn.disabled=false; btn.style.background=''; }, 2500);
+  }, 1600);
+}
+
+/* ═══════════════════════════════════════
+   SHEETS
+═══════════════════════════════════════ */
+function showPrayerSheet() { document.getElementById('prayerOverlay').classList.add('on'); }
+function showChurchSheet() { document.getElementById('churchSheetOverlay').classList.add('on'); }
+function closeSheets() {
+  document.getElementById('prayerOverlay').classList.remove('on');
+  document.getElementById('churchSheetOverlay').classList.remove('on');
+}
+function submitPrayer() {
+  const t = document.getElementById('prayerTa').value.trim();
+  if (!t) { toast('Please type your prayer request'); return; }
+  document.getElementById('prayerTa').value = '';
+  closeSheets();
+  toast('🙏 Prayer shared with your churches');
+}
+function selectGiveChurch(badge, color, name) {
+  document.querySelector('.gcs-badge').style.background = color;
+  document.querySelector('.gcs-badge').textContent = badge;
+  document.querySelector('.gcs-info b').textContent = name;
+  closeSheets();
+}
+
+/* ═══════════════════════════════════════
+   UTILS
+═══════════════════════════════════════ */
+let tt;
+function toast(msg) {
+  const el = document.getElementById('toastEl');
+  el.textContent = msg; el.classList.add('on');
+  clearTimeout(tt);
+  tt = setTimeout(()=>el.classList.remove('on'), 2600);
+}
+function copyVerse() {
+  navigator.clipboard.writeText('"I can do all things through Christ which strengtheneth me." — Philippians 4:13').catch(()=>{});
+  toast('📋 Verse copied!');
+}
+function confirmLogout() {
+  if (confirm('Sign out of Baptist Studio?')) window.location.href = 'baptist-studio.html';
+}
+
+/* ═══════════════════════════════════════
+   PWA SERVICE WORKER
+═══════════════════════════════════════ */
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').then(reg => {
+      console.log('SW registered', reg.scope);
+    }).catch(()=>{});
+  });
+}
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredPrompt = e;
+  setTimeout(()=>document.getElementById('installBanner').classList.add('on'), 2000);
+});
+document.getElementById('installBtn').addEventListener('click', () => {
+  document.getElementById('installBanner').classList.remove('on');
+  if (deferredPrompt) { deferredPrompt.prompt(); deferredPrompt = null; }
+});
+
+/* ═══════════════════════════════════════
+   INIT
+═══════════════════════════════════════ */
+renderBookmarks();
+renderProfileBookmarks();
+renderChurches();
+
+// Handle hash (e.g. app.html#give from manifest shortcut)
+const hash = location.hash.replace('#','');
+if (['home','bible','give','churches','profile'].includes(hash)) {
+  goTab(hash, document.querySelector(`[data-t="${hash}"]`));
+}
+</script>
+</body>
+</html>

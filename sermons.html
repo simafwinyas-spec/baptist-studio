@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0B0910">
+<link rel="manifest" href="manifest.json">
+<title>Sermons — Baptist Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --red:#E0392E;--red-b:#FF5447;--red-d:#8E1F18;
+  --ink:#0B0910;--ink2:#110F18;
+  --sur:#1A1626;--sur2:#221E30;--sur3:#2A263A;
+  --line:rgba(246,239,230,.07);--line2:rgba(246,239,230,.13);--line3:rgba(246,239,230,.22);
+  --cr:#F6EFE6;--cr2:rgba(246,239,230,.65);--cr3:rgba(246,239,230,.35);--cr4:rgba(246,239,230,.1);
+  --gold:#C9A55C;--goldf:rgba(201,165,92,.14);--goldb:rgba(201,165,92,.28);
+  --green:#3fcf6d;--greenf:rgba(63,207,109,.13);--greenb:rgba(63,207,109,.28);
+  --blue:#4f8ef7;
+  --mw:1100px;
+  --nb:80px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:"Plus Jakarta Sans",sans-serif;background:var(--ink);color:var(--cr);-webkit-font-smoothing:antialiased;overflow-x:hidden;padding-bottom:var(--nb)}
+h1,h2,h3,.serif{font-family:"Cormorant Garamond",serif;font-weight:600;line-height:1.1}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer}
+.wrap{max-width:var(--mw);margin:0 auto;padding:0 24px}
+::-webkit-scrollbar{width:4px;height:4px}::-webkit-scrollbar-thumb{background:var(--sur3);border-radius:10px}
+
+/* ── NAV ──────────────────────────────── */
+.nav{position:fixed;top:0;left:0;right:0;z-index:60;height:58px;display:flex;align-items:center;gap:14px;padding:0 24px;background:rgba(11,9,16,.93);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
+.nav-logo{display:flex;align-items:center;gap:10px}
+.nav-logo svg{width:30px;height:30px}
+.nav-logo span{font-family:"Cormorant Garamond";font-size:1.15rem;font-weight:600}
+.nav-search{flex:1;max-width:360px;display:flex;align-items:center;gap:9px;background:var(--sur);border:1px solid var(--line2);border-radius:10px;padding:8px 13px}
+.nav-search input{background:none;border:none;outline:none;color:var(--cr);font-size:.86rem;font-family:inherit;width:100%}
+.nav-search input::placeholder{color:var(--cr3)}
+.nav-right{display:flex;align-items:center;gap:8px;margin-left:auto}
+.nbtn{padding:8px 16px;border-radius:100px;font-size:.84rem;font-weight:700;border:none;transition:all .2s}
+.nbtn-ghost{background:var(--sur);border:1px solid var(--line2);color:var(--cr2)}
+.nbtn-ghost:hover{color:var(--cr)}
+.nbtn-red{background:var(--red);color:#fff}
+.nbtn-red:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(224,57,46,.4)}
+
+/* ── HERO ─────────────────────────────── */
+.hero{padding:88px 0 40px;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 70% 0%,rgba(224,57,46,.1),transparent 55%)}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:.66rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+.hero-eyebrow::before{content:"";width:20px;height:1px;background:var(--gold)}
+.hero h1{font-size:clamp(2rem,4.5vw,3.2rem);color:var(--cr);margin-bottom:10px}
+.hero h1 em{font-style:italic;color:var(--red)}
+.hero p{font-size:.96rem;color:var(--cr2);max-width:38em;line-height:1.72;margin-bottom:28px}
+.hero-stats{display:flex;gap:28px;flex-wrap:wrap}
+.hstat b{font-family:"Cormorant Garamond";font-size:1.8rem;color:var(--cr);display:block;font-weight:600;line-height:1}
+.hstat span{font-size:.7rem;color:var(--cr3)}
+
+/* ── FILTER BAR ───────────────────────── */
+.filter-bar{position:sticky;top:58px;z-index:50;background:rgba(11,9,16,.95);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.filter-inner{max-width:var(--mw);margin:0 auto;padding:0 24px;height:50px;display:flex;align-items:center;gap:8px}
+.topic-tabs{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;flex:1}
+.topic-tabs::-webkit-scrollbar{display:none}
+.tt{padding:6px 14px;border-radius:100px;font-size:.78rem;font-weight:700;background:none;border:none;color:var(--cr3);cursor:pointer;transition:all .2s;white-space:nowrap}
+.tt:hover{color:var(--cr2)}
+.tt.on{background:var(--sur);border:1px solid var(--line2);color:var(--cr)}
+.fsel{background:var(--sur);border:1px solid var(--line2);border-radius:8px;padding:7px 12px;font-size:.78rem;color:var(--cr2);outline:none;cursor:pointer;appearance:none;font-family:inherit;padding-right:26px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='11' viewBox='0 0 24 24' fill='none' stroke='%23F6EFE6' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 8px center}
+.fsel option{background:var(--sur)}
+.view-btns{display:flex;background:var(--sur);border:1px solid var(--line2);border-radius:8px;overflow:hidden}
+.vb{width:32px;height:32px;display:grid;place-items:center;font-size:.9rem;background:none;border:none;color:var(--cr3);transition:all .2s;cursor:pointer}
+.vb.on{background:var(--sur2);color:var(--cr)}
+
+/* ── MAIN ─────────────────────────────── */
+.main{padding:28px 0 20px}
+.rh{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.rh-count{font-size:.88rem;color:var(--cr3)}
+.rh-count b{color:var(--cr2)}
+.rh-sort{display:flex;align-items:center;gap:8px}
+.rh-sort label{font-size:.78rem;color:var(--cr3)}
+
+/* ── SERMON GRID ──────────────────────── */
+.sermons-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.sermons-grid.list{grid-template-columns:1fr}
+
+/* SERMON CARD (grid) */
+.sc{background:var(--sur);border:1px solid var(--line2);border-radius:16px;overflow:hidden;transition:border-color .25s,transform .25s,box-shadow .25s;cursor:pointer;display:flex;flex-direction:column}
+.sc:hover{border-color:rgba(224,57,46,.3);transform:translateY(-4px);box-shadow:0 14px 36px rgba(0,0,0,.4)}
+.sc.playing{border-color:var(--red);box-shadow:0 0 0 3px rgba(224,57,46,.15)}
+.sc-thumb{height:120px;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.sc-thumb-ic{font-family:"Cormorant Garamond";font-size:3.2rem;font-weight:700;color:rgba(255,255,255,.2);z-index:1}
+.sc-play-overlay{position:absolute;inset:0;background:rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s}
+.sc:hover .sc-play-overlay{opacity:1}
+.sc.playing .sc-play-overlay{opacity:1;background:rgba(224,57,46,.25)}
+.sc-play-btn{width:44px;height:44px;border-radius:50%;background:var(--red);border:none;display:grid;place-items:center;font-size:1rem;color:#fff;box-shadow:0 6px 18px rgba(224,57,46,.5);transition:transform .2s}
+.sc-play-btn:hover{transform:scale(1.1)}
+.sc-eq{display:flex;gap:2px;align-items:flex-end;height:18px}
+.sc-eq span{width:3px;border-radius:2px;background:var(--red);animation:eq .6s ease-in-out infinite alternate}
+.sc-eq span:nth-child(1){height:60%;animation-delay:0s}
+.sc-eq span:nth-child(2){height:100%;animation-delay:.15s}
+.sc-eq span:nth-child(3){height:75%;animation-delay:.05s}
+.sc-eq span:nth-child(4){height:45%;animation-delay:.2s}
+@keyframes eq{to{height:30%}}
+.sc-body{padding:14px;flex:1;display:flex;flex-direction:column}
+.sc-scripture{font-size:.62rem;font-weight:700;color:var(--gold);background:var(--goldf);border:1px solid var(--goldb);border-radius:100px;padding:3px 9px;margin-bottom:8px;display:inline-block;width:fit-content}
+.sc-title{font-size:.94rem;color:var(--cr);font-weight:700;line-height:1.35;margin-bottom:5px}
+.sc-preacher{font-size:.76rem;color:var(--cr2);margin-bottom:8px}
+.sc-church{display:flex;align-items:center;gap:7px;margin-bottom:10px}
+.sc-church-badge{width:20px;height:20px;border-radius:5px;display:grid;place-items:center;font-size:.65rem;font-weight:700;color:#fff;flex:none}
+.sc-church-name{font-size:.7rem;color:var(--cr3)}
+.sc-footer{display:flex;align-items:center;justify-content:space-between;margin-top:auto}
+.sc-meta{font-size:.65rem;color:var(--cr3)}
+.sc-plays{font-size:.65rem;color:var(--cr3);display:flex;align-items:center;gap:4px}
+.sc-save{width:28px;height:28px;border-radius:50%;background:var(--sur2);border:1px solid var(--line2);display:grid;place-items:center;font-size:.75rem;color:var(--cr3);transition:all .2s}
+.sc-save:hover,.sc-save.on{background:var(--goldf);border-color:var(--goldb);color:var(--gold)}
+
+/* SERMON CARD (list) */
+.sermons-grid.list .sc{flex-direction:row;align-items:center}
+.sermons-grid.list .sc-thumb{width:90px;min-width:90px;height:auto;align-self:stretch;border-radius:0}
+.sermons-grid.list .sc-thumb-ic{font-size:2.2rem}
+.sermons-grid.list .sc-body{flex-direction:row;align-items:center;gap:14px;padding:12px 14px}
+.sermons-grid.list .sc-title{margin-bottom:2px}
+.sermons-grid.list .sc-info-main{flex:1;min-width:0}
+.sermons-grid.list .sc-scripture{margin-bottom:4px}
+.sermons-grid.list .sc-preacher{margin-bottom:2px}
+.sermons-grid.list .sc-church{margin-bottom:0}
+.sermons-grid.list .sc-footer{flex-direction:column;align-items:flex-end;gap:6px;flex:none;min-width:80px}
+
+/* ── NOW PLAYING BAR ──────────────────── */
+.player-bar{position:fixed;bottom:0;left:0;right:0;z-index:90;background:rgba(22,18,38,.97);backdrop-filter:blur(20px);border-top:1px solid var(--line2);padding:12px 24px;display:flex;align-items:center;gap:16px;transform:translateY(100%);transition:transform .4s cubic-bezier(.4,0,.2,1)}
+.player-bar.on{transform:none}
+.pb-thumb{width:44px;height:44px;border-radius:11px;display:grid;place-items:center;font-family:"Cormorant Garamond";font-weight:700;font-size:1.5rem;color:#fff;flex:none}
+.pb-info{flex:1;min-width:0}
+.pb-title{font-size:.86rem;color:var(--cr);font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:2px}
+.pb-sub{font-size:.68rem;color:var(--cr3)}
+.pb-eq{display:flex;gap:3px;align-items:flex-end;height:18px;margin-right:8px}
+.pb-eq span{width:3px;border-radius:2px;background:var(--red);animation:eq .6s ease-in-out infinite alternate}
+.pb-eq span:nth-child(1){height:60%;animation-delay:0s}
+.pb-eq span:nth-child(2){height:100%;animation-delay:.15s}
+.pb-eq span:nth-child(3){height:75%;animation-delay:.05s}
+.pb-eq span:nth-child(4){height:45%;animation-delay:.2s}
+.pb-controls{display:flex;align-items:center;gap:10px;flex:none}
+.pb-btn{width:36px;height:36px;border-radius:50%;background:var(--sur);border:1px solid var(--line2);display:grid;place-items:center;font-size:.9rem;color:var(--cr2);transition:all .2s}
+.pb-btn:hover{color:var(--cr);border-color:var(--line3)}
+.pb-play{width:42px;height:42px;background:var(--red);border:none;border-radius:50%;display:grid;place-items:center;font-size:1rem;color:#fff;box-shadow:0 4px 14px rgba(224,57,46,.4);transition:all .2s}
+.pb-play:hover{transform:scale(1.06);box-shadow:0 8px 20px rgba(224,57,46,.55)}
+.pb-progress{flex:1;max-width:300px}
+.pb-bar{height:3px;background:var(--sur3);border-radius:100px;position:relative;cursor:pointer;margin-bottom:5px}
+.pb-fill{height:100%;background:var(--red);border-radius:100px;width:0;transition:width .5s linear}
+.pb-times{display:flex;justify-content:space-between;font-size:.58rem;color:var(--cr3)}
+.pb-close{width:32px;height:32px;border-radius:50%;background:none;border:none;color:var(--cr3);font-size:.85rem;display:grid;place-items:center;transition:color .2s}
+.pb-close:hover{color:var(--cr)}
+
+/* SAVED SERMONS */
+.saved-chip{display:flex;align-items:center;gap:7px;padding:7px 14px;border-radius:100px;background:var(--goldf);border:1px solid var(--goldb);color:var(--gold);font-size:.72rem;font-weight:700;cursor:pointer;transition:all .2s}
+.saved-chip:hover{background:rgba(201,165,92,.22)}
+
+/* TOAST */
+.toast{position:fixed;bottom:calc(var(--nb) + 12px);right:24px;background:var(--sur2);border:1px solid var(--line2);border-radius:12px;padding:11px 18px;z-index:300;box-shadow:0 12px 32px rgba(0,0,0,.5);transform:translateY(16px);opacity:0;transition:all .3s cubic-bezier(.22,1,.36,1);pointer-events:none;font-size:.84rem;color:var(--cr)}
+.toast.on{transform:none;opacity:1}
+.toast.no-player{bottom:24px}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(12px);transition:opacity .5s,transform .5s cubic-bezier(.2,.8,.3,1)}
+.reveal.in{opacity:1;transform:none}
+
+@media(max-width:860px){.sermons-grid:not(.list){grid-template-columns:repeat(2,1fr)}}
+@media(max-width:580px){.sermons-grid:not(.list){grid-template-columns:1fr}.view-btns,.fsel{display:none}}
+@media(max-width:480px){.wrap{padding:0 16px}.nav-right .nbtn-ghost{display:none}}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="baptist-studio.html" class="nav-logo">
+    <svg viewBox="0 0 60 60" fill="none">
+      <ellipse cx="30" cy="30" rx="24" ry="20" stroke="#E0392E" stroke-width="2.2" transform="rotate(-22 30 30)" opacity=".92"/>
+      <ellipse cx="30" cy="30" rx="23" ry="22" stroke="#B82A21" stroke-width="1.8" transform="rotate(12 30 30)" opacity=".75"/>
+      <text x="30" y="41" text-anchor="middle" font-family="Georgia,serif" font-size="27" font-weight="bold" fill="#E0392E">B</text>
+    </svg>
+    <span>Baptist Studio</span>
+  </a>
+  <div class="nav-search">
+    <span style="color:var(--cr3);font-size:.85rem">🔍</span>
+    <input type="text" id="navQ" placeholder="Search sermons, preachers, scriptures…" oninput="handleSearch(this.value)">
+  </div>
+  <div class="nav-right">
+    <a href="events.html" class="nbtn nbtn-ghost">Events</a>
+    <a href="login.html" class="nbtn nbtn-ghost">Sign in</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-eyebrow">Sermon library</div>
+    <h1>Messages from<br><em>Baptist Zambia.</em></h1>
+    <p>Listen to sermons from Baptist churches and preachers across Zambia. Save your favourites and never miss a message.</p>
+    <div class="hero-stats">
+      <div class="hstat"><b>48</b><span>Sermons</span></div>
+      <div class="hstat"><b>12</b><span>Preachers</span></div>
+      <div class="hstat"><b>8</b><span>Churches</span></div>
+      <div class="hstat"><b>18k+</b><span>Total plays</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- FILTER BAR -->
+<div class="filter-bar">
+  <div class="filter-inner">
+    <div class="topic-tabs">
+      <button class="tt on" data-topic="all" onclick="setTopic('all',this)">All</button>
+      <button class="tt" data-topic="faith" onclick="setTopic('faith',this)">Faith</button>
+      <button class="tt" data-topic="prayer" onclick="setTopic('prayer',this)">Prayer</button>
+      <button class="tt" data-topic="healing" onclick="setTopic('healing',this)">Healing</button>
+      <button class="tt" data-topic="family" onclick="setTopic('family',this)">Family</button>
+      <button class="tt" data-topic="prophecy" onclick="setTopic('prophecy',this)">Prophecy</button>
+      <button class="tt" data-topic="worship" onclick="setTopic('worship',this)">Worship</button>
+      <button class="tt" data-topic="salvation" onclick="setTopic('salvation',this)">Salvation</button>
+    </div>
+    <select class="fsel" onchange="setChurchF(this.value)">
+      <option value="all">All churches</option>
+      <option value="LBC">Lusaka Baptist</option>
+      <option value="GBC">Grace Baptist</option>
+      <option value="EBC">Emmanuel Baptist</option>
+      <option value="KBC">Kitwe Baptist</option>
+      <option value="LivBC">Livingstone Baptist</option>
+    </select>
+    <select class="fsel" onchange="setSort(this.value)">
+      <option value="date">Latest first</option>
+      <option value="plays">Most played</option>
+      <option value="alpha">A–Z</option>
+    </select>
+    <div class="view-btns">
+      <button class="vb on" id="vbG" onclick="setView('grid')" title="Grid">⊞</button>
+      <button class="vb" id="vbL" onclick="setView('list')" title="List">☰</button>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="wrap">
+    <div class="rh">
+      <div class="rh-count" id="rhCount"></div>
+      <div class="rh-sort" id="savedRow" style="display:none">
+        <div class="saved-chip" onclick="toggleSavedFilter()">🔖 Saved sermons (<span id="savedCount">0</span>)</div>
+      </div>
+    </div>
+    <div class="sermons-grid" id="sermonsGrid"></div>
+  </div>
+</div>
+
+<!-- NOW PLAYING BAR -->
+<div class="player-bar" id="playerBar">
+  <div class="pb-thumb" id="pbThumb" style="background:linear-gradient(145deg,#E0392E,#8E1F18)">L</div>
+  <div class="pb-info">
+    <div class="pb-title" id="pbTitle">Walk by Faith, Not by Sight</div>
+    <div class="pb-sub" id="pbSub">Pastor David Banda · Lusaka Baptist</div>
+  </div>
+  <div class="pb-eq"><span></span><span></span><span></span><span></span></div>
+  <div class="pb-progress">
+    <div class="pb-bar" onclick="seekPlayer(event)">
+      <div class="pb-fill" id="pbFill"></div>
+    </div>
+    <div class="pb-times"><span id="pbElapsed">0:00</span><span id="pbTotal">0:00</span></div>
+  </div>
+  <div class="pb-controls">
+    <button class="pb-btn" onclick="skipBack()" title="−30s">⟪</button>
+    <button class="pb-play" id="pbPlayBtn" onclick="togglePlayback()">⏸</button>
+    <button class="pb-btn" onclick="skipFwd()" title="+30s">⟫</button>
+  </div>
+  <button class="pb-close" onclick="closePlayer()" title="Close">✕</button>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+/* ═══════════════════════════════════════
+   DATA
+═══════════════════════════════════════ */
+const SERMONS = [
+  {id:1,title:"Walk by Faith, Not by Sight",preacher:"Pastor David Banda",church:"Lusaka Baptist Church",churchKey:"LBC",badge:"L",color:"linear-gradient(145deg,#E0392E,#8E1F18)",date:"2026-06-09",scripture:"2 Corinthians 5:7",duration:"51:24",durationSec:3084,plays:2104,topics:["faith"],thumb:"linear-gradient(160deg,#3a0c08,#200608)"},
+  {id:2,title:"Chosen for a Purpose",preacher:"Pastor K. Lungu",church:"Kitwe Baptist Church",churchKey:"KBC",badge:"K",color:"linear-gradient(145deg,#a855f7,#6622cc)",date:"2026-06-15",scripture:"1 Peter 2:9",duration:"47:02",durationSec:2822,plays:1893,topics:["faith","salvation"],thumb:"linear-gradient(160deg,#200838,#0e0420)"},
+  {id:3,title:"The Armour of God",preacher:"Pastor David Banda",church:"Lusaka Baptist Church",churchKey:"LBC",badge:"L",color:"linear-gradient(145deg,#E0392E,#8E1F18)",date:"2026-06-16",scripture:"Ephesians 6:10–20",duration:"49:11",durationSec:2951,plays:1445,topics:["faith","prayer"],thumb:"linear-gradient(160deg,#2e0a0a,#1a0406)"},
+  {id:4,title:"The God Who Provides",preacher:"Pastor Grace Mwanza",church:"Grace Baptist Church",churchKey:"GBC",badge:"G",color:"linear-gradient(145deg,#4f8ef7,#2460cc)",date:"2026-06-09",scripture:"Genesis 22",duration:"42:15",durationSec:2535,plays:1247,topics:["faith","healing"],thumb:"linear-gradient(160deg,#0a1a38,#04091e)"},
+  {id:5,title:"Rivers of Living Water",preacher:"Pastor David Banda",church:"Lusaka Baptist Church",churchKey:"LBC",badge:"L",color:"linear-gradient(145deg,#E0392E,#8E1F18)",date:"2026-05-12",scripture:"John 7:37–39",duration:"44:33",durationSec:2673,plays:1102,topics:["worship","salvation"],thumb:"linear-gradient(160deg,#3a0c08,#200608)"},
+  {id:6,title:"Your Mountain Shall Move",preacher:"Pastor J. Phiri",church:"Livingstone Baptist Church",churchKey:"LivBC",badge:"L",color:"linear-gradient(145deg,#f59e0b,#92600a)",date:"2026-06-08",scripture:"Mark 11:23",duration:"41:07",durationSec:2467,plays:924,topics:["faith","healing"],thumb:"linear-gradient(160deg,#201004,#100a02)"},
+  {id:7,title:"Strength in the Storm",preacher:"Pastor David Banda",church:"Lusaka Baptist Church",churchKey:"LBC",badge:"L",color:"linear-gradient(145deg,#E0392E,#8E1F18)",date:"2026-05-26",scripture:"Mark 4:35–41",duration:"38:45",durationSec:2325,plays:891,topics:["faith"],thumb:"linear-gradient(160deg,#2e0a0a,#1a0406)"},
+  {id:8,title:"The Beatitudes — Part 1",preacher:"Pastor Grace Mwanza",church:"Grace Baptist Church",churchKey:"GBC",badge:"G",color:"linear-gradient(145deg,#4f8ef7,#2460cc)",date:"2026-06-16",scripture:"Matthew 5:1–12",duration:"55:08",durationSec:3308,plays:788,topics:["salvation","worship"],thumb:"linear-gradient(160deg,#0a1a38,#04091e)"},
+  {id:9,title:"Arise and Shine",preacher:"Pastor K. Lungu",church:"Kitwe Baptist Church",churchKey:"KBC",badge:"K",color:"linear-gradient(145deg,#a855f7,#6622cc)",date:"2026-06-01",scripture:"Isaiah 60:1",duration:"36:19",durationSec:2179,plays:672,topics:["prophecy","worship"],thumb:"linear-gradient(160deg,#200838,#0e0420)"},
+  {id:10,title:"The Prayer of Jabez",preacher:"Elder Ruth Tembo",church:"Emmanuel Baptist Church",churchKey:"EBC",badge:"E",color:"linear-gradient(145deg,#3fcf6d,#1a7a3a)",date:"2026-05-19",scripture:"1 Chronicles 4:10",duration:"33:52",durationSec:2032,plays:567,topics:["prayer"],thumb:"linear-gradient(160deg,#062010,#030e06)"},
+  {id:11,title:"Faith That Moves Mountains",preacher:"Pastor Grace Mwanza",church:"Grace Baptist Church",churchKey:"GBC",badge:"G",color:"linear-gradient(145deg,#4f8ef7,#2460cc)",date:"2026-05-25",scripture:"Matthew 17:20",duration:"43:41",durationSec:2621,plays:1019,topics:["faith"],thumb:"linear-gradient(160deg,#0a1a38,#04091e)"},
+  {id:12,title:"Trusting God in Hard Times",preacher:"Elder M. Kamanga",church:"Ndola Grace Baptist",churchKey:"NGB",badge:"N",color:"linear-gradient(145deg,#20c997,#0a6b4a)",date:"2026-05-30",scripture:"Psalm 46",duration:"29:08",durationSec:1748,plays:312,topics:["faith","healing"],thumb:"linear-gradient(160deg,#041410,#020a08)"},
+];
+
+/* ═══════════════════════════════════════
+   STATE
+═══════════════════════════════════════ */
+let curTopic = 'all', curChurch = 'all', curSort = 'date', curView = 'grid';
+let searchQ = '', showSavedOnly = false;
+let saved = new Set(JSON.parse(localStorage.getItem('bs_saved_sermons')||'[]'));
+let nowPlaying = null, isPlaying = false;
+let playSeconds = 0, playInterval = null;
+
+/* ═══════════════════════════════════════
+   RENDER
+═══════════════════════════════════════ */
+function getFiltered() {
+  let list = [...SERMONS];
+  if (searchQ) list = list.filter(s => s.title.toLowerCase().includes(searchQ) || s.preacher.toLowerCase().includes(searchQ) || s.scripture.toLowerCase().includes(searchQ) || s.church.toLowerCase().includes(searchQ));
+  if (curTopic !== 'all') list = list.filter(s => s.topics.includes(curTopic));
+  if (curChurch !== 'all') list = list.filter(s => s.churchKey === curChurch);
+  if (showSavedOnly) list = list.filter(s => saved.has(s.id));
+  if (curSort === 'date') list.sort((a,b) => b.date.localeCompare(a.date));
+  else if (curSort === 'plays') list.sort((a,b) => b.plays - a.plays);
+  else if (curSort === 'alpha') list.sort((a,b) => a.title.localeCompare(b.title));
+  return list;
+}
+
+function render() {
+  const filtered = getFiltered();
+  const grid = document.getElementById('sermonsGrid');
+  grid.className = 'sermons-grid' + (curView==='list'?' list':'');
+  document.getElementById('rhCount').innerHTML = `<b>${filtered.length}</b> sermon${filtered.length!==1?'s':''} found`;
+  const sc = saved.size;
+  document.getElementById('savedCount').textContent = sc;
+  document.getElementById('savedRow').style.display = sc ? 'flex' : 'none';
+
+  if (!filtered.length) {
+    grid.innerHTML = `<div style="text-align:center;padding:64px;color:var(--cr3);grid-column:1/-1"><div style="font-size:2.5rem;opacity:.3;margin-bottom:14px">🎵</div><p>No sermons match your search.</p></div>`;
+    return;
+  }
+
+  grid.innerHTML = filtered.map(s => sermonCard(s)).join('');
+  setTimeout(()=>grid.querySelectorAll('.reveal:not(.in)').forEach((el,i)=>setTimeout(()=>el.classList.add('in'),i*40)),10);
+}
+
+function sermonCard(s) {
+  const isSaved = saved.has(s.id);
+  const isNP = nowPlaying && nowPlaying.id === s.id;
+  const d = new Date(s.date+'T00:00:00');
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const plays = s.plays >= 1000 ? (s.plays/1000).toFixed(1)+'k' : s.plays;
+
+  if (curView === 'grid') {
+    return `<div class="sc reveal${isNP?' playing':''}" id="sc-${s.id}" onclick="playSermon(${s.id})">
+      <div class="sc-thumb" style="background:${s.thumb}">
+        <div class="sc-thumb-ic">${s.badge}</div>
+        <div class="sc-play-overlay">
+          ${isNP && isPlaying
+            ? `<div class="sc-eq"><span></span><span></span><span></span><span></span></div>`
+            : `<button class="sc-play-btn" onclick="playSermon(${s.id})">▶</button>`}
+        </div>
+      </div>
+      <div class="sc-body">
+        <span class="sc-scripture">${s.scripture}</span>
+        <div class="sc-title">${s.title}</div>
+        <div class="sc-preacher">${s.preacher}</div>
+        <div class="sc-church">
+          <div class="sc-church-badge" style="background:${s.color}">${s.badge}</div>
+          <span class="sc-church-name">${s.church}</span>
+        </div>
+        <div class="sc-footer">
+          <div>
+            <div class="sc-meta">${months[d.getMonth()]} ${d.getDate()} · ${s.duration}</div>
+            <div class="sc-plays">▶ ${plays} plays</div>
+          </div>
+          <button class="sc-save ${isSaved?'on':''}" onclick="event.stopPropagation();toggleSave(${s.id},this)" title="${isSaved?'Remove':'Save'}">${isSaved?'🔖':'🤍'}</button>
+        </div>
+      </div>
+    </div>`;
+  } else {
+    return `<div class="sc reveal${isNP?' playing':''}" id="sc-${s.id}" onclick="playSermon(${s.id})">
+      <div class="sc-thumb" style="background:${s.thumb};width:90px;min-width:90px;height:auto;align-self:stretch;border-radius:0;position:relative">
+        <div class="sc-thumb-ic" style="font-size:2rem">${s.badge}</div>
+        <div class="sc-play-overlay" style="opacity:1;background:${isNP&&isPlaying?'rgba(224,57,46,.25)':'rgba(0,0,0,.45)'}">
+          ${isNP&&isPlaying?`<div class="sc-eq"><span></span><span></span><span></span><span></span></div>`:`<button class="sc-play-btn" style="width:36px;height:36px;font-size:.85rem">▶</button>`}
+        </div>
+      </div>
+      <div class="sc-body" style="flex-direction:row;align-items:center;gap:14px;padding:12px 14px">
+        <div class="sc-info-main" style="flex:1;min-width:0">
+          <span class="sc-scripture">${s.scripture}</span>
+          <div class="sc-title">${s.title}</div>
+          <div class="sc-preacher" style="margin-bottom:4px">${s.preacher}</div>
+          <div class="sc-church" style="margin-bottom:0">
+            <div class="sc-church-badge" style="background:${s.color}">${s.badge}</div>
+            <span class="sc-church-name">${s.church}</span>
+          </div>
+        </div>
+        <div class="sc-footer" style="flex-direction:column;align-items:flex-end;gap:8px;flex:none;min-width:90px">
+          <div class="sc-meta">${s.duration}</div>
+          <div class="sc-plays">▶ ${plays}</div>
+          <button class="sc-save ${isSaved?'on':''}" onclick="event.stopPropagation();toggleSave(${s.id},this)">${isSaved?'🔖':'🤍'}</button>
+        </div>
+      </div>
+    </div>`;
+  }
+}
+
+/* ═══════════════════════════════════════
+   PLAYER
+═══════════════════════════════════════ */
+function playSermon(id) {
+  const s = SERMONS.find(x=>x.id===id);
+  if (!s) return;
+  if (nowPlaying && nowPlaying.id === id) { togglePlayback(); return; }
+  stopPlayer();
+  nowPlaying = s; isPlaying = true; playSeconds = 0;
+  document.getElementById('pbThumb').style.background = s.color;
+  document.getElementById('pbThumb').textContent = s.badge;
+  document.getElementById('pbTitle').textContent = s.title;
+  document.getElementById('pbSub').textContent = `${s.preacher} · ${s.church}`;
+  document.getElementById('pbTotal').textContent = s.duration;
+  document.getElementById('pbPlayBtn').textContent = '⏸';
+  document.getElementById('playerBar').classList.add('on');
+  startTick(s);
+  render();
+  s.plays++;
+}
+function startTick(s) {
+  clearInterval(playInterval);
+  playInterval = setInterval(() => {
+    if (!isPlaying) return;
+    playSeconds++;
+    const pct = (playSeconds / s.durationSec) * 100;
+    document.getElementById('pbFill').style.width = Math.min(pct,100) + '%';
+    document.getElementById('pbElapsed').textContent = fmtTime(playSeconds);
+    if (playSeconds >= s.durationSec) { stopPlayer(); showToast('▶ Sermon finished. God bless you!'); }
+  }, 1000);
+}
+function togglePlayback() {
+  isPlaying = !isPlaying;
+  document.getElementById('pbPlayBtn').textContent = isPlaying ? '⏸' : '▶';
+  render();
+}
+function skipBack() { playSeconds = Math.max(0, playSeconds-30); document.getElementById('pbElapsed').textContent = fmtTime(playSeconds); }
+function skipFwd() { playSeconds = Math.min(nowPlaying?.durationSec||0, playSeconds+30); document.getElementById('pbElapsed').textContent = fmtTime(playSeconds); }
+function seekPlayer(e) {
+  const bar = e.currentTarget; const rect = bar.getBoundingClientRect();
+  const pct = (e.clientX - rect.left) / rect.width;
+  playSeconds = Math.round(pct * (nowPlaying?.durationSec||0));
+  document.getElementById('pbFill').style.width = (pct*100)+'%';
+  document.getElementById('pbElapsed').textContent = fmtTime(playSeconds);
+}
+function stopPlayer() {
+  clearInterval(playInterval); isPlaying = false; nowPlaying = null; playSeconds = 0;
+  document.getElementById('pbFill').style.width = '0';
+  document.getElementById('pbElapsed').textContent = '0:00';
+}
+function closePlayer() {
+  stopPlayer();
+  document.getElementById('playerBar').classList.remove('on');
+  render();
+}
+function fmtTime(s) { return `${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`; }
+
+/* ═══════════════════════════════════════
+   SAVE
+═══════════════════════════════════════ */
+function toggleSave(id, btn) {
+  if (saved.has(id)) {
+    saved.delete(id); btn.classList.remove('on'); btn.textContent='🤍'; showToast('Removed from saved');
+  } else {
+    saved.add(id); btn.classList.add('on'); btn.textContent='🔖'; showToast('🔖 Saved!');
+  }
+  localStorage.setItem('bs_saved_sermons', JSON.stringify([...saved]));
+  document.getElementById('savedCount').textContent = saved.size;
+  document.getElementById('savedRow').style.display = saved.size ? 'flex' : 'none';
+}
+function toggleSavedFilter() { showSavedOnly = !showSavedOnly; render(); }
+
+/* ═══════════════════════════════════════
+   CONTROLS
+═══════════════════════════════════════ */
+function setTopic(t,el){ curTopic=t; document.querySelectorAll('.tt').forEach(b=>b.classList.remove('on')); el.classList.add('on'); render(); }
+function setChurchF(v){ curChurch=v; render(); }
+function setSort(v){ curSort=v; render(); }
+function handleSearch(q){ searchQ=q.trim().toLowerCase(); render(); }
+function setView(v){
+  curView=v;
+  document.getElementById('vbG').classList.toggle('on',v==='grid');
+  document.getElementById('vbL').classList.toggle('on',v==='list');
+  render();
+}
+
+/* TOAST */
+let tt;
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.className='toast'+(nowPlaying?' on':' no-player on');
+  clearTimeout(tt); tt=setTimeout(()=>t.className='toast'+(nowPlaying?'':' no-player'),2800);
+}
+
+/* ═══════════════════════════════════════
+   INIT
+═══════════════════════════════════════ */
+render();
+</script>
+</body>
+</html>
