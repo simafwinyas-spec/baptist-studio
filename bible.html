@@ -214,6 +214,10 @@ button{font-family:inherit;cursor:pointer}
       <span class="book" id="refBook">Genesis</span>
       <span class="ch" id="refCh">Chapter 1</span>
     </div>
+    <span class="tb-sep">:</span>
+    <select id="verseJump" onchange="jumpToVerse(this.value)" title="Jump to verse" style="background:var(--sur);border:1px solid var(--line2);border-radius:8px;padding:5px 8px;font-size:.8rem;color:var(--cr2);outline:none;cursor:pointer;font-family:inherit;max-width:58px;appearance:none;text-align:center">
+      <option value="">v.</option>
+    </select>
   </div>
   <div class="fs-row">
     <button class="fs-btn" onclick="changeFs(-1)">A−</button>
@@ -481,6 +485,10 @@ function loadChapter() {
     html += `<div class="verse-block${hl}${bk}" data-v="${n}" onclick="selectVerse(this,${n})"><span class="verse-num">${n}</span><span class="verse-text">${v}</span><span class="verse-bookmark">🔖</span></div>`;
   });
   content.innerHTML = html;
+  // Populate verse jump dropdown
+  const vj = document.getElementById('verseJump');
+  vj.innerHTML = '<option value="">v.</option>' + chData.verses.map((_,i)=>`<option value="${i+1}">${i+1}</option>`).join('');
+  vj.value = '';
   document.getElementById('readerScroll').scrollTop = 0;
   renderBooks();
   updateChGrid();
@@ -491,6 +499,13 @@ function updateChGrid() {
   document.querySelectorAll('.ch-num').forEach((btn, i) => {
     btn.classList.toggle('active', i + 1 === curCh);
   });
+}
+
+function jumpToVerse(v) {
+  if (!v) return;
+  const el = document.querySelector(`.verse-block[data-v="${v}"]`);
+  if (el) { el.scrollIntoView({behavior:'smooth',block:'center'}); selectVerse(el, +v); }
+  document.getElementById('verseJump').value = '';
 }
 
 function navChapter(dir) {
